@@ -4,6 +4,7 @@ import MenueHeader from './MenueHeader';
 import MenuePoints from './MenuePoints';
 
 class Menue extends Component {
+
 	render() {
 		return (
 			<nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -12,6 +13,7 @@ class Menue extends Component {
 			</nav>
 		);
 	}
+	
 }
 
 export default Menue;

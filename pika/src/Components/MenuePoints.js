@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import MenueItem from './MenueItem';
 
 class Menue extends Component {
+
 	render() {
 		let menueItems;
 		if(this.props.menuePoints){
@@ -11,6 +12,7 @@ class Menue extends Component {
 				);
 			});
 		}
+		
 		return (
 			<div className="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul className="navbar-nav mr-auto">
@@ -19,6 +21,7 @@ class Menue extends Component {
 			</div>
 		);
 	}
+
 }
 
 export default Menue;

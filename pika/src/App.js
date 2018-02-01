@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import Menue from './Components/Menue';
+import Footer from './Components/Footer';
 import './App.css';
 
 class App extends Component {
 
 	constructor(){
 		super();
+
 		this.state = {
-			applicationName: 'PikaExp',
+			applicationName: 'MetaExp',
+			prevActive: false,
+			nextActive: true,
+			prevHref: '#',
+			nextHref: 'config.html',
 			menuePoints: [
 				{
 					title: 'Setup',
@@ -37,9 +43,11 @@ class App extends Component {
 		return (
 			<div className="App">
 				<Menue applicationName={this.state.applicationName} menuePoints={this.state.menuePoints} />
+				<Footer prevHref={this.state.prevHref} nextHref={this.state.nextHref} prevActive={this.state.prevActive} nextActive={this.state.nextActive} />
 			</div>
 		);
 	}
+
 }
 
 export default App;

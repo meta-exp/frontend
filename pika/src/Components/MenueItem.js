@@ -1,19 +1,32 @@
 import React, { Component } from 'react';
 
 class MenueItem extends Component {
-	render() {
-		let item_classes = "nav-link";
+
+	constructor(props){
+		super(props);
+
+		let itemClasses = "nav-link";
+
 		if(this.props.item.active){
-			item_classes += " active";
+			itemClasses += " active";
 		}
+
+		this.state = {
+			itemClasses: itemClasses
+		};
+	}
+
+	render() {
+
 		return (
 			<li className="nav-item">
-				<a className={item_classes} href={this.props.item.href}>
+				<a className={this.state.itemClasses} href={this.props.item.href}>
 					{this.props.item.title}
 				</a>
 			</li>
 		);
 	}
+
 }
 
 export default MenueItem;
