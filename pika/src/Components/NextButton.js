@@ -2,9 +2,16 @@ import React, { Component } from 'react';
 
 class NextButton extends Component {
 
-	constructor(props){
-		super(props);
+	handleClick = e => {
+		e.preventDefault();
+		e.stopPropagation();
 
+		if(this.props.active){
+			this.props.onClick(this.props.href);
+		}
+	}
+
+	render() {
 		let btnClass = "float-right btn";
 
 		if(this.props.active)
@@ -12,15 +19,9 @@ class NextButton extends Component {
 		else 
 			btnClass += " btn-secondary";
 
-		this.state = {
-			btnClass: btnClass
-		};
-	}
-
-	render() {
 		return (
 			<div className="col float-right" style={{marginRight: 20 + 'px'}}>
-				<a className={this.state.btnClass} href={this.props.href}>
+				<a onClick={this.handleClick} className={btnClass} href={this.props.href}>
 					<span>Next</span>
 					<span style={{marginLeft: 10 + 'px'}} className="fas fa-arrow-right"></span>
 				</a>

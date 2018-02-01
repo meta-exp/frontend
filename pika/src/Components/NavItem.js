@@ -16,11 +16,18 @@ class NavItem extends Component {
 		};
 	}
 
+	handleClick = e => {
+		e.preventDefault();
+		e.stopPropagation();
+
+		this.props.onClick(this.props.item.title);
+	}
+
 	render() {
 
 		return (
 			<li className="nav-item">
-				<a className={this.state.itemClasses} href={this.props.item.href}>
+				<a onClick={this.handleClick} className={this.state.itemClasses} href={this.props.item.href}>
 					{this.props.item.title}
 				</a>
 			</li>
