@@ -47,27 +47,68 @@ class App extends Component {
 		};
 	}
 
+	handleNavAction = pageTitle => {
+		if(pageTitle === 'Setup' || pageTitle === 'home.html'){
+			this.setState({
+				prevActive: false,
+				nextActive: true,
+				activePage: 'Setup',
+				prevHref: '#',
+				nextHref: 'config.html'
+			});
+		}
+		else if(pageTitle === 'Config' || pageTitle === 'config.html'){
+			this.setState({
+				prevActive: true,
+				nextActive: true,
+				activePage: 'Config',
+				prevHref: 'home.html',
+				nextHref: 'feedback.html'
+			});
+		}
+		else if(pageTitle === 'Explore' || pageTitle === 'feedback.html'){
+			this.setState({
+				prevActive: true,
+				nextActive: true,
+				activePage: 'Explore',
+				prevHref: 'config.html',
+				nextHref: 'results.html'
+			});
+		}
+		else if(pageTitle === 'Results' || pageTitle === 'results.html'){
+			this.setState({
+				prevActive: true,
+				nextActive: false,
+				activePage: 'Results',
+				prevHref: 'feedback.html',
+				nextHref: '#'
+			});
+		}
+	}
+
 	render() {
 		let body;
 
-		if(this.state.activePage == 'Setup'){
+		if(this.state.activePage === 'Setup'){
 			body = <Setup />;
 		}
-		else if(this.state.activePage == 'Config'){
+		else if(this.state.activePage === 'Config'){
 			body = <Config />;
 		}
-		else if(this.state.activePage == 'Setup'){
+		else if(this.state.activePage === 'Explore'){
 			body = <Explore />;
 		}
-		else{
+		else if(this.state.activePage === 'Results'){
 			body = <Results />;
 		}
 
 		return (
 			<div className="App">
-				<Nav applicationName={this.state.applicationName} navPoints={this.state.navPoints} />
-				{body}
-				<Footer prevHref={this.state.prevHref} nextHref={this.state.nextHref} prevActive={this.state.prevActive} nextActive={this.state.nextActive} />
+				<Nav onClick={this.handleNavAction} applicationName={this.state.applicationName} navPoints={this.state.navPoints} />
+				<div className="container-fluid">
+					{body}
+				</div>
+				<Footer onClick={this.handleNavAction} prevHref={this.state.prevHref} nextHref={this.state.nextHref} prevActive={this.state.prevActive} nextActive={this.state.nextActive} />
 			</div>
 		);
 	}

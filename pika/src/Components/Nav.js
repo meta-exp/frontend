@@ -5,11 +5,15 @@ import NavPoints from './NavPoints';
 
 class Nav extends Component {
 
+	handlePageSelection = pageTitle => {
+		this.props.onClick(pageTitle);
+	}
+
 	render() {
 		return (
 			<nav className="navbar navbar-expand-lg navbar-dark bg-dark">
 				<NavHeader applicationName={this.props.applicationName} />
-				<NavPoints navPoints={this.props.navPoints} />
+				<NavPoints onClick={this.handlePageSelection} navPoints={this.props.navPoints} />
 			</nav>
 		);
 	}
