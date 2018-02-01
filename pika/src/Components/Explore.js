@@ -14,6 +14,7 @@ class Explore extends Component {
         <br/>
         <br/>
         </div>
+        <h3 align='center' className="font-weight-bold">Found Meta Paths</h3>
         <MetaPathDisplay/>
 			</div>
 		);

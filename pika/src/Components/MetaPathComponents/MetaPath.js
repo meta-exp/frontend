@@ -2,10 +2,20 @@ import React, { Component } from 'react';
 
 class MetaPath extends Component {
 
+  createText(path){
+    let htmlPath = Array(path.length);
+    for (var i = 0; i < path.length; i++) {
+      if (i % 2 === 0) {
+        htmlPath[i] = (<b> {path[i]} </b>);
+      } else {
+        htmlPath[i] = (<i> {path[i]} </i>); // TODO: readd the minus in between
+      }
+    }
+    return htmlPath;
+  }
+
 	render() {
-		return (
-      <div><b>Phenotype</b> - <i>HAS</i> - <b>Association</b> - <i>HAS</i> - <b>SNP</b> - <i>HAS</i> - <b>Association</b> - <i>HAS</i> - <b>Phenotype</b></div>
-		);
+		return React.createElement('div',[],this.createText(this.props.path));
 	}
 
 }

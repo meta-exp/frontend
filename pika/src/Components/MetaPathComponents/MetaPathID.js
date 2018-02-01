@@ -4,7 +4,7 @@ class MetaPathID extends Component {
 
 	render() {
 		return (
-      <button>A1</button>
+      <button style={{background: 'blue'}} className="btn btn-circle text-light chose-meta-path-btn">[{this.props.id}]</button>
 		);
 	}
 
