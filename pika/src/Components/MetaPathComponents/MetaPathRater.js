@@ -13,9 +13,6 @@ class MetaPathRater extends Component {
 		};
 	}
 
-	handleChange(event){
-		this.setState({value: event.target.value});
-	}
 
 	render() {
 		return (
@@ -26,8 +23,8 @@ class MetaPathRater extends Component {
 												max={this.max}
 												ref={"metapath_rating_" + this.props.id}
 												step={this.step}
-												defaultValue={this.state.value}
-												onChange={this.handleChange.bind(this)}/>{this.state.value} </div>
+												value={this.props.rating}
+												onChange={event => this.props.onChange(event,this.props.index)}/>{this.props.rating} </div>
 		);
 	}
 
