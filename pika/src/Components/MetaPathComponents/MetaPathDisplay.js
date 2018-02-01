@@ -54,12 +54,40 @@ class MetaPathDisplay extends Component {
 		return {id: path.id, rating: path.rating};
 	}
 
+    getFromBackend(endpoint) {
+		let result = '';
+        fetch('http://localhost:8000/'+endpoint, {
+            method: 'GET'
+        }).then((response) => response.json()).then((responseJson) => {
+        	console.log(responseJson);
+            console.log(responseJson.world);
+            result = responseJson.world;
+        }).catch((error) => {
+            console.error(error);
+        });
+        return result;
+    }
+
+    postToBackend(endpoint, data) {
+        fetch('http://localhost:8000/endpoint/', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                data
+            }),
+        });
+	}
+
 	sendFeedback(){
 		let newRatedPaths = this.state.metapaths.map((path, index) => this.helperrr(path,index));
 		let ratedPaths = this.state.ratedPaths.slice();
 		ratedPaths = ratedPaths.concat(newRatedPaths);
 		this.setState({ratedPaths: ratedPaths, metapaths: [this.generateMetaPath(),this.generateMetaPath(),this.generateMetaPath()]});
 		// TODO render again?
+        console.log(this.getFromBackend('GET', ''));
 	}
 
 	render() {
