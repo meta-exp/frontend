@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Menue from './Components/Menue';
+import Nav from './Components/Nav';
 import Footer from './Components/Footer';
 import './App.css';
 
@@ -14,7 +14,7 @@ class App extends Component {
 			nextActive: true,
 			prevHref: '#',
 			nextHref: 'config.html',
-			menuePoints: [
+			navPoints: [
 				{
 					title: 'Setup',
 					href: 'home.html',
@@ -42,7 +42,7 @@ class App extends Component {
 	render() {
 		return (
 			<div className="App">
-				<Menue applicationName={this.state.applicationName} menuePoints={this.state.menuePoints} />
+				<Nav applicationName={this.state.applicationName} navPoints={this.state.navPoints} />
 				<Footer prevHref={this.state.prevHref} nextHref={this.state.nextHref} prevActive={this.state.prevActive} nextActive={this.state.nextActive} />
 			</div>
 		);

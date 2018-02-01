@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class MenueItem extends Component {
+class NavItem extends Component {
 
 	constructor(props){
 		super(props);
@@ -29,4 +29,4 @@ class MenueItem extends Component {
 
 }
 
-export default MenueItem;
+export default NavItem;

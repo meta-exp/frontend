@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class Menue extends Component {
+class NavHeader extends Component {
 
 	render() {
 		return (
@@ -15,4 +15,4 @@ class Menue extends Component {
 	
 }
 
-export default Menue;
+export default NavHeader;
