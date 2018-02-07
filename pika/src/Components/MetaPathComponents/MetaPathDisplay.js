@@ -87,7 +87,7 @@ class MetaPathDisplay extends Component {
 		ratedPaths = ratedPaths.concat(newRatedPaths);
 		this.setState({ratedPaths: ratedPaths, metapaths: [this.generateMetaPath(),this.generateMetaPath(),this.generateMetaPath()]});
 		// TODO render again?
-        console.log(this.getFromBackend('GET', ''));
+        console.log(this.getFromBackend(''));
 	}
 
 	render() {
