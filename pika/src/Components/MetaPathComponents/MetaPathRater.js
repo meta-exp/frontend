@@ -24,7 +24,7 @@ class MetaPathRater extends Component {
 												ref={"metapath_rating_" + this.props.id}
 												step={this.step}
 												value={this.props.rating}
-												onChange={event => this.props.onChange(event,this.props.index)}/>{this.props.rating} </div>
+												onChange={event => this.props.onChange(event,this.props.id)}/>{this.props.rating} </div>
 		);
 	}
 
