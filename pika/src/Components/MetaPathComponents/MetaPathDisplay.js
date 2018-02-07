@@ -78,7 +78,7 @@ class MetaPathDisplay extends Component {
 	}
 
 	sendFeedback(){
-		let newRatedPaths = this.state.metapaths.map(path => {id: path.id, rating: path.rating});
+		let newRatedPaths = this.state.metapaths.map(path => ({id: path.id, rating: path.rating}));
 		let ratedPaths = this.state.ratedPaths.slice();
 		ratedPaths = ratedPaths.concat(newRatedPaths);
 		this.setState({ratedPaths: ratedPaths, metapaths: [this.generateMetaPath(),this.generateMetaPath(),this.generateMetaPath()]});
