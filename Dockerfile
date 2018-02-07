@@ -17,8 +17,6 @@ COPY pika/ .
 
 RUN npm run build
 
-COPY build/ build/
-
 ####### Serve site
 FROM nginx
 
