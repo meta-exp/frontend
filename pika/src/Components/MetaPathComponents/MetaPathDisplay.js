@@ -5,18 +5,21 @@ import MetaPathRater from './MetaPathRater';
 
 class MetaPathDisplay extends Component {
 
-	generateMetaPath(){
-		this.runningId += 1;
-		return { id: this.runningId,
-			path: ['Phenotype','HAS','Association','HAS','SNP','HAS','Phenotype'],
-			rating: 0.5};
+	getNextMetaPathBatch(){
+		this.getJsonFromBackend('next-meta-paths',this.addNewMetaPaths.bind(this));
+	}
+
+	addNewMetaPaths(metapaths){
+		let oldMetaPaths = this.state.metapaths.slice();
+		oldMetaPaths = oldMetaPaths.concat(metapaths);
+		this.setState({metapaths: oldMetaPaths});
 	}
 
 	constructor(props){
 		super();
 		this.runningId = -1;
 		this.state = {
-			metapaths: [this.generateMetaPath(),this.generateMetaPath(),this.generateMetaPath()],
+			metapaths: [],
 			ratedPaths: [],
 			nameIsSet: 0,
 			userName: "Davide",
@@ -33,7 +36,7 @@ class MetaPathDisplay extends Component {
 
 	makeInteractiveRow(metaPath){
 		return (
-			<tr>
+			<tr key={metaPath.id}>
 					<td><MetaPathID id={metaPath.id}/></td>
 					<td><MetaPath path={metaPath.path}/></td>
 					<td><MetaPathRater id={metaPath.id} defaultRating={metaPath.rating} rating={metaPath.rating} onChange={this.handleRatingChange.bind(this)}/></td>
@@ -50,18 +53,12 @@ class MetaPathDisplay extends Component {
 		);
 	}
 
-    getFromBackend(endpoint) {
-		let result = '';
+    getJsonFromBackend(endpoint,callback) {
         fetch('http://localhost:8000/'+endpoint, {
             method: 'GET'
-        }).then((response) => response.json()).then((responseJson) => {
-        	console.log(responseJson);
-            console.log(responseJson.world);
-            result = responseJson.world;
-        }).catch((error) => {
+        }).then((response) => response.json()).then(callback).catch((error) => {
             console.error(error);
         });
-        return result;
     }
 
     postToBackend(endpoint, data) {
@@ -81,9 +78,9 @@ class MetaPathDisplay extends Component {
 		let newRatedPaths = this.state.metapaths.map(path => ({id: path.id, rating: path.rating}));
 		let ratedPaths = this.state.ratedPaths.slice();
 		ratedPaths = ratedPaths.concat(newRatedPaths);
-		this.setState({ratedPaths: ratedPaths, metapaths: [this.generateMetaPath(),this.generateMetaPath(),this.generateMetaPath()]});
-		console.log(this.getFromBackend('GET', ''));
-	}
+		this.setState({ratedPaths: ratedPaths, metapaths: []});
+		this.getNextMetaPathBatch();
+		}
 
 	savePaths(){
 		alert("Not implemented yet.");
@@ -129,11 +126,11 @@ class MetaPathDisplay extends Component {
 				{tableRows}
 				<tr>
 						<td colSpan="3">
-							<div class="row">
-								<button class="btn btn-primary mx-auto" id="show-more-meta-paths-btn" onClick={()=>this.sendFeedback()}>
-									<span>Send feedback</span>
+							<div className="row">
+								<button className="btn btn-primary mx-auto" id="show-more-meta-paths-btn" onClick={()=>this.sendFeedback()}>
+									<span>Confirm Current Rating & Get Next -> </span>
 								</button>
-								<button class="btn btn-primary mx-auto" id="show-more-meta-paths-btn" onClick={this.savePaths.bind(this)}>
+								<button className="btn btn-primary mx-auto" id="show-more-meta-paths-btn" onClick={this.savePaths.bind(this)}>
 								<span>Save Rating</span>
 								</button>
 							</div>
@@ -159,10 +156,10 @@ class MetaPathDisplay extends Component {
 
 	renderNaming(){
 		return (<div>
-			<label for="uname">Your Name: </label>
+			<label htmlFor="uname">Your Name: </label>
 			<input type="text" id="uname" name="userName" value={this.state.userName} onChange={this.handleInputChange.bind(this)}/>
 			<br />
-			<label for="uname">Describe the type of similarity: </label>
+			<label htmlFor="uname">Describe the type of similarity: </label>
 			<input type="text" id="simtype" name="similarityType" value={this.state.similarityType} onChange={this.handleInputChange.bind(this)}/>
 			<div>
     			<button onClick={this.submitNaming.bind(this)}>Submit</button>
