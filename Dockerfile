@@ -8,8 +8,9 @@ WORKDIR /usr/src/pika
 # where available (npm@5+)
 COPY pika/package*.json ./
 
-# If you are building your code for development
+# If you are building your code for development:
 # RUN npm install
+# If you are building your code for production:
 RUN npm install --only=production
 
 # Bundle app source
@@ -20,6 +21,7 @@ RUN npm run build
 ####### Serve site
 FROM nginx
 
+# Remove default website files
 RUN rm -rf /usr/share/nginx/html/*
 
 COPY deployment/default.conf /etc/nginx/conf.d/
