@@ -1,7 +1,7 @@
 FROM node:carbon
 
 # Create app directory
-WORKDIR /usr/src/app
+WORKDIR /usr/src/pika
 
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
@@ -12,10 +12,10 @@ COPY pika/package*.json ./
 # RUN npm install
 RUN npm install --only=production
 
-RUN npm run build
-
 # Bundle app source
-COPY . .
+COPY pika/ .
+
+RUN npm run build
 
 RUN npm install -g serve
 
