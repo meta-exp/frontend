@@ -8,9 +8,11 @@ WORKDIR /usr/src/app
 # where available (npm@5+)
 COPY pika/package*.json ./
 
+# If you are building your code for development
+# RUN npm install
+RUN npm install --only=production
+
 RUN npm run build
-# If you are building your code for production
-# RUN npm install --only=production
 
 # Bundle app source
 COPY . .
