@@ -61,8 +61,8 @@ class MetaPathDisplay extends Component {
         });
     }
 
-    postToBackend(endpoint, data) {
-        fetch('http://localhost:8000/endpoint/', {
+		postToBackend(endpoint, data) {
+        fetch('http://localhost:8000/' + endpoint, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -71,7 +71,13 @@ class MetaPathDisplay extends Component {
             body: JSON.stringify({
                 data
             }),
-        });
+        }).then((response) => {
+					if(!(response.status === 200)){
+						alert('Could not send rating to server.');
+										}
+				}).catch((error) => {
+					console.error(error);
+				});
 	}
 
 	sendFeedback(){
@@ -80,6 +86,7 @@ class MetaPathDisplay extends Component {
 		ratedPaths = ratedPaths.concat(newRatedPaths);
 		this.setState({ratedPaths: ratedPaths, metapaths: []});
 		this.getNextMetaPathBatch();
+		this.postToBackend('rate-meta-paths', newRatedPaths);
 		}
 
 	savePaths(){
