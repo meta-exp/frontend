@@ -128,7 +128,7 @@ class MetaPathDisplay extends Component {
 						<td colSpan="3">
 							<div className="row">
 								<button className="btn btn-primary mx-auto" id="show-more-meta-paths-btn" onClick={()=>this.sendFeedback()}>
-									<span>Send feedback</span>
+									<span>Confirm Current Rating & Get Next -> </span>
 								</button>
 								<button className="btn btn-primary mx-auto" id="show-more-meta-paths-btn" onClick={this.savePaths.bind(this)}>
 								<span>Save Rating</span>
