@@ -17,7 +17,10 @@ class MetaPathDisplay extends Component {
 		this.runningId = -1;
 		this.state = {
 			metapaths: [this.generateMetaPath(),this.generateMetaPath(),this.generateMetaPath()],
-			ratedPaths: []
+			ratedPaths: [],
+			nameIsSet: 0,
+			userName: "Davide",
+			similarityType: "Cities with regards to geolocation"
 		};
 	}
 
@@ -90,12 +93,37 @@ class MetaPathDisplay extends Component {
         console.log(this.getFromBackend('GET', ''));
 	}
 
-	render() {
+	savePaths(){
+		alert("Not implemented yet.");
+	}
+
+	submitNaming(){
+		this.setState({
+      nameIsSet: 1
+    });
+
+	}
+
+	handleInputChange(event){
+		const target = event.target;
+		const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+		this.setState({
+      [name]: value
+    });
+	}
+
+	renderWeighting(){
 		let tableRows = this.state.metapaths.map((path, index) => this.makeInteractiveRow(path, index));
 		let ratedPaths = this.state.ratedPaths.map(path => this.makeRatedRow(path));
 
 		return (
 			<div>
+			<div>
+				<h4> Description: </h4> {this.state.similarityType} <br />
+				<h4> by: </h4> {this.state.userName}
+			</div>
 			<h3 align='center' className="font-weight-bold">Found Meta Paths</h3>
 			<table align="center">
 				<thead>
@@ -112,6 +140,9 @@ class MetaPathDisplay extends Component {
 							<div class="row">
 								<button class="btn btn-primary mx-auto" id="show-more-meta-paths-btn" onClick={()=>this.sendFeedback()}>
 									<span>Send feedback</span>
+								</button>
+								<button class="btn btn-primary mx-auto" id="show-more-meta-paths-btn" onClick={this.savePaths.bind(this)}>
+								<span>Save Rating</span>
 								</button>
 							</div>
 						</td>
@@ -132,6 +163,28 @@ class MetaPathDisplay extends Component {
 		</table>
 			</div>
 		);
+	}
+
+	renderNaming(){
+		return (<div>
+			<label for="uname">Your Name: </label>
+			<input type="text" id="uname" name="userName" value={this.state.userName} onChange={this.handleInputChange.bind(this)}/>
+			<br />
+			<label for="uname">Describe the type of similarity: </label>
+			<input type="text" id="simtype" name="similarityType" value={this.state.similarityType} onChange={this.handleInputChange.bind(this)}/>
+			<div>
+    			<button onClick={this.submitNaming.bind(this)}>Submit</button>
+  		</div>
+		</div>);
+	}
+
+	render() {
+		if(this.state.nameIsSet === 0){
+			return this.renderNaming();
+		} else {
+			return this.renderWeighting();
+		}
+
 	}
 
 }
