@@ -16,7 +16,8 @@ class MetaPathDisplay extends Component {
             ratedPaths: [],
             nameIsSet: 0,
             userName: "Davide",
-            similarityType: "Geolocation"
+            similarityType: "Geolocation",
+            dataset: "mango"
         };
     }
 
@@ -125,7 +126,8 @@ class MetaPathDisplay extends Component {
             <div>
                 <div>
                     <h4> Purpose: </h4> {this.state.similarityType} <br/>
-                    <h4> Created by: </h4> {this.state.userName}
+                    <h4> Created by: </h4> {this.state.userName} <br/>
+                    <h4> On dataset: </h4> {this.state.dataset}
                 </div>
                 <h3 align='center' className="font-weight-bold"> Found Meta Paths </h3>
                 <table align="center">
@@ -175,6 +177,7 @@ class MetaPathDisplay extends Component {
     }
 
     renderNaming() {
+        // TODO: Use datasets available at backend
         return (<div>
             <label htmlFor="uname"> Your Name: </label>
             <input type="text"
@@ -183,12 +186,20 @@ class MetaPathDisplay extends Component {
                    value={this.state.userName}
                    onChange={this.handleInputChange.bind(this)}/>
             <br/>
-            <label htmlFor="uname"> Describe the type of similarity: </label>
+            <label htmlFor="simtype"> Describe the type of similarity: </label>
             <input type="text"
                    id="simtype"
                    name="similarityType"
                    value={this.state.similarityType}
                    onChange={this.handleInputChange.bind(this)}/>
+            <br/>
+            <label htmlFor="dataset">Describe the type of similarity: </label>
+            <select value={this.state.dataset} name='dataset' onChange={this.handleInputChange.bind(this)}>
+                <option value="grapefruit">Grapefruit</option>
+                <option value="lime">Lime</option>
+                <option value="coconut">Coconut</option>
+                <option value="mango">Mango</option>
+            </select>
             <div>
                 <button onClick={this.submitNaming.bind(this)}>Submit</button>
             </div>
@@ -201,7 +212,7 @@ class MetaPathDisplay extends Component {
             <tr key={metaPath.id}>
                 <td><MetaPathID id={metaPath.id}/></td>
                 <td><MetaPath path={metaPath.path}/></td>
-                <td>< MetaPathRater id={metaPath.id} defaultRating={metaPath.rating} rating={metaPath.rating}
+                <td><MetaPathRater id={metaPath.id} defaultRating={metaPath.rating} rating={metaPath.rating}
                                     onChange={this.handleRatingChange.bind(this)}/></td>
             </tr>
         );
