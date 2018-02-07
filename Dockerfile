@@ -1,4 +1,4 @@
-FROM node:carbon
+FROM node:carbon as build
 
 # Create app directory
 WORKDIR /usr/src/pika
@@ -17,7 +17,15 @@ COPY pika/ .
 
 RUN npm run build
 
-RUN npm install -g serve
+COPY build/ build/
+
+####### Serve site
+FROM nginx
+
+RUN rm -rf /usr/share/nginx/html/*
+
+COPY deployment/default.conf /etc/nginx/conf.d/
+COPY --from=build /usr/src/pika/build/ /usr/share/nginx/html
 
 EXPOSE 80
-CMD [ "serve", "-s", "pika/build", "-p", "80" ]
+CMD ["nginx", "-g", "daemon off;"]
