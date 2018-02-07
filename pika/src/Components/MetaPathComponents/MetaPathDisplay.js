@@ -26,7 +26,7 @@ class MetaPathDisplay extends Component {
 
 	handleRatingChange(event, id){
 		const metapaths = this.state.metapaths.slice();
-		let index = this.state.metapaths.findIndex(x => x.id = id);
+		let index = this.state.metapaths.findIndex(x => x.id === id);
 		metapaths[index].rating = event.target.value;
 		this.setState({metapaths: metapaths});
 	}
