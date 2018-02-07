@@ -20,22 +20,23 @@ class MetaPathDisplay extends Component {
 			ratedPaths: [],
 			nameIsSet: 0,
 			userName: "Davide",
-			similarityType: "Cities with regards to geolocation"
+			similarityType: "Geolocation"
 		};
 	}
 
-	handleRatingChange(event, index){
+	handleRatingChange(event, id){
 		const metapaths = this.state.metapaths.slice();
+		let index = this.state.metapaths.findIndex(x => x.id = id);
 		metapaths[index].rating = event.target.value;
 		this.setState({metapaths: metapaths});
 	}
 
-	makeInteractiveRow(metaPath,index){
+	makeInteractiveRow(metaPath){
 		return (
 			<tr>
 					<td><MetaPathID id={metaPath.id}/></td>
 					<td><MetaPath path={metaPath.path}/></td>
-					<td><MetaPathRater id={metaPath.id} index={index} defaultRating={metaPath.rating} rating={metaPath.rating} onChange={this.handleRatingChange.bind(this)}/></td>
+					<td><MetaPathRater id={metaPath.id} defaultRating={metaPath.rating} rating={metaPath.rating} onChange={this.handleRatingChange.bind(this)}/></td>
 			</tr>
 		);
 	}
@@ -47,14 +48,6 @@ class MetaPathDisplay extends Component {
 					<td>{metaPath.rating}</td>
 			</tr>
 		);
-	}
-
-	displayCurrentRatings(){
-		// recompute tableRows
-		// appen rating to table below
-	}
-	helperrr(path,index){
-		return {id: path.id, rating: path.rating};
 	}
 
     getFromBackend(endpoint) {
@@ -85,12 +78,11 @@ class MetaPathDisplay extends Component {
 	}
 
 	sendFeedback(){
-		let newRatedPaths = this.state.metapaths.map((path, index) => this.helperrr(path,index));
+		let newRatedPaths = this.state.metapaths.map(path => {id: path.id, rating: path.rating});
 		let ratedPaths = this.state.ratedPaths.slice();
 		ratedPaths = ratedPaths.concat(newRatedPaths);
 		this.setState({ratedPaths: ratedPaths, metapaths: [this.generateMetaPath(),this.generateMetaPath(),this.generateMetaPath()]});
-		// TODO render again?
-        console.log(this.getFromBackend('GET', ''));
+		console.log(this.getFromBackend('GET', ''));
 	}
 
 	savePaths(){
@@ -121,7 +113,7 @@ class MetaPathDisplay extends Component {
 		return (
 			<div>
 			<div>
-				<h4> Description: </h4> {this.state.similarityType} <br />
+				<h4> Prurpose: </h4> {this.state.similarityType} <br />
 				<h4> by: </h4> {this.state.userName}
 			</div>
 			<h3 align='center' className="font-weight-bold">Found Meta Paths</h3>
@@ -136,7 +128,7 @@ class MetaPathDisplay extends Component {
 				<tbody>
 				{tableRows}
 				<tr>
-						<td colspan="3">
+						<td colSpan="3">
 							<div class="row">
 								<button class="btn btn-primary mx-auto" id="show-more-meta-paths-btn" onClick={()=>this.sendFeedback()}>
 									<span>Send feedback</span>
