@@ -8,12 +8,14 @@ WORKDIR /usr/src/app
 # where available (npm@5+)
 COPY pika/package*.json ./
 
-RUN npm install
+RUN npm run build
 # If you are building your code for production
 # RUN npm install --only=production
 
 # Bundle app source
 COPY . .
 
+RUN npm install -g serve
+
 EXPOSE 80
-CMD [ "npm", "start" ]
+CMD [ "serve", "-s", "pika/build", "-p", "80" ]
