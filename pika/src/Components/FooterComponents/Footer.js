@@ -10,9 +10,13 @@ class Footer extends Component {
 
 	render() {
 		return (
-			<div className="footer row" style={{marginTop: 20 + 'px'}}>
-				<PreviousButton onClick={this.handlePageSwap} href={this.props.prevHref} active={this.props.prevActive} />
-				<NextButton onClick={this.handlePageSwap} href={this.props.nextHref} active={this.props.nextActive} />
+			<div  className="footer row" style={{marginTop: 20 + 'px'}}>
+				<div className="col float-left">
+					<PreviousButton onClick={this.handlePageSwap} href={this.props.prevHref} active={this.props.prevActive} />
+				</div>
+				<div className="col float-right">
+					<NextButton onClick={this.handlePageSwap} href={this.props.nextHref} active={this.props.nextActive} />
+				</div>
 			</div>
 		);
 	}

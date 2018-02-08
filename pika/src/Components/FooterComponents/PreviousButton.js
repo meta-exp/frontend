@@ -20,12 +20,10 @@ class PreviousButton extends Component {
 			btnClass += " btn-secondary";
 
 		return (
-			<div className="col float-left" style={{marginLeft: 20 + 'px'}}>
-				<a onClick={this.handleClick} className={btnClass} href={this.props.href}>
-					<span style={{marginRight: 10 + 'px'}} className="fas fa-arrow-left"></span>
-					<span>Previous</span>
-				</a>
-			</div>
+			<a onClick={this.handleClick} className={btnClass} href={this.props.href}>
+				<span style={{marginRight: 10 + 'px'}} className="fas fa-arrow-left"></span>
+				<span>Previous</span>
+			</a>
 		);
 	}
 	

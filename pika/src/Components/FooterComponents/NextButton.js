@@ -20,12 +20,10 @@ class NextButton extends Component {
 			btnClass += " btn-secondary";
 
 		return (
-			<div className="col float-right" style={{marginRight: 20 + 'px'}}>
-				<a onClick={this.handleClick} className={btnClass} href={this.props.href}>
-					<span>Next</span>
-					<span style={{marginLeft: 10 + 'px'}} className="fas fa-arrow-right"></span>
-				</a>
-			</div>
+			<a onClick={this.handleClick} className={btnClass} href={this.props.href}>
+				<span>Next</span>
+				<span style={{marginLeft: 10 + 'px'}} className="fas fa-arrow-right"></span>
+			</a>
 		);
 	}
 

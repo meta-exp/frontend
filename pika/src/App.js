@@ -109,7 +109,9 @@ class App extends Component {
 					<div className="container-fluid">
 						{body}
 					</div>
-					<Footer onClick={this.handleNavAction} prevHref={this.state.prevHref} nextHref={this.state.nextHref} prevActive={this.state.prevActive} nextActive={this.state.nextActive} />
+					<div className="container-fluid">
+						<Footer onClick={this.handleNavAction} prevHref={this.state.prevHref} nextHref={this.state.nextHref} prevActive={this.state.prevActive} nextActive={this.state.nextActive} />
+					</div>
 				</div>
 			</div>
 		);
