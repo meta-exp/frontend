@@ -9,18 +9,20 @@ class MetaPathDisplay extends Component {
         UI state handling
     */
 
+    defaultState  = {
+        metapaths: [],
+        ratedPaths: [],
+        nameIsSet: 0,
+        isLoading: true,
+        available_datasets: [],
+        userName: "Davide",
+        similarityType: "Geolocation",
+        dataset: "huhu"
+    };
+
     constructor(props) {
         super();
-        this.state = {
-            metapaths: [],
-            ratedPaths: [],
-            nameIsSet: 0,
-            isLoading: true,
-            available_datasets: [],
-            userName: "Davide",
-            similarityType: "Geolocation",
-            dataset: "huhu"
-        };
+        this.state = this.defaultState;
     }
 
     handleInputChange(event) {
@@ -45,7 +47,19 @@ class MetaPathDisplay extends Component {
     */
 
     saveAllMetaPaths() {
-        alert("Not implemented yet.");
+      fetch('http://localhost:8000/' + 'logout', {
+          method: 'GET',
+          credentials: "include"
+      }).then((response) => {
+        alert("Successfully saved paths for you.");
+        this.setState({metapaths: [],
+        ratedPaths: [],
+        nameIsSet: 0});
+      }
+      ).catch((error) => {
+          console.error(error);
+      })
+      ;
     }
 
     getNextMetaPathBatch() {
@@ -73,7 +87,7 @@ class MetaPathDisplay extends Component {
         ;
     }
 
-postJsonToBackend(endpoint, data) {
+postJsonToBackend(endpoint, data, callback) {
         fetch('http://localhost:8000/' + endpoint, {
             method: 'POST',
             headers: {
@@ -88,6 +102,8 @@ postJsonToBackend(endpoint, data) {
                 console.log(response);
                 console.log(response.json());
                 alert('Could not send data to server.');
+            } else {
+              callback();
             }
         }).catch((error) => {
             console.error(error);
