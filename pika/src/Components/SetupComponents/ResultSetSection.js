@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import { Button, Icon } from 'semantic-ui-react';
 
+import { Neo4jGraphRenderer } from 'neo4j-graph-renderer';
+
 class ResultSetSection extends Component {
 
 	handleClick = e => {
@@ -21,6 +23,8 @@ class ResultSetSection extends Component {
 						<span style={{marginLeft: 10 + 'px'}}>Mark all Nodes</span>
 					</Button>
 				</h3>
+				<Neo4jGraphRenderer url="172.18.16.106:7474" user=""
+				password="" query="MATCH (n)-[r]->(m) RETURN n,r,m"/>
 			</div>
 		);
 	}
@@ -28,3 +32,6 @@ class ResultSetSection extends Component {
 }
 
 export default ResultSetSection;
+
+/*<Neo4jGraphRenderer url={process.env.NEO4J_URL} user={process.env.NEO4J_USER}
+					password={process.env.NEO4J_PASSWORD} query="MATCH (n)-[r]->(m) RETURN n,r,m"/>*/
