@@ -16,7 +16,7 @@ class App extends Component {
 		super();
 
 		this.state = {
-			applicationName: 'MetaXp',
+			applicationName: 'MetaExp',
 			prevActive: false,
 			nextActive: true,
 			prevHref: '#',
