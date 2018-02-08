@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import Nav from './Components/Nav';
-import Footer from './Components/Footer';
+import Nav from './Components/NavComponents/Nav';
+import Footer from './Components/FooterComponents/Footer';
 
 import Setup from './Components/SetupComponents/Setup';
 import Config from './Components/Config';
