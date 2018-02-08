@@ -50,6 +50,7 @@ class MetaPathDisplay extends Component {
     }
 
     addNewMetaPathsToDisplay(metapaths) {
+      console.log(metapaths);
         let oldMetaPaths = this.state.metapaths.slice();
         oldMetaPaths = oldMetaPaths.concat(metapaths);
         this.setState({metapaths: oldMetaPaths});
@@ -57,29 +58,33 @@ class MetaPathDisplay extends Component {
 
     getJsonFromBackend(endpoint, callback) {
         fetch('http://localhost:8000/' + endpoint, {
-            method: 'GET'
-        }).then((response) => response.json()
+            method: 'GET',
+            credentials: "include"
+        }).then((response) => {
+          console.log(response);
+          return response.json();
+        }
         ).then(callback).catch((error) => {
             console.error(error);
         })
         ;
     }
 
-    postJsonToBackend(endpoint, data) {
+postJsonToBackend(endpoint, data) {
         fetch('http://localhost:8000/' + endpoint, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                data
-            }),
+            body: JSON.stringify(data),
+            credentials: "include"
         }).then((response) => {
             if (!(response.status === 200)
             ) {
+                console.log(response);
+                console.log(response.json());
                 alert('Could not send data to server.');
-                console.log(data);
             }
         }).catch((error) => {
             console.error(error);
@@ -88,7 +93,7 @@ class MetaPathDisplay extends Component {
     }
 
     nextRatingIteration() {
-        let newRatedPaths = this.state.metapaths.map(path => ({id: path.id, rating: path.rating}));
+        let newRatedPaths = this.state.metapaths.map(path => path);
         let ratedPaths = this.state.ratedPaths.slice();
         ratedPaths = ratedPaths.concat(newRatedPaths);
         this.setState({ratedPaths: ratedPaths, metapaths: []});
@@ -98,9 +103,11 @@ class MetaPathDisplay extends Component {
 
 
     submitNaming() {
-        this.postJsonToBackend('submit-name', {purpose: this.state.submitNaming, name: this.state.userName});
-        this.setState({
-            nameIsSet: 1
+        this.getJsonFromBackend('login',()=>{
+          this.postJsonToBackend('login',{purpose: this.state.submitNaming, username: this.state.userName});
+          this.setState({
+              nameIsSet: 1
+          });
         });
     }
 
@@ -198,9 +205,9 @@ class MetaPathDisplay extends Component {
 
     renderMetaPathRatingRow(metaPath) {
         return (
-            <tr key={metaPath.id}>
+            <tr>
                 <td><MetaPathID id={metaPath.id}/></td>
-                <td><MetaPath path={metaPath.path}/></td>
+                <td><MetaPath path={metaPath.metapath}/></td>
                 <td>< MetaPathRater id={metaPath.id} defaultRating={metaPath.rating} rating={metaPath.rating}
                                     onChange={this.handleRatingChange.bind(this)}/></td>
             </tr>
