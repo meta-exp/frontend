@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Nav from './Components/Nav';
 import Footer from './Components/Footer';
 
-import Setup from './Components/Setup';
+import Setup from './Components/SetupComponents/Setup';
 import Config from './Components/Config';
 import Explore from './Components/Explore';
 import Results from './Components/Results';
@@ -16,7 +16,7 @@ class App extends Component {
 		super();
 
 		this.state = {
-			applicationName: 'MetaExp',
+			applicationName: 'MetaXp',
 			prevActive: false,
 			nextActive: true,
 			prevHref: '#',
@@ -105,10 +105,12 @@ class App extends Component {
 		return (
 			<div className="App">
 				<Nav onClick={this.handleNavAction} applicationName={this.state.applicationName} navPoints={this.state.navPoints} />
-				<div className="container-fluid">
-					{body}
+				<div className="content-wrapper">
+					<div className="container-fluid">
+						{body}
+					</div>
+					<Footer onClick={this.handleNavAction} prevHref={this.state.prevHref} nextHref={this.state.nextHref} prevActive={this.state.prevActive} nextActive={this.state.nextActive} />
 				</div>
-				<Footer onClick={this.handleNavAction} prevHref={this.state.prevHref} nextHref={this.state.nextHref} prevActive={this.state.prevActive} nextActive={this.state.nextActive} />
 			</div>
 		);
 	}
