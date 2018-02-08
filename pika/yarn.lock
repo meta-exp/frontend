@@ -4017,7 +4017,7 @@ jest@20.0.4:
   dependencies:
     jest-cli "^20.0.4"
 
-jquery@x.*:
+jquery@^3.3.1, jquery@x.*:
   version "3.3.1"
   resolved "https://neo.jfrog.io/neo/api/npm/npm/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
 
@@ -4528,6 +4528,13 @@ ncname@1.0.x:
 negotiator@0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
+
+neo4j-driver@^1.5.0:
+  version "1.5.3"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/neo4j-driver/-/neo4j-driver-1.5.3.tgz#aa7cec63ed793dd5a51c98ab0477edc35c293248"
+  dependencies:
+    babel-runtime "^6.18.0"
+    url-parse "^1.2.0"
 
 no-case@^2.2.0:
   version "2.3.2"
@@ -6601,7 +6608,7 @@ url-parse@1.0.x:
     querystringify "0.0.x"
     requires-port "1.0.x"
 
-url-parse@^1.1.8:
+url-parse@^1.1.8, url-parse@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.2.0.tgz#3a19e8aaa6d023ddd27dcc44cb4fc8f7fec23986"
   dependencies:
