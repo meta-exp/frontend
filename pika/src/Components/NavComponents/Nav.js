@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import NavItem from './NavItem';
 import NavHeader from './NavHeader';
 import NavPoints from './NavPoints';
 

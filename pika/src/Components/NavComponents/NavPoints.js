@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import NavItem from './NavItem';
-import Imprint from './Imprint';
+import Imprint from '../Imprint';
 
 class NavPoints extends Component {
 
