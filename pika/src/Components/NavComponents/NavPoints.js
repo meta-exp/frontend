@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import NavItem from './NavItem';
+import Imprint from './Imprint';
 
 class NavPoints extends Component {
 
@@ -22,6 +23,7 @@ class NavPoints extends Component {
 			<div className="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul className="navbar-nav mr-auto">
 					{navItems}
+					<Imprint href="https://hpi.de/impressum.html" />
 				</ul>
 			</div>
 		);
