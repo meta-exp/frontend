@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { Button, Icon } from 'semantic-ui-react';
+
 class NextButton extends Component {
 
 	handleClick = e => {
@@ -12,18 +14,13 @@ class NextButton extends Component {
 	}
 
 	render() {
-		let btnClass = "float-right btn";
-
-		if(this.props.active)
-			btnClass += " btn-primary";
-		else 
-			btnClass += " btn-secondary";
-
 		return (
-			<a onClick={this.handleClick} className={btnClass} href={this.props.href}>
-				<span>Next</span>
-				<span style={{marginLeft: 10 + 'px'}} className="fas fa-arrow-right"></span>
-			</a>
+			<div className="float-right">
+				<Button onClick={this.handleClick} icon primary={this.props.active}>
+					<span style={{marginRight: 10 + 'px'}}>Next</span>
+					<Icon name='arrow right' />
+				</Button>
+			</div>
 		);
 	}
 

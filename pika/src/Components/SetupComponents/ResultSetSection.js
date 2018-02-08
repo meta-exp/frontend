@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { Button, Icon } from 'semantic-ui-react';
+
 class ResultSetSection extends Component {
 
 	handleClick = e => {
@@ -14,10 +16,10 @@ class ResultSetSection extends Component {
 			<div>
 				<h3>
 					Query Result Set
-					<button onClick={this.handleClick} className="btn btn-primary mark-all-nodes-btn">
-						<i className="fas fa-map-marker-alt"></i>
-						Mark all Nodes
-					</button>
+					<Button style={{marginLeft: 20 + 'px'}} icon primary>
+						<Icon name='checkmark' />
+						<span style={{marginLeft: 10 + 'px'}}>Mark all Nodes</span>
+					</Button>
 				</h3>
 			</div>
 		);
