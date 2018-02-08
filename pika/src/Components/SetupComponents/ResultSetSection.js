@@ -13,6 +13,8 @@ class ResultSetSection extends Component {
 		alert("mark all buttons. not implemented yet!");
 	}
 
+	// TODO: Pass query to graph-render component
+
 	render() {
 		return (
 			<div>
@@ -23,8 +25,8 @@ class ResultSetSection extends Component {
 						<span style={{marginLeft: 10 + 'px'}}>Mark all Nodes</span>
 					</Button>
 				</h3>
-				<Neo4jGraphRenderer url="172.18.16.106:7474" user=""
-				password="" query="MATCH (n)-[r]->(m) RETURN n,r,m"/>
+				<Neo4jGraphRenderer url="http://localhost:7474" user="neo4j"
+				password="neo4j2" query="MATCH (n)-[r]->(m) RETURN n,r,m"/>
 			</div>
 		);
 	}
@@ -32,6 +34,3 @@ class ResultSetSection extends Component {
 }
 
 export default ResultSetSection;
-
-/*<Neo4jGraphRenderer url={process.env.NEO4J_URL} user={process.env.NEO4J_USER}
-					password={process.env.NEO4J_PASSWORD} query="MATCH (n)-[r]->(m) RETURN n,r,m"/>*/
