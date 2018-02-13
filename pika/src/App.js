@@ -7,6 +7,7 @@ import Setup from './Components/SetupComponents/Setup';
 import Config from './Components/Config';
 import Explore from './Components/Explore';
 import Results from './Components/Results';
+import Imprint from './Components/Imprint';
 
 import './App.css';
 
@@ -42,7 +43,12 @@ class App extends Component {
 					title: 'Results',
 					href: 'results.html',
 					active: false
-				}
+				},
+                {
+                    title: 'Imprint',
+                    href: 'imprint.html',
+                    active: false
+                }
 			]
 		};
 	}
@@ -84,6 +90,15 @@ class App extends Component {
 				nextHref: '#'
 			});
 		}
+        else if(pageTitle === 'Imprint' || pageTitle === 'imprint.html'){
+            this.setState({
+                prevActive: false,
+                nextActive: false,
+                activePage: 'Imprint',
+                prevHref: '#',
+                nextHref: '#'
+            });
+        }
 	}
 
 	render() {
@@ -101,6 +116,9 @@ class App extends Component {
 		else if(this.state.activePage === 'Results'){
 			body = <Results />;
 		}
+        else if(this.state.activePage === 'Imprint'){
+            body = <Imprint />;
+        }
 
 		return (
 			<div className="App">
