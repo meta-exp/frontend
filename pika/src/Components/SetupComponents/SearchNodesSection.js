@@ -11,19 +11,50 @@ import "../../../node_modules/codemirror/addon/lint/lint.css";
 import "../../../node_modules/codemirror/addon/hint/show-hint.css";
 import "../../../node_modules/cypher-codemirror/dist/cypher-codemirror-syntax.css";
 
+import { Button, Icon } from 'semantic-ui-react';
+
+
 class SearchNodesSection extends Component {
+
+	constructor(){
+		super();
+
+		this.state = {
+			cypherQuery: "RETURN 1"
+		};
+	}
+
+	handleClick = e => {
+		e.preventDefault();
+		e.stopPropagation();
+
+		this.props.onClick(this.state.cypherQuery);
+	}
+
+	handleChange = (value, change) => {
+		this.setState({cypherQuery: value});
+	}
 
 	render() {
 		return (
 			<div>
-				<h2>Search for Nodes</h2>
-				<CypherEditor
-				  value=":head"
-				  options={{
-				    mode: "cypher",
-				    theme: "cypher",
-				    lineNumberFormatter: line => line
-				  }}
+				<h2>
+					<span style={{marginRight: 20 + 'px'}}>
+						Search for Nodes
+					</span>
+					<Button onClick={this.handleClick} icon primary>
+						<Icon name='search' />
+						<span style={{marginLeft: 10 + 'px'}}>Search</span>
+					</Button>
+				</h2>
+				<CypherEditor id="search-query-editor"
+				  	onValueChange={this.handleChange}
+					value=""
+					options={{
+						mode: "cypher",
+						theme: "cypher",
+						lineNumberFormatter: line => line
+					}}
 				/>
 			</div>
 		);

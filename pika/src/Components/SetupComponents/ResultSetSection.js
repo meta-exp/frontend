@@ -10,7 +10,7 @@ class ResultSetSection extends Component {
 		e.preventDefault();
 		e.stopPropagation();
 
-		alert("mark all buttons. not implemented yet!");
+		//document.getElementsByClassName("node").style.border = "3px solid red";
 	}
 
 	// TODO: Pass query to graph-render component
@@ -26,7 +26,7 @@ class ResultSetSection extends Component {
 					</Button>
 				</h3>
 				<Neo4jGraphRenderer url="http://localhost:7474" user="neo4j"
-				password="neo4j2" query="MATCH (n)-[r]->(m) RETURN n,r,m"/>
+				password="neo4j2" query={this.props.cypherQuery} />
 			</div>
 		);
 	}
@@ -34,3 +34,5 @@ class ResultSetSection extends Component {
 }
 
 export default ResultSetSection;
+
+//MATCH (n)-[r]->(m) RETURN n,r,m
