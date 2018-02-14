@@ -12,7 +12,7 @@ class SelectorList extends Component {
   }
 
   buildTableBody(items){
-    const selectionRows = this.props.items.map(([itemName, selected], index) => this.buildSelectionRows(itemName, selected));
+    const selectionRows = this.props.items.map(([itemName, selected], index) => this.buildSelectionRows(itemName, selected, index));
 
     return (
       <tbody>
@@ -21,26 +21,23 @@ class SelectorList extends Component {
     );
   }
 
-  buildSelectionRows(itemName, selected) {
+  buildSelectionRows(itemName, selected, index) {
     return (
 			<tr>
 					<td>
             {itemName}
           </td>
           <td class="float-right">
-            <input type="checkbox" class="toggle-button" checked={selected} onChange={this.handleChange.bind(this)}/>
+            <input type="checkbox" class="toggle-button" checked={selected} onChange={() => this.props.onChange(index)}/>
           </td>
 			</tr>
 		);
   }
 
-  handleChange() {
-    alert('I really can\'t handle all this change!');
-  }
-
   render() {
     const tableHead = this.buildTableHead(this.props.item_names, this.props.check_note);
     const tableBody = this.buildTableBody(this.props.items);
+
     return (
       <table class="table table-striped type-preference-table">
         {tableHead}
