@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 
-import Nav from './Components/Nav';
-import Footer from './Components/Footer';
+import Nav from './Components/NavComponents/Nav';
+import Footer from './Components/FooterComponents/Footer';
 
-import Setup from './Components/Setup';
+import Setup from './Components/SetupComponents/Setup';
 import Config from './Components/Config';
 import Explore from './Components/Explore';
 import Results from './Components/Results';
+import Imprint from './Components/Imprint';
 
 import './App.css';
 
@@ -42,7 +43,12 @@ class App extends Component {
 					title: 'Results',
 					href: 'results.html',
 					active: false
-				}
+				},
+                {
+                    title: 'Imprint',
+                    href: 'imprint.html',
+                    active: false
+                }
 			]
 		};
 	}
@@ -84,6 +90,15 @@ class App extends Component {
 				nextHref: '#'
 			});
 		}
+        else if(pageTitle === 'Imprint' || pageTitle === 'imprint.html'){
+            this.setState({
+                prevActive: false,
+                nextActive: false,
+                activePage: 'Imprint',
+                prevHref: '#',
+                nextHref: '#'
+            });
+        }
 	}
 
 	render() {
@@ -101,14 +116,21 @@ class App extends Component {
 		else if(this.state.activePage === 'Results'){
 			body = <Results />;
 		}
+        else if(this.state.activePage === 'Imprint'){
+            body = <Imprint />;
+        }
 
 		return (
 			<div className="App">
 				<Nav onClick={this.handleNavAction} applicationName={this.state.applicationName} navPoints={this.state.navPoints} />
-				<div className="container-fluid">
-					{body}
+				<div className="content-wrapper">
+					<div className="container-fluid">
+						{body}
+					</div>
+					<div className="container-fluid">
+						<Footer onClick={this.handleNavAction} prevHref={this.state.prevHref} nextHref={this.state.nextHref} prevActive={this.state.prevActive} nextActive={this.state.nextActive} />
+					</div>
 				</div>
-				<Footer onClick={this.handleNavAction} prevHref={this.state.prevHref} nextHref={this.state.nextHref} prevActive={this.state.prevActive} nextActive={this.state.nextActive} />
 			</div>
 		);
 	}

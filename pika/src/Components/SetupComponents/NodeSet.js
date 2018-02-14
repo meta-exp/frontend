@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 
-class Setup extends Component {
+class NodeSet extends Component {
 
 	render() {
 		return (
 			<div>
-				<h1>Setup</h1>
+				<h3>{this.props.title}</h3>
 			</div>
 		);
 	}
 	
 }
 
-export default Setup;
+export default NodeSet;
