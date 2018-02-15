@@ -2,6 +2,7 @@
   "name": "pika",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "graph-app-kit": "^1.0.0",
     "jquery": "^3.3.1",
