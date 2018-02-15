@@ -7,7 +7,7 @@ pika/node_modules
 /coverage
 
 # production
-/build
+pika/build
 
 # misc
 .DS_Store
