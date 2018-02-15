@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Checkbox } from 'semantic-ui-react';
 
 class SelectorList extends Component {
 
@@ -28,7 +29,7 @@ class SelectorList extends Component {
             {itemName}
           </td>
           <td class="float-right">
-            <input type="checkbox" class="toggle-button" checked={selected} onChange={() => this.props.onChange(index)}/>
+            <Checkbox toggle checked={selected} onChange={() => this.props.onChange(index)}/>
           </td>
 			</tr>
 		);
