@@ -57,7 +57,7 @@ class MetaPathDisplay extends Component {
     }
 
     getJsonFromBackend(endpoint, callback) {
-        fetch('http://localhost:8000/' + endpoint, {
+        fetch('http://172.20.14.22:8000/' + endpoint, {
             method: 'GET',
             credentials: "include"
         }).then((response) => {
@@ -71,7 +71,7 @@ class MetaPathDisplay extends Component {
     }
 
 postJsonToBackend(endpoint, data) {
-        fetch('http://localhost:8000/' + endpoint, {
+        fetch('http://172.20.14.22:8000/' + endpoint, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
