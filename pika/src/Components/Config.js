@@ -27,24 +27,22 @@ class Config extends Component {
     return (
       <div>
         <h1>Config</h1>
-        <h2>Welcome, it's so nice to have you here</h2>
         <div className='row' style={{marginTop:30+'px'}}>
           <div className="col" style={{marginLeft:15+'px'}}>
             <SelectorList
-              item_names='Gurkenliste'
-              check_note='Dabei oder nicht dabei?'
+              item_names='Node type'
+              check_note='Include?'
               items={this.state.node_types}
               onChange={(index) => {this.changeSelection({nodeTypes: this.switchValue(index, this.state.node_types.slice())})}}/>
           </div>
           <div className="col" style={{marginRight:15+'px'}}>
             <SelectorList
-              item_names='Zuchiniliste'
-              check_note='Dabei oder nicht dabei?'
+              item_names='Edge type'
+              check_note='Include?'
               items={this.state.edge_types}
               onChange={(index) => {this.changeSelection({edgeTypes: this.switchValue(index, this.state.edge_types.slice())})}}/>
           </div>
         </div>
-          <Checkbox toggle />
       </div>
     );
   }
