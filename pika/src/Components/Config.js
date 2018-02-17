@@ -10,17 +10,17 @@ class Config extends Component {
       node_types: [['Merkur', true], ['Venus', true], ['Erde', false], ['Mars', true]],
       edge_types: [['ISS', true], ['MIR', false]],
     }
-    this.loadFromServer()
+    this.loadFromServer();
   }
 
-  setState(state){
-    super.setState(state);
+  changeSelection(newState){
+    this.setState(newState);
     this.saveToServer();
   }
 
   switchValue(index, list){
     list[index][1] = !list[index][1];
-    return list
+    return list;
   }
 
   render() {
@@ -34,14 +34,14 @@ class Config extends Component {
               item_names='Gurkenliste'
               check_note='Dabei oder nicht dabei?'
               items={this.state.node_types}
-              onChange={(index) => {this.setState({nodeTypes: this.switchValue(index, this.state.node_types.slice())})}}/>
+              onChange={(index) => {this.changeSelection({nodeTypes: this.switchValue(index, this.state.node_types.slice())})}}/>
           </div>
           <div className="col" style={{marginRight:15+'px'}}>
             <SelectorList
               item_names='Zuchiniliste'
               check_note='Dabei oder nicht dabei?'
               items={this.state.edge_types}
-              onChange={(index) => {this.setState({edgeTypes: this.switchValue(index, this.state.edge_types.slice())})}}/>
+              onChange={(index) => {this.changeSelection({edgeTypes: this.switchValue(index, this.state.edge_types.slice())})}}/>
           </div>
         </div>
           <Checkbox toggle />
@@ -71,12 +71,12 @@ class Config extends Component {
     this.getJsonFromBackend('get-node-types', (fetched) => this.setState({node_types: fetched}));
   }
 
-  saveEdgeTypes() {
-    this.postJsonToBackend('set-edge-types', this.state.edgeTypes);
+  saveEdgeTypes(state) {
+    this.postJsonToBackend('set-edge-types', this.state.edge_types);
   }
 
-  saveNodeTypes() {
-    this.postJsonToBackend('set-node-types', this.state.nodeTypes);
+  saveNodeTypes(state) {
+    this.postJsonToBackend('set-node-types', this.state.node_types);
   }
 
   // TODO Move those methods into a utils package?
@@ -90,8 +90,7 @@ class Config extends Component {
       }
       ).then(callback).catch((error) => {
           console.error(error);
-      })
-      ;
+      });
   }
 
   postJsonToBackend(endpoint, data) {
@@ -104,16 +103,14 @@ class Config extends Component {
           body: JSON.stringify(data),
           credentials: "include"
       }).then((response) => {
-          if (!(response.status === 200)
-          ) {
+          if (!(response.status === 200)) {
               console.log(response);
               console.log(response.json());
               alert('Could not send data to server.');
           }
       }).catch((error) => {
           console.error(error);
-      })
-      ;
+      });
   }
 
 }
