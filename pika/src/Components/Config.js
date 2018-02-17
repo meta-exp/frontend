@@ -28,15 +28,15 @@ class Config extends Component {
       <div>
         <h1>Config</h1>
         <h2>Welcome, it's so nice to have you here</h2>
-        <div class='row' style={{marginTop:30+'px'}}>
-          <div class="col" style={{marginLeft:15+'px'}}>
+        <div className='row' style={{marginTop:30+'px'}}>
+          <div className="col" style={{marginLeft:15+'px'}}>
             <SelectorList
               item_names='Gurkenliste'
               check_note='Dabei oder nicht dabei?'
               items={this.state.node_types}
               onChange={(index) => {this.setState({nodeTypes: this.switchValue(index, this.state.node_types.slice())})}}/>
           </div>
-          <div class="col" style={{marginRight:15+'px'}}>
+          <div className="col" style={{marginRight:15+'px'}}>
             <SelectorList
               item_names='Zuchiniliste'
               check_note='Dabei oder nicht dabei?'
