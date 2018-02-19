@@ -12,27 +12,14 @@ class MetaPathDisplay extends Component {
     defaultState  = {
         metapaths: [],
         ratedPaths: [],
-        nameIsSet: 0,
-        isLoading: true,
-        available_datasets: [],
-        userName: "Davide",
-        similarityType: "Geolocation",
-        dataset: "huhu"
+        userName: "XDavide",
+        similarityType: "XGeolocation",
+        dataset: "Xhuhu"
     };
 
     constructor(props) {
         super();
         this.state = this.defaultState;
-    }
-
-    handleInputChange(event) {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
-
-        this.setState({
-            [name]: value
-        });
     }
 
     handleRatingChange(event, id) {
@@ -121,48 +108,12 @@ postJsonToBackend(endpoint, data, callback) {
     }
 
 
-    submitNaming() {
-        this.getJsonFromBackend('login',()=>{
-          this.postJsonToBackend('login',{purpose: this.state.similarityType, username: this.state.userName, dataset: this.state.dataset});
-          this.setState({
-              nameIsSet: 1
-          });
-        });
-    }
-
-    setAvailableDatasets(data){
-      console.log(data);
-      this.setState({
-          isLoading: false,
-          available_datasets: data,
-          dataset: data[0].name
-      });
-    }
-
     /*
         Methods for rendering the html
     */
 
-
-
-    componentDidMount(){
-      console.log("Requesting");
-      this.getJsonFromBackend('get-available-datasets',this.setAvailableDatasets.bind(this));
-    }
-
     render() {
-        if (this.state.nameIsSet === 0) {
-
-                      if (this.state.isLoading === true) {
-                        return (<div> wait a second </div>);
-                      }
-            return this.renderNaming();
-        } else {
-
-
-          return this.renderWeighting();
-        }
-
+      return this.renderWeighting();
     }
 
     renderWeighting() {
