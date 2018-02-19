@@ -11,28 +11,12 @@ class MetaPathDisplay extends Component {
 
     defaultState  = {
         metapaths: [],
-        ratedPaths: [],
-        nameIsSet: 0,
-        isLoading: true,
-        available_datasets: [],
-        userName: "Davide",
-        similarityType: "Geolocation",
-        dataset: "huhu"
+        ratedPaths: []
     };
 
     constructor(props) {
         super();
         this.state = this.defaultState;
-    }
-
-    handleInputChange(event) {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
-
-        this.setState({
-            [name]: value
-        });
     }
 
     handleRatingChange(event, id) {
@@ -63,7 +47,7 @@ class MetaPathDisplay extends Component {
     }
 
     getNextMetaPathBatch() {
-        this.getJsonFromBackend('next-meta-paths', this.addNewMetaPathsToDisplay.bind(this));
+        this.getJsonFromBackend('next-meta-paths/5', this.addNewMetaPathsToDisplay.bind(this));
     }
 
     addNewMetaPathsToDisplay(metapaths) {
@@ -121,48 +105,12 @@ postJsonToBackend(endpoint, data, callback) {
     }
 
 
-    submitNaming() {
-        this.getJsonFromBackend('login',()=>{
-          this.postJsonToBackend('login',{purpose: this.state.similarityType, username: this.state.userName, dataset: this.state.dataset});
-          this.setState({
-              nameIsSet: 1
-          });
-        });
-    }
-
-    setAvailableDatasets(data){
-      console.log(data);
-      this.setState({
-          isLoading: false,
-          available_datasets: data,
-          dataset: data[0].name
-      });
-    }
-
     /*
         Methods for rendering the html
     */
 
-
-
-    componentDidMount(){
-      console.log("Requesting");
-      this.getJsonFromBackend('get-available-datasets',this.setAvailableDatasets.bind(this));
-    }
-
     render() {
-        if (this.state.nameIsSet === 0) {
-
-                      if (this.state.isLoading === true) {
-                        return (<div> wait a second </div>);
-                      }
-            return this.renderNaming();
-        } else {
-
-
-          return this.renderWeighting();
-        }
-
+      return this.renderWeighting();
     }
 
     renderWeighting() {
@@ -172,9 +120,9 @@ postJsonToBackend(endpoint, data, callback) {
         return (
             <div>
                 <div>
-                    <h4> Purpose: </h4> {this.state.similarityType} <br/>
-                    <h4> Dataset: </h4> {this.state.dataset} <br/>
-                    <h4> Created by: </h4> {this.state.userName}
+                    <h4> Purpose: </h4> {this.props.similarityType} <br/>
+                    <h4> Dataset: </h4> {this.props.dataset} <br/>
+                    <h4> Created by: </h4> {this.props.userName}
                 </div>
                 <h3 align='center' className="font-weight-bold"> Found Meta Paths </h3>
                 <table align="center">
@@ -231,18 +179,18 @@ postJsonToBackend(endpoint, data, callback) {
             <input type="text"
                    id="uname"
                    name="userName"
-                   value={this.state.userName}
+                   value={this.props.userName}
                    onChange={this.handleInputChange.bind(this)}/>
             <br/>
             <label htmlFor="simtype"> Describe the type of similarity: </label>
             <input type="text"
                    id="simtype"
                    name="similarityType"
-                   value={this.state.similarityType}
+                   value={this.props.similarityType}
                    onChange={this.handleInputChange.bind(this)}/>
             <br />
               <label htmlFor="dataset">Choose a dataset: </label>
-            <select value={this.state.dataset} name='dataset' onChange={this.handleInputChange.bind(this)}>
+            <select value={this.props.dataset} name='dataset' onChange={this.handleInputChange.bind(this)}>
                 {available_datasets}
             </select>
             <div>
