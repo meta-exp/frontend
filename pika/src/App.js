@@ -8,6 +8,8 @@ import Config from './Components/Config';
 import Explore from './Components/Explore';
 import Results from './Components/Results';
 import Imprint from './Components/Imprint';
+import Login from './Components/Login';
+
 
 import './App.css';
 
@@ -18,6 +20,7 @@ class App extends Component {
 
 		this.state = {
 			applicationName: 'MetaExp',
+			logged_in: false,
 			prevActive: false,
 			nextActive: true,
 			prevHref: '#',
@@ -51,6 +54,7 @@ class App extends Component {
                 }
 			]
 		};
+
 	}
 
 	handleNavAction = pageTitle => {
@@ -101,8 +105,18 @@ class App extends Component {
         }
 	}
 
+handleLogin(loginInfo){
+	console.log("Logged in.");
+	this.setState({logged_in: true, userName: loginInfo.userName, dataset: loginInfo.dataset, similarityType: loginInfo.similarityType});
+}
+
+
 	render() {
 		let body;
+
+		if(this.state.logged_in === false){
+			return <Login onLogin={this.handleLogin.bind(this)}/>;
+		}
 
 		if(this.state.activePage === 'Setup'){
 			body = <Setup />;
@@ -111,7 +125,10 @@ class App extends Component {
 			body = <Config />;
 		}
 		else if(this.state.activePage === 'Explore'){
-			body = <Explore />;
+			body = <Explore
+									userName={this.state.userName}
+									similarityType={this.state.similarityType}
+									dataset={this.state.dataset}/>;
 		}
 		else if(this.state.activePage === 'Results'){
 			body = <Results />;
