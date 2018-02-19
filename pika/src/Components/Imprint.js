@@ -10,9 +10,9 @@ class Imprint extends Component {
                     <br/>Prof.-Dr.-Helmert-Str. 2-3<br/>14482 Potsdam<br/>Telefon: +49 (0)331 / 5509-0<br/>Telefax: +49
                     (0)331 / 5509-129<br/>E-Mail: <a href="javascript:linkTo_UnCryptMailto('nbjmup+iqj.jogpAiqj\/ef');"
                                                      title="Öffnet ein Fenster zum Versenden der E-Mail"
-                                                     class="mail"><span>hpi-info(at)hpi.de</span></a><br/>Internet: <a
+                                                     className="mail"><span>hpi-info(at)hpi.de</span></a><br/>Internet: <a
                         href="/" title="Öffnet internen Link im aktuellen Fenster"
-                        class="internal"><span>www.hpi.de</span></a>
+                        className="internal"><span>www.hpi.de</span></a>
                 </p>
                     <p><strong>Vertretungsberechtigte Geschäftsführer: </strong><br/>Prof. Dr. Christoph Meinel<br/>Registergericht:
                         Amtsgericht Potsdam<br/>Registernummer: HRB 12184
@@ -36,7 +36,7 @@ class Imprint extends Component {
                     </p>
                     <p><strong>Datenschutzerklärung:</strong><br/>Hinweise zum Datenschutz entnehmen Sie bitte <a
                         href="/datenschutz.html" title="Öffnet internen Link im aktuellen Fenster"
-                        class="internal"><span>folgender Seite</span></a>. </p>
+                        className="internal"><span>folgender Seite</span></a>. </p>
                 </div>
             </div>
         );
