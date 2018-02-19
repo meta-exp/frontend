@@ -3,21 +3,19 @@ import React, { Component } from 'react';
 
 class Login extends Component {
 
-  componentDidMount(){
-    console.log("Requesting");
-    this.getJsonFromBackend('get-available-datasets',this.setAvailableDatasets.bind(this));
-  }
-
   constructor(props) {
       super();
       this.state = {
         isLoading: true,
         available_datasets: [],
-    		nameIsSet: 0,
     		userName: "Davide",
     		similarityType: "Geolocation",
     		dataset: "huhu"
       };
+  }
+
+  componentDidMount(){
+    this.getJsonFromBackend('get-available-datasets',this.setAvailableDatasets.bind(this));
   }
 
   getJsonFromBackend(endpoint, callback) {
@@ -46,8 +44,6 @@ class Login extends Component {
       }).then((response) => {
           if (!(response.status === 200)
           ) {
-              console.log(response);
-              console.log(response.json());
               alert('Could not send data to server.');
           } else {
             callback();
@@ -77,19 +73,26 @@ setAvailableDatasets(data){
   });
 }
 
+handleLoginSuccess(){
+  this.postJsonToBackend('login',{
+        purpose: this.state.similarityType,
+        username: this.state.userName,
+        dataset: this.state.dataset
+      },
+    ()=>{});
+  this.props.onLogin({
+    similarityType: this.state.similarityType,
+    userName: this.state.userName,
+    dataset: this.state.dataset});
+}
+
 submitNaming() {
-    this.getJsonFromBackend('login',()=>{
-      this.postJsonToBackend('login',{purpose: this.state.similarityType, username: this.state.userName, dataset: this.state.dataset});
-      this.setState({
-          nameIsSet: 1
-      });
-      this.props.onLogin({similarityType: this.state.similarityType, userName: this.state.userName, dataset: this.state.dataset});
-    });
+    this.getJsonFromBackend('login',this.handleLoginSuccess.bind(this));
 }
 
 render() {
         if (this.state.isLoading === true) {
-          return (<div> wait a second </div>);
+          return (<div> Loading... </div>);
         }
         return this.renderNaming();
 
