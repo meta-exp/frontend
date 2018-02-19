@@ -47,7 +47,7 @@ class MetaPathDisplay extends Component {
     }
 
     getNextMetaPathBatch() {
-        this.getJsonFromBackend('next-meta-paths', this.addNewMetaPathsToDisplay.bind(this));
+        this.getJsonFromBackend('next-meta-paths/5', this.addNewMetaPathsToDisplay.bind(this));
     }
 
     addNewMetaPathsToDisplay(metapaths) {
