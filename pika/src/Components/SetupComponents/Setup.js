@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import SearchNodesSection from './SearchNodesSection';
+//import SearchNodesSection from './SearchNodesSection';
 import ResultSetSection from './ResultSetSection';
 import NodeSetsSection from './NodeSetsSection';
 
@@ -24,9 +24,7 @@ class Setup extends Component {
 		return (
 			<div>
 				<h1>Setup</h1>
-				<div style={{margin: 20 + 'px ' + 0 + 'px'}}>
-					<SearchNodesSection onClick={this.handleSearch} />
-				</div>
+				
 				<div style={{margin: 20 + 'px ' + 0 + 'px'}}>
 					<ResultSetSection cypherQuery={this.state.cypherQuery} />
 				</div>
