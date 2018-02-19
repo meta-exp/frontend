@@ -7,8 +7,8 @@ class Config extends Component {
   constructor(props){
     super(props);
     this.state = {
-      node_types: [['Merkur', true], ['Venus', true], ['Erde', false], ['Mars', true]],
-      edge_types: [['ISS', true], ['MIR', false]],
+      node_types: [],
+      edge_types: [],
     }
     this.loadFromServer();
   }
