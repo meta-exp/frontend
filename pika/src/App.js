@@ -9,6 +9,7 @@ import Explore from './Components/Explore';
 import Results from './Components/Results';
 import Imprint from './Components/Imprint';
 import Login from './Components/Login';
+import LogoutButton from './Components/LogoutButton';
 
 
 import './App.css';
@@ -110,6 +111,11 @@ handleLogin(loginInfo){
 	this.setState({logged_in: true, userName: loginInfo.userName, dataset: loginInfo.dataset, similarityType: loginInfo.similarityType});
 }
 
+handleLogout(){
+	console.log("Logged out.");
+	this.setState({logged_in: false});
+}
+
 
 	render() {
 		let body;
@@ -140,12 +146,23 @@ handleLogin(loginInfo){
 		return (
 			<div className="App">
 				<Nav onClick={this.handleNavAction} applicationName={this.state.applicationName} navPoints={this.state.navPoints} />
+				<div>
+				<div>
+						<h4> Purpose: </h4> {this.state.similarityType} <br/>
+						<h4> Dataset: </h4> {this.state.dataset} <br/>
+						<h4> Created by: </h4> {this.state.userName}
+				</div>
+				</div>
 				<div className="content-wrapper">
 					<div className="container-fluid">
 						{body}
 					</div>
+
 					<div className="container-fluid">
 						<Footer onClick={this.handleNavAction} prevHref={this.state.prevHref} nextHref={this.state.nextHref} prevActive={this.state.prevActive} nextActive={this.state.nextActive} />
+					</div>
+					<div align="center">
+					<LogoutButton onLogout={this.handleLogout.bind(this)}/>
 					</div>
 				</div>
 			</div>

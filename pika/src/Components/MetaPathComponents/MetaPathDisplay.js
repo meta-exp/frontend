@@ -11,7 +11,9 @@ class MetaPathDisplay extends Component {
 
     defaultState  = {
         metapaths: [],
-        ratedPaths: []
+        ratedPaths: [],
+        nextBatchAvailable: true,
+        timesClicked: 0
     };
 
     constructor(props) {
@@ -26,35 +28,22 @@ class MetaPathDisplay extends Component {
         this.setState({metapaths: metapaths});
     }
 
+    //TODO onmount make first request
+
     /*
         Backend Interaction
     */
-
-    saveAllMetaPaths() {
-      fetch('http://localhost:8000/' + 'logout', {
-          method: 'GET',
-          credentials: "include"
-      }).then((response) => {
-        alert("Successfully saved paths for you.");
-        this.setState({metapaths: [],
-        ratedPaths: [],
-        nameIsSet: 0});
-      }
-      ).catch((error) => {
-          console.error(error);
-      })
-      ;
-    }
 
     getNextMetaPathBatch() {
         this.getJsonFromBackend('next-meta-paths/5', this.addNewMetaPathsToDisplay.bind(this));
     }
 
-    addNewMetaPathsToDisplay(metapaths) {
-      console.log(metapaths);
-        let oldMetaPaths = this.state.metapaths.slice();
-        oldMetaPaths = oldMetaPaths.concat(metapaths);
-        this.setState({metapaths: oldMetaPaths});
+    addNewMetaPathsToDisplay(jsonResponse) {
+      this.setState({nextBatchAvailable: jsonResponse.next_batch_available});
+      let metapaths = jsonResponse.meta_paths;
+      let oldMetaPaths = this.state.metapaths.slice();
+      oldMetaPaths = oldMetaPaths.concat(metapaths);
+      this.setState({metapaths: oldMetaPaths});
     }
 
     getJsonFromBackend(endpoint, callback) {
@@ -104,26 +93,38 @@ postJsonToBackend(endpoint, data, callback) {
         this.postJsonToBackend('rate-meta-paths', newRatedPaths);
     }
 
+    addClickCount(){
+      let clicks = this.state.timesClicked + 1;
+      this.setState({timesClicked: clicks});
+      this.nextRatingIteration();
+    }
 
     /*
         Methods for rendering the html
     */
 
     render() {
-      return this.renderWeighting();
-    }
-
-    renderWeighting() {
         let tableRows = this.state.metapaths.map((path, index) => this.renderMetaPathRatingRow(path, index));
         let ratedPaths = this.state.ratedPaths.map(path => this.renderRatedMetaPathRow(path));
 
+        let ratingButton = <button className="btn btn-primary mx-auto"
+                id="show-more-meta-paths-btn"
+                onClick={this.nextRatingIteration.bind(this)}>
+            <span> Confirm Current Rating & Get Next </span>
+        </button>;
+        if(!this.state.nextBatchAvailable){
+          ratingButton = <button className="btn btn-primary mx-auto"
+                  id="show-more-meta-paths-btn"
+                  onClick={this.addClickCount.bind(this)}>
+              <span> Confirm Current Rating </span>
+          </button>;
+          if(this.state.timesClicked > 0){
+            ratingButton = <div />;
+          }
+        }
+
         return (
             <div>
-                <div>
-                    <h4> Purpose: </h4> {this.props.similarityType} <br/>
-                    <h4> Dataset: </h4> {this.props.dataset} <br/>
-                    <h4> Created by: </h4> {this.props.userName}
-                </div>
                 <h3 align='center' className="font-weight-bold"> Found Meta Paths </h3>
                 <table align="center">
                     <thead>
@@ -138,16 +139,7 @@ postJsonToBackend(endpoint, data, callback) {
                     <tr>
                         <td colSpan="3">
                             <div className="row">
-                                <button className="btn btn-primary mx-auto"
-                                        id="show-more-meta-paths-btn"
-                                        onClick={this.nextRatingIteration.bind(this)}>
-                                    <span> Confirm Current Rating & Get Next </span>
-                                </button>
-                                <button className="btn btn-primary mx-auto"
-                                        id="show-more-meta-paths-btn"
-                                        onClick={this.saveAllMetaPaths.bind(this)}>
-                                    <span> Save Rating </span>
-                                </button>
+                                {ratingButton}
                             </div>
                         </td>
                     </tr>
