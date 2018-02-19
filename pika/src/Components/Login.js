@@ -13,7 +13,6 @@ class Login extends Component {
       this.state = {
         isLoading: true,
         available_datasets: [],
-        // Login stuff
     		nameIsSet: 0,
     		userName: "Davide",
     		similarityType: "Geolocation",
@@ -84,7 +83,7 @@ submitNaming() {
       this.setState({
           nameIsSet: 1
       });
-      this.props.onLogin();
+      this.props.onLogin({similarityType: this.state.similarityType, userName: this.state.userName, dataset: this.state.dataset});
     });
 }
 

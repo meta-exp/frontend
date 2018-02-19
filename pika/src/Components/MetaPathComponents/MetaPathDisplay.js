@@ -11,10 +11,7 @@ class MetaPathDisplay extends Component {
 
     defaultState  = {
         metapaths: [],
-        ratedPaths: [],
-        userName: "XDavide",
-        similarityType: "XGeolocation",
-        dataset: "Xhuhu"
+        ratedPaths: []
     };
 
     constructor(props) {
@@ -123,9 +120,9 @@ postJsonToBackend(endpoint, data, callback) {
         return (
             <div>
                 <div>
-                    <h4> Purpose: </h4> {this.state.similarityType} <br/>
-                    <h4> Dataset: </h4> {this.state.dataset} <br/>
-                    <h4> Created by: </h4> {this.state.userName}
+                    <h4> Purpose: </h4> {this.props.similarityType} <br/>
+                    <h4> Dataset: </h4> {this.props.dataset} <br/>
+                    <h4> Created by: </h4> {this.props.userName}
                 </div>
                 <h3 align='center' className="font-weight-bold"> Found Meta Paths </h3>
                 <table align="center">
@@ -182,18 +179,18 @@ postJsonToBackend(endpoint, data, callback) {
             <input type="text"
                    id="uname"
                    name="userName"
-                   value={this.state.userName}
+                   value={this.props.userName}
                    onChange={this.handleInputChange.bind(this)}/>
             <br/>
             <label htmlFor="simtype"> Describe the type of similarity: </label>
             <input type="text"
                    id="simtype"
                    name="similarityType"
-                   value={this.state.similarityType}
+                   value={this.props.similarityType}
                    onChange={this.handleInputChange.bind(this)}/>
             <br />
               <label htmlFor="dataset">Choose a dataset: </label>
-            <select value={this.state.dataset} name='dataset' onChange={this.handleInputChange.bind(this)}>
+            <select value={this.props.dataset} name='dataset' onChange={this.handleInputChange.bind(this)}>
                 {available_datasets}
             </select>
             <div>

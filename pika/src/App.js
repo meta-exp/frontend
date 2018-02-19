@@ -107,7 +107,7 @@ class App extends Component {
 
 handleLogin(loginInfo){
 	console.log("Logged in.");
-	this.setState({logged_in: true});
+	this.setState({logged_in: true, userName: loginInfo.userName, dataset: loginInfo.dataset, similarityType: loginInfo.similarityType});
 }
 
 
@@ -125,7 +125,10 @@ handleLogin(loginInfo){
 			body = <Config />;
 		}
 		else if(this.state.activePage === 'Explore'){
-			body = <Explore />;
+			body = <Explore
+									userName={this.state.userName}
+									similarityType={this.state.similarityType}
+									dataset={this.state.dataset}/>;
 		}
 		else if(this.state.activePage === 'Results'){
 			body = <Results />;

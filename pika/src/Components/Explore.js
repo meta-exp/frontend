@@ -14,7 +14,10 @@ class Explore extends Component {
         <br/>
         <br/>
         </div>
-        <MetaPathDisplay/>
+        <MetaPathDisplay
+					userName={this.props.userName}
+					similarityType={this.props.similarityType}
+					dataset={this.props.dataset}/>
 			</div>
 		);
 	}
