@@ -25,3 +25,9 @@ yarn-error.log*
 
 # OS specific files
 .DS_*
+
+# build files
+pika/build
+
+# installed dependencies
+pika/node_modules
