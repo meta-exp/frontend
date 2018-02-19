@@ -9,25 +9,14 @@ class MetaPathDisplay extends Component {
         UI state handling
     */
 
+    defaultState  = {
+        metapaths: [],
+        ratedPaths: []
+    };
+
     constructor(props) {
         super();
-        this.state = {
-            metapaths: [],
-            ratedPaths: [],
-            nameIsSet: 0,
-            userName: "Davide",
-            similarityType: "Geolocation"
-        };
-    }
-
-    handleInputChange(event) {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
-
-        this.setState({
-            [name]: value
-        });
+        this.state = this.defaultState;
     }
 
     handleRatingChange(event, id) {
@@ -42,11 +31,23 @@ class MetaPathDisplay extends Component {
     */
 
     saveAllMetaPaths() {
-        alert("Not implemented yet.");
+      fetch('http://localhost:8000/' + 'logout', {
+          method: 'GET',
+          credentials: "include"
+      }).then((response) => {
+        alert("Successfully saved paths for you.");
+        this.setState({metapaths: [],
+        ratedPaths: [],
+        nameIsSet: 0});
+      }
+      ).catch((error) => {
+          console.error(error);
+      })
+      ;
     }
 
     getNextMetaPathBatch() {
-        this.getJsonFromBackend('next-meta-paths', this.addNewMetaPathsToDisplay.bind(this));
+        this.getJsonFromBackend('next-meta-paths/5', this.addNewMetaPathsToDisplay.bind(this));
     }
 
     addNewMetaPathsToDisplay(metapaths) {
@@ -70,7 +71,7 @@ class MetaPathDisplay extends Component {
         ;
     }
 
-postJsonToBackend(endpoint, data) {
+postJsonToBackend(endpoint, data, callback) {
         fetch('http://localhost:8000/' + endpoint, {
             method: 'POST',
             headers: {
@@ -85,6 +86,8 @@ postJsonToBackend(endpoint, data) {
                 console.log(response);
                 console.log(response.json());
                 alert('Could not send data to server.');
+            } else {
+              callback();
             }
         }).catch((error) => {
             console.error(error);
@@ -102,26 +105,12 @@ postJsonToBackend(endpoint, data) {
     }
 
 
-    submitNaming() {
-        this.getJsonFromBackend('login',()=>{
-          this.postJsonToBackend('login',{purpose: this.state.submitNaming, username: this.state.userName});
-          this.setState({
-              nameIsSet: 1
-          });
-        });
-    }
-
     /*
         Methods for rendering the html
     */
 
     render() {
-        if (this.state.nameIsSet === 0) {
-            return this.renderNaming();
-        } else {
-            return this.renderWeighting();
-        }
-
+      return this.renderWeighting();
     }
 
     renderWeighting() {
@@ -131,8 +120,9 @@ postJsonToBackend(endpoint, data) {
         return (
             <div>
                 <div>
-                    <h4> Purpose: </h4> {this.state.similarityType} <br/>
-                    <h4> Created by: </h4> {this.state.userName}
+                    <h4> Purpose: </h4> {this.props.similarityType} <br/>
+                    <h4> Dataset: </h4> {this.props.dataset} <br/>
+                    <h4> Created by: </h4> {this.props.userName}
                 </div>
                 <h3 align='center' className="font-weight-bold"> Found Meta Paths </h3>
                 <table align="center">
@@ -182,20 +172,27 @@ postJsonToBackend(endpoint, data) {
     }
 
     renderNaming() {
+        let available_datasets = this.state.available_datasets.map((dataset) => (<option value={dataset.name}>{dataset.name}</option>));
+
         return (<div>
             <label htmlFor="uname"> Your Name: </label>
             <input type="text"
                    id="uname"
                    name="userName"
-                   value={this.state.userName}
+                   value={this.props.userName}
                    onChange={this.handleInputChange.bind(this)}/>
             <br/>
-            <label htmlFor="uname"> Describe the type of similarity: </label>
+            <label htmlFor="simtype"> Describe the type of similarity: </label>
             <input type="text"
                    id="simtype"
                    name="similarityType"
-                   value={this.state.similarityType}
+                   value={this.props.similarityType}
                    onChange={this.handleInputChange.bind(this)}/>
+            <br />
+              <label htmlFor="dataset">Choose a dataset: </label>
+            <select value={this.props.dataset} name='dataset' onChange={this.handleInputChange.bind(this)}>
+                {available_datasets}
+            </select>
             <div>
                 <button onClick={this.submitNaming.bind(this)}>Submit</button>
             </div>
