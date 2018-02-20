@@ -145,19 +145,6 @@ postJsonToBackend(endpoint, data, callback) {
                     </tr>
                     </tbody>
                 </table>
-                <h3 align='center'
-                    className="font-weight-bold"> Rated Meta Paths </h3>
-                <table align="center">
-                    <thead>
-                    <tr>
-                        <td> ID</td>
-                        <td> Rating</td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {ratedPaths}
-                    </tbody>
-                </table>
             </div>
         )
             ;
