@@ -6,23 +6,40 @@ import { Neo4jGraphRenderer } from 'neo4j-graph-renderer';
 
 class ResultSetSection extends Component {
 
-	handleClick = e => {
+	handleMarkAllNodesClick = e => {
 		e.preventDefault();
 		e.stopPropagation();
 
-		//document.getElementsByClassName("node").style.border = "3px solid red";
+		var elements = document.getElementsByClassName("node");
+    	
+    	for (let i=0; i < elements.length; i++) {
+    		elements[i].classList.add("marked");
+    	}
 	}
 
-	// TODO: Pass query to graph-render component
+	handleResetAllNodesClick = e => {
+		e.preventDefault();
+		e.stopPropagation();
+
+		var elements = document.getElementsByClassName("node");
+    	
+    	for (let i=0; i < elements.length; i++) {
+    		elements[i].classList.remove("marked");
+    	}
+	}
 
 	render() {
 		return (
 			<div>
 				<h3>
 					Query Result Set
-					<Button onClick={this.handleClick} style={{marginLeft: 20 + 'px'}} icon primary>
+					<Button onClick={this.handleMarkAllNodesClick} style={{marginLeft: 20 + 'px'}} icon primary>
 						<Icon name='checkmark' />
 						<span style={{marginLeft: 10 + 'px'}}>Mark all Nodes</span>
+					</Button>
+					<Button onClick={this.handleResetAllNodesClick} style={{marginLeft: 20 + 'px'}} icon primary>
+						<Icon name='checkmark' />
+						<span style={{marginLeft: 10 + 'px'}}>Reset all Nodes</span>
 					</Button>
 				</h3>
 				<Neo4jGraphRenderer url="http://localhost:7474" user="neo4j"
