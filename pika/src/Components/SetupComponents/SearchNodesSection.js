@@ -20,7 +20,7 @@ class SearchNodesSection extends Component {
 		super();
 
 		this.state = {
-			cypherQuery: "RETURN 1"
+			cypherQuery: "MATCH(n)\nRETURN n"
 		};
 	}
 
@@ -49,7 +49,7 @@ class SearchNodesSection extends Component {
 				</h2>
 				<CypherEditor id="search-query-editor"
 				  	onValueChange={this.handleChange}
-					value=""
+					value={this.state.cypherQuery}
 					options={{
 						mode: "cypher",
 						theme: "cypher",
