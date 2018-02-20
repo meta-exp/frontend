@@ -113,7 +113,7 @@ handleLogin(loginInfo){
 
 handleLogout(){
 	console.log("Logged out.");
-	this.setState({logged_in: false, activePage:'Setup'});
+	this.setState({logged_in: false, prevActive: false, nextActive: true, activePage: 'Setup', prevHref: '#', nextHref: 'config.html'});
 }
 
 
