@@ -19,7 +19,7 @@ class Login extends Component {
   }
 
   getJsonFromBackend(endpoint, callback) {
-      fetch('http://localhost:8000/' + endpoint, {
+      fetch('http://172.20.14.22:8000/' + endpoint, {
           method: 'GET',
           credentials: "include"
       }).then((response) => {
@@ -33,7 +33,7 @@ class Login extends Component {
   }
 
   postJsonToBackend(endpoint, data, callback) {
-      fetch('http://localhost:8000/' + endpoint, {
+      fetch('http://172.20.14.22:8000/' + endpoint, {
           method: 'POST',
           headers: {
               Accept: 'application/json',
