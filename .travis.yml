@@ -1,0 +1,13 @@
+sudo: required
+
+services:
+  - docker
+
+script:
+  - git clone https://github.com/KDD-OpenSource/32de-python.git
+  - 32de-python/deployment/build-ui.sh .
+  - 32de-python/deployment/run-ui.sh
+  - docker ps -a
+
+after_script:
+  - docker rm -f ui-container
