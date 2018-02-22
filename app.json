@@ -1,0 +1,16 @@
+{
+  "name": "32de-UI",
+  "scripts": {
+    "postdeploy": "deployment/build-ui.sh && deployment/run-ui.sh"
+  },
+  "env": {
+  },
+  "formation": {
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+
+  ]
+}
