@@ -1,0 +1,7 @@
+{
+  "name": "metaexp",
+  "version": "0.1.0",
+  "scripts": {
+    "heroku-postbuild": "npm install --prefix pika && yarn add graph-app-kit --registry https://neo.jfrog.io/neo/api/npm/npm && npm build"
+  }
+}

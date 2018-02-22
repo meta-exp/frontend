@@ -1,1 +1,1 @@
-web: deployment/build-ui.sh && deployment/run-ui.sh
+web: npm start --prefix pika
