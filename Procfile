@@ -1,0 +1,1 @@
+web: deployment/build-ui.sh && deployment/run-ui.sh
