@@ -5,6 +5,6 @@
     "yarn": "1.4.0"
   },
   "scripts": {
-    "heroku-postbuild": "yarn install --prefix pika --only=production && yarn add graph-app-kit --registry https://neo.jfrog.io/neo/api/npm/npm && npm build"
+    "heroku-postbuild": "yarn install --prefix pika --only=production && yarn add graph-app-kit --registry https://neo.jfrog.io/neo/api/npm/npm --prefix pika && npm build"
   }
 }
