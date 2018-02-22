@@ -8,6 +8,9 @@ import Config from './Components/Config';
 import Explore from './Components/Explore';
 import Results from './Components/Results';
 import Imprint from './Components/Imprint';
+import Login from './Components/Login';
+import LogoutButton from './Components/LogoutButton';
+
 
 import './App.css';
 
@@ -18,6 +21,7 @@ class App extends Component {
 
 		this.state = {
 			applicationName: 'MetaExp',
+			logged_in: false,
 			prevActive: false,
 			nextActive: true,
 			prevHref: '#',
@@ -51,6 +55,7 @@ class App extends Component {
                 }
 			]
 		};
+
 	}
 
 	handleNavAction = pageTitle => {
@@ -101,8 +106,23 @@ class App extends Component {
         }
 	}
 
+handleLogin(loginInfo){
+	console.log("Logged in.");
+	this.setState({logged_in: true, userName: loginInfo.userName, dataset: loginInfo.dataset, similarityType: loginInfo.similarityType});
+}
+
+handleLogout(){
+	console.log("Logged out.");
+	this.setState({logged_in: false, prevActive: false, nextActive: true, activePage: 'Setup', prevHref: '#', nextHref: 'config.html'});
+}
+
+
 	render() {
 		let body;
+
+		if(this.state.logged_in === false){
+			return <Login onLogin={this.handleLogin.bind(this)}/>;
+		}
 
 		if(this.state.activePage === 'Setup'){
 			body = <Setup />;
@@ -111,7 +131,10 @@ class App extends Component {
 			body = <Config />;
 		}
 		else if(this.state.activePage === 'Explore'){
-			body = <Explore />;
+			body = <Explore
+									userName={this.state.userName}
+									similarityType={this.state.similarityType}
+									dataset={this.state.dataset}/>;
 		}
 		else if(this.state.activePage === 'Results'){
 			body = <Results />;
@@ -123,12 +146,23 @@ class App extends Component {
 		return (
 			<div className="App">
 				<Nav onClick={this.handleNavAction} applicationName={this.state.applicationName} navPoints={this.state.navPoints} />
+				<div>
+				<div>
+						<h4> Purpose: </h4> {this.state.similarityType} <br/>
+						<h4> Dataset: </h4> {this.state.dataset} <br/>
+						<h4> Created by: </h4> {this.state.userName}
+				</div>
+				</div>
 				<div className="content-wrapper">
 					<div className="container-fluid">
 						{body}
 					</div>
+
 					<div className="container-fluid">
 						<Footer onClick={this.handleNavAction} prevHref={this.state.prevHref} nextHref={this.state.nextHref} prevActive={this.state.prevActive} nextActive={this.state.nextActive} />
+					</div>
+					<div align="center">
+					<LogoutButton onLogout={this.handleLogout.bind(this)}/>
 					</div>
 				</div>
 			</div>

@@ -8,15 +8,27 @@ import './css/setup.css';
 
 class Setup extends Component {
 
+	constructor(){
+		super();
+
+		this.state = {
+			cypherQuery: "RETURN 1"
+		};
+	}
+
+	handleSearch = inputValue => {
+		this.setState({cypherQuery: inputValue});
+	}
+
 	render() {
 		return (
 			<div>
 				<h1>Setup</h1>
 				<div style={{margin: 20 + 'px ' + 0 + 'px'}}>
-					<SearchNodesSection />
+				<	SearchNodesSection onClick={this.handleSearch} />
 				</div>
 				<div style={{margin: 20 + 'px ' + 0 + 'px'}}>
-					<ResultSetSection />
+					<ResultSetSection cypherQuery={this.state.cypherQuery} />
 				</div>
 				<div style={{margin: 20 + 'px ' + 0 + 'px'}}>
 					<NodeSetsSection />

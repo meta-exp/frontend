@@ -13,6 +13,9 @@ COPY pika/package*.json ./
 # If you are building your code for production:
 RUN npm install --only=production
 
+RUN yarn add graph-app-kit --registry https://neo.jfrog.io/neo/api/npm/npm
+
+
 # Bundle app source
 COPY pika/ .
 

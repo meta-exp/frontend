@@ -9,25 +9,16 @@ class MetaPathDisplay extends Component {
         UI state handling
     */
 
+    defaultState  = {
+        metapaths: [],
+        ratedPaths: [],
+        nextBatchAvailable: true,
+        timesClicked: 0
+    };
+
     constructor(props) {
         super();
-        this.state = {
-            metapaths: [],
-            ratedPaths: [],
-            nameIsSet: 0,
-            userName: "Davide",
-            similarityType: "Geolocation"
-        };
-    }
-
-    handleInputChange(event) {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
-
-        this.setState({
-            [name]: value
-        });
+        this.state = this.defaultState;
     }
 
     handleRatingChange(event, id) {
@@ -37,23 +28,22 @@ class MetaPathDisplay extends Component {
         this.setState({metapaths: metapaths});
     }
 
+    //TODO onmount make first request
+
     /*
         Backend Interaction
     */
 
-    saveAllMetaPaths() {
-        alert("Not implemented yet.");
-    }
-
     getNextMetaPathBatch() {
-        this.getJsonFromBackend('next-meta-paths', this.addNewMetaPathsToDisplay.bind(this));
+        this.getJsonFromBackend('next-meta-paths/5', this.addNewMetaPathsToDisplay.bind(this));
     }
 
-    addNewMetaPathsToDisplay(metapaths) {
-      console.log(metapaths);
-        let oldMetaPaths = this.state.metapaths.slice();
-        oldMetaPaths = oldMetaPaths.concat(metapaths);
-        this.setState({metapaths: oldMetaPaths});
+    addNewMetaPathsToDisplay(jsonResponse) {
+      this.setState({nextBatchAvailable: jsonResponse.next_batch_available});
+      let metapaths = jsonResponse.meta_paths;
+      let oldMetaPaths = this.state.metapaths.slice();
+      oldMetaPaths = oldMetaPaths.concat(metapaths);
+      this.setState({metapaths: oldMetaPaths});
     }
 
     getJsonFromBackend(endpoint, callback) {
@@ -70,7 +60,7 @@ class MetaPathDisplay extends Component {
         ;
     }
 
-postJsonToBackend(endpoint, data) {
+postJsonToBackend(endpoint, data, callback) {
         fetch('http://172.20.14.22:8000/' + endpoint, {
             method: 'POST',
             headers: {
@@ -85,6 +75,8 @@ postJsonToBackend(endpoint, data) {
                 console.log(response);
                 console.log(response.json());
                 alert('Could not send data to server.');
+            } else {
+              callback();
             }
         }).catch((error) => {
             console.error(error);
@@ -101,14 +93,10 @@ postJsonToBackend(endpoint, data) {
         this.postJsonToBackend('rate-meta-paths', newRatedPaths);
     }
 
-
-    submitNaming() {
-        this.getJsonFromBackend('login',()=>{
-          this.postJsonToBackend('login',{purpose: this.state.submitNaming, username: this.state.userName});
-          this.setState({
-              nameIsSet: 1
-          });
-        });
+    addClickCount(){
+      let clicks = this.state.timesClicked + 1;
+      this.setState({timesClicked: clicks});
+      this.nextRatingIteration();
     }
 
     /*
@@ -116,24 +104,27 @@ postJsonToBackend(endpoint, data) {
     */
 
     render() {
-        if (this.state.nameIsSet === 0) {
-            return this.renderNaming();
-        } else {
-            return this.renderWeighting();
-        }
-
-    }
-
-    renderWeighting() {
         let tableRows = this.state.metapaths.map((path, index) => this.renderMetaPathRatingRow(path, index));
         let ratedPaths = this.state.ratedPaths.map(path => this.renderRatedMetaPathRow(path));
 
+        let ratingButton = <button className="btn btn-primary mx-auto"
+                id="show-more-meta-paths-btn"
+                onClick={this.nextRatingIteration.bind(this)}>
+            <span> Confirm Current Rating & Get Next </span>
+        </button>;
+        if(!this.state.nextBatchAvailable){
+          ratingButton = <button className="btn btn-primary mx-auto"
+                  id="show-more-meta-paths-btn"
+                  onClick={this.addClickCount.bind(this)}>
+              <span> Confirm Current Rating </span>
+          </button>;
+          if(this.state.timesClicked > 0){
+            ratingButton = <div />;
+          }
+        }
+
         return (
             <div>
-                <div>
-                    <h4> Purpose: </h4> {this.state.similarityType} <br/>
-                    <h4> Created by: </h4> {this.state.userName}
-                </div>
                 <h3 align='center' className="font-weight-bold"> Found Meta Paths </h3>
                 <table align="center">
                     <thead>
@@ -148,32 +139,22 @@ postJsonToBackend(endpoint, data) {
                     <tr>
                         <td colSpan="3">
                             <div className="row">
-                                <button className="btn btn-primary mx-auto"
-                                        id="show-more-meta-paths-btn"
-                                        onClick={this.nextRatingIteration.bind(this)}>
-                                    <span> Confirm Current Rating & Get Next </span>
-                                </button>
-                                <button className="btn btn-primary mx-auto"
-                                        id="show-more-meta-paths-btn"
-                                        onClick={this.saveAllMetaPaths.bind(this)}>
-                                    <span> Save Rating </span>
-                                </button>
+                                {ratingButton}
                             </div>
                         </td>
                     </tr>
                     </tbody>
                 </table>
-                <h3 align='center'
-                    className="font-weight-bold"> Rated Meta Paths </h3>
-                <table align="center">
-                    <thead>
-                    <tr>
-                        <td> ID</td>
-                        <td> Rating</td>
-                    </tr>
-                    </thead>
+                <h3 align='center' className="font-weight-bold"> Rated Meta Paths </h3>
+                    <table align="center">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Rating</th>
+                            </tr>
+                        </thead>
                     <tbody>
-                    {ratedPaths}
+                        {ratedPaths}
                     </tbody>
                 </table>
             </div>
@@ -182,20 +163,27 @@ postJsonToBackend(endpoint, data) {
     }
 
     renderNaming() {
+        let available_datasets = this.state.available_datasets.map((dataset) => (<option value={dataset.name}>{dataset.name}</option>));
+
         return (<div>
             <label htmlFor="uname"> Your Name: </label>
             <input type="text"
                    id="uname"
                    name="userName"
-                   value={this.state.userName}
+                   value={this.props.userName}
                    onChange={this.handleInputChange.bind(this)}/>
             <br/>
-            <label htmlFor="uname"> Describe the type of similarity: </label>
+            <label htmlFor="simtype"> Describe the type of similarity: </label>
             <input type="text"
                    id="simtype"
                    name="similarityType"
-                   value={this.state.similarityType}
+                   value={this.props.similarityType}
                    onChange={this.handleInputChange.bind(this)}/>
+            <br />
+              <label htmlFor="dataset">Choose a dataset: </label>
+            <select value={this.props.dataset} name='dataset' onChange={this.handleInputChange.bind(this)}>
+                {available_datasets}
+            </select>
             <div>
                 <button onClick={this.submitNaming.bind(this)}>Submit</button>
             </div>
