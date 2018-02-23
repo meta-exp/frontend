@@ -47,7 +47,7 @@ class MetaPathDisplay extends Component {
     }
 
     getJsonFromBackend(endpoint, callback) {
-        var Agent = (require('https') as any).Agent;
+        var Agent = require('https').Agent;
         fetch('https://172.20.14.22:8000/' + endpoint, {
             method: 'GET',
             credentials: "include",
@@ -63,7 +63,7 @@ class MetaPathDisplay extends Component {
     }
 
 postJsonToBackend(endpoint, data, callback) {
-        var Agent = (require('https') as any).Agent;
+        var Agent = require('https').Agent;
         fetch('https://172.20.14.22:8000/' + endpoint, {
             method: 'POST',
             headers: {

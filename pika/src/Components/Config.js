@@ -79,7 +79,7 @@ class Config extends Component {
 
   // TODO Move those methods into a utils package?
   getJsonFromBackend(endpoint, callback) {
-      var Agent = (require('https') as any).Agent;
+      var Agent = require('https').Agent;
       fetch('https://172.20.14.22:8000/' + endpoint, {
           method: 'GET',
           credentials: "include",
@@ -94,7 +94,7 @@ class Config extends Component {
   }
 
   postJsonToBackend(endpoint, data) {
-      var Agent = (require('https') as any).Agent;
+      var Agent = require('https').Agent;
       fetch('https://172.20.14.22:8000/' + endpoint, {
           method: 'POST',
           headers: {

@@ -5,7 +5,7 @@ class LogoutButton extends Component {
 
 
   saveAndLogout() {
-      var Agent = (require('https') as any).Agent;
+      var Agent = require('https').Agent;
     fetch('https://172.20.14.22:8000/' + 'logout', {
         method: 'GET',
         credentials: "include",
