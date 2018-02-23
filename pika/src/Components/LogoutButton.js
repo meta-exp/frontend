@@ -5,9 +5,11 @@ class LogoutButton extends Component {
 
 
   saveAndLogout() {
-    fetch('http://172.20.14.22:8000/' + 'logout', {
+      var Agent = (require('https') as any).Agent;
+    fetch('https://172.20.14.22:8000/' + 'logout', {
         method: 'GET',
-        credentials: "include"
+        credentials: "include",
+        agent: new Agent({ rejectUnauthorized: false })
     }).then((response) => {
       this.props.onLogout();
     }

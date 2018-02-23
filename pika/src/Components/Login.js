@@ -19,9 +19,11 @@ class Login extends Component {
   }
 
   getJsonFromBackend(endpoint, callback) {
-      fetch('http://172.20.14.22:8000/' + endpoint, {
+      var Agent = (require('https') as any).Agent;
+      fetch('https://172.20.14.22:8000/' + endpoint, {
           method: 'GET',
-          credentials: "include"
+          credentials: "include",
+          agent: new Agent({ rejectUnauthorized: false })
       }).then((response) => {
         console.log(response);
         return response.json();
@@ -33,14 +35,16 @@ class Login extends Component {
   }
 
   postJsonToBackend(endpoint, data, callback) {
-      fetch('http://172.20.14.22:8000/' + endpoint, {
+      var Agent = (require('https') as any).Agent;
+      fetch('https://172.20.14.22:8000/' + endpoint, {
           method: 'POST',
           headers: {
               Accept: 'application/json',
               'Content-Type': 'application/json'
           },
           body: JSON.stringify(data),
-          credentials: "include"
+          credentials: "include",
+          agent: new Agent({ rejectUnauthorized: false })
       }).then((response) => {
           if (!(response.status === 200)
           ) {
