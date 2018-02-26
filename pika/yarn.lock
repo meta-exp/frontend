@@ -1593,8 +1593,8 @@ code-point-at@^1.0.0:
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
 
 codemirror@^5.29.0:
-  version "5.34.0"
-  resolved "https://neo.jfrog.io/neo/api/npm/npm/codemirror/-/codemirror-5.34.0.tgz#e345dcc09a6149db65cc70dff9d389c1c4b0cd06"
+  version "5.35.0"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/codemirror/-/codemirror-5.35.0.tgz#280653d495455bc66aa87e6284292b02775ba878"
 
 color-convert@^1.3.0, color-convert@^1.9.0:
   version "1.9.1"
@@ -5953,8 +5953,8 @@ selfsigned@^1.9.1:
     node-forge "0.7.1"
 
 semantic-ui-css@^2.2.12:
-  version "2.2.14"
-  resolved "https://neo.jfrog.io/neo/api/npm/npm/semantic-ui-css/-/semantic-ui-css-2.2.14.tgz#1888c386c74e5c0abfa00508a94940e93a55465b"
+  version "2.3.0"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/semantic-ui-css/-/semantic-ui-css-2.3.0.tgz#e96d0d4069499eafff9ba0c84274bc23d2b084e7"
   dependencies:
     jquery x.*
 

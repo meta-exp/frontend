@@ -1,0 +1,12 @@
+sudo: required
+
+services:
+  - docker
+
+script:
+  - deployment/build-ui.sh .
+  - deployment/run-ui.sh
+  - docker ps -a
+
+after_script:
+  - docker rm -f ui-container
