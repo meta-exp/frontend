@@ -121,27 +121,28 @@ handleLogout(){
 		let body;
 
 		if(this.state.logged_in === false){
-			return <Login onLogin={this.handleLogin.bind(this)}/>;
+			body = <Login onLogin={this.handleLogin.bind(this)}/>;
 		}
-
-		if(this.state.activePage === 'Setup'){
-			body = <Setup />;
+		else{
+			if(this.state.activePage === 'Setup'){
+				body = <Setup />;
+			}
+			else if(this.state.activePage === 'Config'){
+				body = <Config />;
+			}
+			else if(this.state.activePage === 'Explore'){
+				body = <Explore
+										userName={this.state.userName}
+										similarityType={this.state.similarityType}
+										dataset={this.state.dataset}/>;
+			}
+			else if(this.state.activePage === 'Results'){
+				body = <Results />;
+			}
+	        else if(this.state.activePage === 'Imprint'){
+	            body = <Imprint />;
+	        }
 		}
-		else if(this.state.activePage === 'Config'){
-			body = <Config />;
-		}
-		else if(this.state.activePage === 'Explore'){
-			body = <Explore
-									userName={this.state.userName}
-									similarityType={this.state.similarityType}
-									dataset={this.state.dataset}/>;
-		}
-		else if(this.state.activePage === 'Results'){
-			body = <Results />;
-		}
-        else if(this.state.activePage === 'Imprint'){
-            body = <Imprint />;
-        }
 
 		return (
 			<div className="App">

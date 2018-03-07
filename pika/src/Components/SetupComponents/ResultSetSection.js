@@ -43,7 +43,7 @@ class ResultSetSection extends Component {
 					</Button>
 				</h3>
 				<Neo4jGraphRenderer url="http://172.20.14.22:7474" user="neo4j"
-				password="neo4j2" query={this.props.cypherQuery} />
+				password="neo4j" query={this.props.cypherQuery} />
 			</div>
 		);
 	}
