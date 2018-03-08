@@ -139,10 +139,11 @@ handleLogout(){
 			else if(this.state.activePage === 'Results'){
 				body = <Results />;
 			}
-	        else if(this.state.activePage === 'Imprint'){
-	            body = <Imprint />;
-	        }
 		}
+
+		if(this.state.activePage === 'Imprint'){
+            body = <Imprint />;
+        }
 
 		return (
 			<div className="App">
