@@ -17,6 +17,7 @@ function getState(){
 
     onUpdateUsername: AccountActions.updateUsername,
     onLogin: AccountActions.login,
+    onLogout: AccountActions.logout,
     onDatasetSelection: AccountActions.selectDataset
   };
 }

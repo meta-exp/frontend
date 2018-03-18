@@ -29,7 +29,7 @@ class  LoginView extends Component {
             {available_datasets}
         </select>
         <div>
-            <button onClick={() => this.props.onLogin()}>Submit</button>
+            <button onClick={() => this.props.onLogin()}>Create user and log in </button>
         </div>
     </div>);
 }}
