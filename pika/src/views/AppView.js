@@ -7,7 +7,7 @@ function AppView(props) {
       return (<div><LoginView {...props} /></div>);
     } else {
       return (<div>
-                hello, {props.account.userName }
+                hello, {props.account.userName}
                 <br />
                 <LogoutView {...props} />
               </div>);

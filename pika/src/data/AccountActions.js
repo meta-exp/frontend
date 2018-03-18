@@ -1,25 +1,21 @@
 import AccountActionTypes from './AccountActionTypes'
 import AccountDispatcher from './AccountDispatcher'
+import MetaPathAPI from './../utils/MetaPathAPI'
 
 const Actions = {
-  //Account(name, dataset){
-    //AccountDispatcher.dispatch({
-    //  type: AccountActionTypes.LOGIN,
-    //  payload: {'userName': name,
-    //            'dataset': dataset}
-  //  });
-  //},
 
-  login(){
+  login(userName, dataset){
     AccountDispatcher.dispatch({
       type: AccountActionTypes.LOGIN
     });
+    MetaPathAPI.login(userName,dataset);
   },
 
   logout(){
     AccountDispatcher.dispatch({
       type: AccountActionTypes.LOGOUT
     });
+    MetaPathAPI.logout();
   },
 
   updateUsername(userName){
@@ -32,7 +28,8 @@ const Actions = {
   loadDatasets(){
     AccountDispatcher.dispatch({
       type: AccountActionTypes.LOAD_DATASETS
-    })
+    });
+    MetaPathAPI.getAvailableDatasets();
   },
 
   selectDataset(dataset){

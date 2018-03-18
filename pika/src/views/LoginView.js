@@ -7,7 +7,9 @@ class  LoginView extends Component {
     }
 
     componentDidMount(){
-      this.props.loadDatasets();
+      if (this.props.account.available_datasets.length === 0){
+        this.props.loadDatasets();
+      }
     }
 
     render(){
@@ -25,11 +27,12 @@ class  LoginView extends Component {
         <br/>
         <br/>
           <label htmlFor="dataset">Choose a dataset: </label>
-        <select value={this.props.account.dataset} name='dataset' onChange={(event) => this.props.onDatasetSelection(event.target.value)}>
+        <select value={this.props.account.dataset}
+                name='dataset' onChange={(event) => this.props.onDatasetSelection(event.target.value)}>
             {available_datasets}
         </select>
         <div>
-            <button onClick={() => this.props.onLogin()}>Create user and log in </button>
+            <button onClick={() => this.props.onLogin(this.props.account.userName,this.props.account.dataset)}>Create user and log in </button>
         </div>
     </div>);
 }}
