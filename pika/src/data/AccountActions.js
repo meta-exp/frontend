@@ -27,6 +27,13 @@ const Actions = {
       type: AccountActionTypes.UPDATE_USERNAME,
       payload: {'userName': userName}
     })
+  },
+
+  selectDataset(dataset){
+    AccountDispatcher.dispatch({
+      type: AccountActionTypes.DATASET_SELECTION,
+      payload: {'dataset': dataset}
+    })
   }
 };
 

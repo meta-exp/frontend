@@ -8,7 +8,7 @@ class AccountStore extends ReduceStore {
   }
 
   getInitialState(){
-    return {'logged_in': false,
+    return {'loggedIn': false,
             'userName': 'Testuser',
             'dataset': 'a'};
   }
@@ -16,8 +16,9 @@ class AccountStore extends ReduceStore {
   reduce(state, action){
     switch(action.type){
       case AccountActionTypes.LOGIN:
-        alert('trying to log in');
-        return state;
+        var newAccount = Object.assign({},state);
+        newAccount.loggedIn = true;
+        return newAccount;
 
       case AccountActionTypes.UPDATE_USERNAME:
         var newAccount = Object.assign({},state);
@@ -25,8 +26,15 @@ class AccountStore extends ReduceStore {
         return newAccount;
 
       case AccountActionTypes.LOGOUT:
-        alert('trying to log out');
-        return state;
+      var newAccount = Object.assign({},state);
+      newAccount.loggedIn = false;
+      return newAccount;
+
+      case AccountActionTypes.DATASET_SELECTION:
+        var newAccount = Object.assign({},state);
+        newAccount.dataset = action.payload.dataset;
+        return newAccount;
+
       default:
         return state;
     }
