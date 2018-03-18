@@ -1,4 +1,4 @@
-import LoginView from '../views/LoginView';
+import AppView from '../views/AppView';
 import {Container} from 'flux/utils';
 import AccountStore from '../data/AccountStore';
 import AccountActions from '../data/AccountActions';
@@ -14,8 +14,9 @@ function getState(){
     account: AccountStore.getState(),
 
     onUpdateUsername: AccountActions.updateUsername,
-    onLogin: AccountActions.login
+    onLogin: AccountActions.login,
+    onDatasetSelection: AccountActions.selectDataset
   };
 }
 
-export default Container.createFunctional(LoginView,getStores,getState);
+export default Container.createFunctional(AppView,getStores,getState);
