@@ -13,6 +13,8 @@ function getState(){
   return {
     account: AccountStore.getState(),
 
+    loadDatasets: AccountActions.loadDatasets,
+
     onUpdateUsername: AccountActions.updateUsername,
     onLogin: AccountActions.login,
     onDatasetSelection: AccountActions.selectDataset

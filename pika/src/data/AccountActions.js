@@ -29,6 +29,12 @@ const Actions = {
     })
   },
 
+  loadDatasets(){
+    AccountDispatcher.dispatch({
+      type: AccountActionTypes.LOAD_DATASETS
+    })
+  },
+
   selectDataset(dataset){
     AccountDispatcher.dispatch({
       type: AccountActionTypes.DATASET_SELECTION,

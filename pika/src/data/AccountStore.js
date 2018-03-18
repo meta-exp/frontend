@@ -10,7 +10,8 @@ class AccountStore extends ReduceStore {
   getInitialState(){
     return {'loggedIn': false,
             'userName': 'Testuser',
-            'dataset': 'a'};
+            'dataset': 'a',
+            'available_datasets': []};
   }
 
   reduce(state, action){
@@ -33,6 +34,29 @@ class AccountStore extends ReduceStore {
       case AccountActionTypes.DATASET_SELECTION:
         var newAccount = Object.assign({},state);
         newAccount.dataset = action.payload.dataset;
+        return newAccount;
+
+      case AccountActionTypes.LOAD_DATASETS:
+        fetch('http://localhost:8000/' + 'get-available-datasets', {
+            method: 'GET',
+            credentials: "include"
+        }).then((response) => {
+          return response.json();
+        }
+      ).then((payload) => {
+        AccountDispatcher.dispatch({
+          type: AccountActionTypes.DATASET_LOADED,
+          payload: payload
+      })}).catch((error) => {
+          alert("fetch error for datasets. Is server running?");
+            console.error(error);
+        })
+        ;
+        return state;
+
+      case AccountActionTypes.DATASET_LOADED:
+        var newAccount = Object.assign({},state);
+        newAccount.available_datasets = action.payload;
         return newAccount;
 
       default:
