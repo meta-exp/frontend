@@ -26,9 +26,9 @@ class AccountStore extends ReduceStore {
         return newAccount;
 
       case AccountActionTypes.LOGOUT:
-        var newAccount = Object.assign({},state);
-        newAccount.loggedIn = false;
-        return newAccount;
+          var newAccount = Object.assign({},state);
+          newAccount.loggedIn = false;
+          return newAccount;
 
       case AccountActionTypes.DATASET_SELECTION:
         var newAccount = Object.assign({},state);
