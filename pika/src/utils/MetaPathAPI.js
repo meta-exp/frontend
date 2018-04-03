@@ -8,7 +8,7 @@ const Actions = {
         username: userName,
         dataset: dataset
       });
-      fetch('http://localhost:8000/' + 'login', {
+      fetch(process.env.REACT_APP_API_HOST + 'login', {
         method: 'POST',
         headers: {
             Accept: 'application/json',
@@ -28,7 +28,7 @@ const Actions = {
     });
   },
   logout(){
-    fetch('http://localhost:8000/' + 'logout', {
+    fetch(process.env.REACT_APP_API_HOST + 'logout', {
         method: 'GET',
         credentials: "include"
     }).then((response) => {
@@ -41,7 +41,7 @@ const Actions = {
     ;
   },
   getAvailableDatasets(){
-    fetch('http://localhost:8000/' + 'get-available-datasets', {
+    fetch(process.env.REACT_APP_API_HOST + 'get-available-datasets', {
         method: 'GET',
         credentials: "include"
     }).then((response) => {return response.json()}).then( (json) => {
