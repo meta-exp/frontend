@@ -4,14 +4,10 @@ UI component of graph exploration tool with meta-paths
 [![Build Status](https://travis-ci.org/KDD-OpenSource/32de-UI.svg?branch=master)](https://travis-ci.org/KDD-OpenSource/32de-UI)
 
 # Deployment
-To deploy our system including neo4j, the neo4j graph algorithm component, the UI and our server install docker on your system and run `deployment/docker-deployment.sh`.
+To deploy our system including neo4j, the neo4j graph algorithm component, the UI and our server install docker on your system and run `deployment/docker-complete-deployment.sh`.
 This will install a clean version from the alpha-dev and the master branches and doesn't include your local code changes.
-If the API should be served ssl encrypted, set the environment variable `METAEXP_HTTPS` to `true` and provide `api.crt` and `api.key` in the `https` folder.
 
 # Development
-To build your own local code use `deployment/build-*.sh /path/to/code` (e.g. `deployment/build-server.sh .`) and to run a single container `deployment/run-*.sh [PORT]`.
-By default Neo4j browser is listening on port `7474`, bolt is available on port `7687` and our server is listening on port `8000` for all hosts.
-If you start the additional neo4j containers with `run-neo4j-helmholtz.sh` and `run-neo4j-commerzbank.sh`, they are listening on the ports +10 for Helmholtz and +20 for the Commerzbank data.
-All the neo4j containers are based on the `neo4j-graph-algorithms` image. To change the default port simply specify the `PORT` parameter when running `deployment/run-*.sh [PORT]`.
+To build your own local code use `deployment/build-ui.sh /path/to/code [api-endpoint]` (e.g. `deployment/build-ui.sh . http://locahost:8000`) and to run a single container `deployment/run-ui.sh [PORT]`.
 
 Tutorials for installing Docker: [Mac](https://docs.docker.com/docker-for-mac/install/), [Windows](https://docs.docker.com/docker-for-windows/install/) and [Ubuntu](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/).
