@@ -4,9 +4,9 @@ const Actions = {
 
   login(userName,dataset) {
     var content = JSON.stringify({
-        purpose: 'deprechated',
+        purpose: 'deprecated',
         username: userName,
-        dataset: dataset
+        dataset: dataset['name']
       });
       fetch(process.env.REACT_APP_API_HOST + 'login', {
         method: 'POST',
