@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "MetaExp App",
+  "name": "The MetaExp UI, the gate to your personalized graph exploration.",
   "icons": [
     {
       "src": "favicon.ico",
