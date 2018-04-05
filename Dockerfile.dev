@@ -21,5 +21,3 @@ RUN yarn add graph-app-kit --registry https://neo.jfrog.io/neo/api/npm/npm
 COPY pika/ .
 
 EXPOSE 3000
-
-CMD ["npm", "start"]
