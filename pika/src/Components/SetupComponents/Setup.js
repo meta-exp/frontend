@@ -24,6 +24,15 @@ class Setup extends Component {
 		return (
 			<div>
 				<h1>Setup</h1>
+				<div style={{margin: 20 + 'px ' + 0 + 'px'}}> 
+					<SearchNodesSection onClick={this.handleSearch} /> 
+				</div> 
+				<div style={{margin: 20 + 'px ' + 0 + 'px'}}> 
+					<ResultSetSection cypherQuery={this.state.cypherQuery} /> 
+				</div> 
+				<div style={{margin: 20 + 'px ' + 0 + 'px'}}> 
+					<NodeSetsSection /> 
+				</div>
 			</div>
 		);
 	}
