@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import MetaPathDisplay from './MetaPathComponents/MetaPathDisplay';
+import MetaPathDisplay from './ExploreComponents/MetaPathDisplay';
 
 class Explore extends Component {
 
