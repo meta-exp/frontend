@@ -1,4 +1,5 @@
 FROM node:carbon as build
+ARG api_host
 
 # Create app directory
 WORKDIR /usr/src/pika
@@ -19,7 +20,7 @@ RUN yarn add graph-app-kit --registry https://neo.jfrog.io/neo/api/npm/npm
 # Bundle app source
 COPY pika/ .
 
-RUN npm run build
+RUN REACT_APP_API_HOST=$api_host npm run build
 
 ####### Serve site
 FROM nginx
