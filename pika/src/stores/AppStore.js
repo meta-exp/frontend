@@ -1,6 +1,6 @@
 import { EventEmitter } from "events";
-import AppDispatcher from './AppDispatcher';
-import AppActionTypes from './AppActionTypes';
+import AppDispatcher from '../dispatchers/AppDispatcher';
+import AppActionTypes from '../actions/AppActionTypes';
 
 class AppStore extends EventEmitter {
 

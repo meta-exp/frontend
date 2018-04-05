@@ -4,8 +4,8 @@ import { Menu } from 'semantic-ui-react';
 import AccountDropDown from './AccountDropDown';
 import Imprint from '../ImprintComponents/Imprint';
 
-import AppStore from '../../data/AppStore';
-import AppActions from '../../data/AppActions';
+import AppStore from '../../stores/AppStore';
+import AppActions from '../../actions/AppActions';
 
 export default class TopMenuBar extends Component {
 

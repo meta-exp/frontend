@@ -1,4 +1,4 @@
-import ServerActions from './../data/ServerActions.js'
+import ServerActions from '../actions/ServerActions.js'
 
 const Actions = {
 

@@ -1,6 +1,6 @@
 import {ReduceStore} from 'flux/utils';
-import AccountActionTypes from './AccountActionTypes';
-import AccountDispatcher from './AccountDispatcher';
+import AccountActionTypes from '../actions/AccountActionTypes';
+import AccountDispatcher from '../dispatchers/AccountDispatcher';
 
 class AccountStore extends ReduceStore {
   constructor(){

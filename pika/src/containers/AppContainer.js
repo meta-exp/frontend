@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Container} from 'flux/utils';
-import AccountStore from '../data/AccountStore';
-import AccountActions from '../data/AccountActions';
+import AccountStore from '../stores/AccountStore';
+import AccountActions from '../actions/AccountActions';
 import App from '../App';
 
 class AppContainer extends Component {

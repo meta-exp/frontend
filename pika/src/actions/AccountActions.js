@@ -1,6 +1,6 @@
 import AccountActionTypes from './AccountActionTypes'
-import AccountDispatcher from './AccountDispatcher'
-import MetaPathAPI from './../utils/MetaPathAPI'
+import AccountDispatcher from '../dispatchers/AccountDispatcher'
+import MetaPathAPI from '../utils/MetaPathAPI'
 
 const Actions = {
 

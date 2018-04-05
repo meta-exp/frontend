@@ -1,5 +1,5 @@
 import AppActionTypes from './AppActionTypes';
-import AppDispatcher from './AppDispatcher';
+import AppDispatcher from '../dispatchers/AppDispatcher';
 
 const AppActions = {
 	changePage(name){

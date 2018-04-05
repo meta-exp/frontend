@@ -1,5 +1,5 @@
 import AccountActionTypes from './AccountActionTypes'
-import AccountDispatcher from './AccountDispatcher'
+import AccountDispatcher from '../dispatchers/AccountDispatcher'
 
 const Actions = {
   receiveLogin(response) {

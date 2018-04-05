@@ -9,7 +9,7 @@ import Results from './Components/Results';
 import Login from './Components/Login';
 import LogoutButton from './Components/LogoutButton';
 
-import AppStore from './data/AppStore';
+import AppStore from './stores/AppStore';
 
 import './App.css';
 
