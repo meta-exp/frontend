@@ -4,6 +4,8 @@ import SearchNodesSection from './SearchNodesSection';
 import ResultSetSection from './ResultSetSection';
 import NodeSetsSection from './NodeSetsSection';
 
+import SetupStore from '../../stores/SetupStore';
+
 import './css/setup.css';
 
 class Setup extends Component {
@@ -12,12 +14,14 @@ class Setup extends Component {
 		super();
 
 		this.state = {
-			cypherQuery: "RETURN 1"
+			cypherQuery: SetupStore.getCyperQuery()
 		};
 	}
 
-	handleSearch = inputValue => {
-		this.setState({cypherQuery: inputValue});
+	componentWillMount(){
+		SetupStore.on("change", () => {
+			this.setState({ cypherQuery: SetupStore.getCyperQuery() });
+		})
 	}
 
 	render() {
@@ -25,7 +29,7 @@ class Setup extends Component {
 			<div>
 				<h1>Setup</h1>
 				<div style={{margin: 20 + 'px ' + 0 + 'px'}}> 
-					<SearchNodesSection onClick={this.handleSearch} /> 
+					<SearchNodesSection /> 
 				</div> 
 				<div style={{margin: 20 + 'px ' + 0 + 'px'}}> 
 					<ResultSetSection cypherQuery={this.state.cypherQuery} /> 

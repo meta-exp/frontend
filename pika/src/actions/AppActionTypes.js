@@ -1,7 +1,7 @@
-const ActionTypes = {
+const AppActionTypes = {
 
   CHANGE_PAGE: 'CHANGE_PAGE'
   
 }
 
-export default ActionTypes;
+export default AppActionTypes;
