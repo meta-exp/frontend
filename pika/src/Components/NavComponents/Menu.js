@@ -4,6 +4,9 @@ import { Menu } from 'semantic-ui-react';
 import AccountDropDown from './AccountDropDown';
 import Imprint from '../ImprintComponents/Imprint';
 
+import AppStore from '../../data/AppStore';
+import AppActions from '../../data/AppActions';
+
 export default class TopMenuBar extends Component {
 
 	constructor(){
@@ -31,11 +34,13 @@ export default class TopMenuBar extends Component {
 			}
 		];
 
-		this.state = { activeItem: this.menuPoints[0].title };
+		this.state = {activeItem: AppStore.getActivePage()};
 	}
 
-	handleItemClick = (e, { name }) => {
-		this.setState({ activeItem: name });
+	componentWillMount(){
+		AppStore.on("change", () => {
+			this.setState({ activeItem: AppStore.getActivePage() });
+		})
 	}
 
 	getAccountActionItem() {
@@ -49,6 +54,13 @@ export default class TopMenuBar extends Component {
 				<Menu.Item name='Login' active={this.state.activeItem === 'Login'} />
 			);
 		}
+	}
+
+	handleItemClick = (e, { name }) => {
+		e.preventDefault();
+		e.stopPropagation();
+		
+		AppActions.changePage(name);
 	}
 
 	render() {

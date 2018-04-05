@@ -65,7 +65,6 @@ handleInputChange(event) {
 }
 
 setAvailableDatasets(data){
-  console.log(data);
   this.setState({
       isLoading: false,
       available_datasets: data,

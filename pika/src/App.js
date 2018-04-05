@@ -9,6 +9,8 @@ import Results from './Components/Results';
 import Login from './Components/Login';
 import LogoutButton from './Components/LogoutButton';
 
+import AppStore from './data/AppStore';
+
 import './App.css';
 
 class App extends Component {
@@ -22,9 +24,15 @@ class App extends Component {
 			nextActive: true,
 			prevHref: '#',
 			nextHref: 'config.html',
-			activePage: 'Setup'
+			activePage: AppStore.getActivePage()
 		};
 
+	}
+
+	componentWillMount(){
+		AppStore.on("change", () => {
+			this.setState({ activePage: AppStore.getActivePage() });
+		})
 	}
 
 	handleNavAction = pageTitle => {
