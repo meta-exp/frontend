@@ -60,7 +60,7 @@ class SearchNodesSection extends Component {
 					value={this.state.cypherQuery} 
 					options={{ 
 						mode: "cypher", 
-						theme: "cypher", 
+						theme: "cypher",
 						lineNumberFormatter: line => line
 					}} 
 				/> 
