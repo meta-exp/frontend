@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 
-import Nav from './Components/NavComponents/Nav';
+import TopMenuBar from './Components/NavComponents/Menu';
 import Footer from './Components/FooterComponents/Footer';
-
 import Setup from './Components/SetupComponents/Setup';
 import Config from './Components/Config';
 import Explore from './Components/Explore';
 import Results from './Components/Results';
-import Imprint from './Components/Imprint';
 import Login from './Components/Login';
 import LogoutButton from './Components/LogoutButton';
-
 
 import './App.css';
 
@@ -20,40 +17,12 @@ class App extends Component {
 		super();
 
 		this.state = {
-			applicationName: 'MetaExp',
 			logged_in: false,
 			prevActive: false,
 			nextActive: true,
 			prevHref: '#',
 			nextHref: 'config.html',
-			activePage: 'Setup',
-			navPoints: [
-				{
-					title: 'Setup',
-					href: 'home.html',
-					active: true
-				},
-				{
-					title: 'Config',
-					href: 'config.html',
-					active: false
-				},
-				{
-					title: 'Explore',
-					href: 'feedback.html',
-					active: false
-				},
-				{
-					title: 'Results',
-					href: 'results.html',
-					active: false
-				},
-                {
-                    title: 'Imprint',
-                    href: 'imprint.html',
-                    active: false
-                }
-			]
+			activePage: 'Setup'
 		};
 
 	}
@@ -95,15 +64,6 @@ class App extends Component {
 				nextHref: '#'
 			});
 		}
-        else if(pageTitle === 'Imprint' || pageTitle === 'imprint.html'){
-            this.setState({
-                prevActive: false,
-                nextActive: false,
-                activePage: 'Imprint',
-                prevHref: '#',
-                nextHref: '#'
-            });
-        }
 	}
 
 handleLogin(loginInfo){
@@ -132,34 +92,22 @@ handleLogout(){
 			}
 			else if(this.state.activePage === 'Explore'){
 				body = <Explore
-										userName={this.state.userName}
-										similarityType={this.state.similarityType}
-										dataset={this.state.dataset}/>;
+							userName={this.state.userName}
+							similarityType={this.state.similarityType}
+							dataset={this.state.dataset}/>;
 			}
 			else if(this.state.activePage === 'Results'){
 				body = <Results />;
 			}
 		}
 
-		if(this.state.activePage === 'Imprint'){
-            body = <Imprint />;
-        }
-
 		return (
 			<div className="App">
-				<Nav onClick={this.handleNavAction} applicationName={this.state.applicationName} navPoints={this.state.navPoints} />
-				<div>
-				<div>
-						<h4> Purpose: </h4> {this.state.similarityType} <br/>
-						<h4> Dataset: </h4> {this.state.dataset} <br/>
-						<h4> Created by: </h4> {this.state.userName}
-				</div>
-				</div>
+				<TopMenuBar />
 				<div className="content-wrapper">
 					<div className="container-fluid">
 						{body}
 					</div>
-
 					<div className="container-fluid">
 						<Footer onClick={this.handleNavAction} prevHref={this.state.prevHref} nextHref={this.state.nextHref} prevActive={this.state.prevActive} nextActive={this.state.nextActive} />
 					</div>

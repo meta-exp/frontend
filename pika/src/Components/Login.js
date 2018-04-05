@@ -91,40 +91,41 @@ submitNaming() {
 }
 
 render() {
-        if (this.state.isLoading === true) {
-          return (<div> Loading... </div>);
-        }
-        return this.renderNaming();
-
-
+  if (this.state.isLoading === true) {
+    return (<div> Loading... </div>);
+  }
+  return this.renderNaming();
 }
 
-renderNaming() {
-    let available_datasets = this.state.available_datasets.map((dataset) => (<option value={dataset.name}>{dataset.name}</option>));
 
-    return (<div>
-        <label htmlFor="uname"> Your Name: </label>
-        <input type="text"
-               id="uname"
-               name="userName"
-               value={this.state.userName}
-               onChange={this.handleInputChange.bind(this)}/>
-        <br/>
-        <label htmlFor="simtype"> Describe the type of similarity: </label>
-        <input type="text"
-               id="simtype"
-               name="similarityType"
-               value={this.state.similarityType}
-               onChange={this.handleInputChange.bind(this)}/>
-        <br />
-          <label htmlFor="dataset">Choose a dataset: </label>
-        <select value={this.state.dataset} name='dataset' onChange={this.handleInputChange.bind(this)}>
-            {available_datasets}
-        </select>
-        <div>
-            <button onClick={this.submitNaming.bind(this)}>Submit</button>
-        </div>
-    </div>);
+renderNaming() {
+  let available_datasets = this.state.available_datasets.map((dataset) => (<option value={dataset.name}>{dataset.name}</option>));
+
+  return (
+    <div>
+      <label htmlFor="uname"> Your Name: </label>
+      <input type="text"
+             id="uname"
+             name="userName"
+             value={this.state.userName}
+             onChange={this.handleInputChange.bind(this)}/>
+      <br/>
+      <label htmlFor="simtype"> Describe the type of similarity: </label>
+      <input type="text"
+             id="simtype"
+             name="similarityType"
+             value={this.state.similarityType}
+             onChange={this.handleInputChange.bind(this)}/>
+      <br />
+        <label htmlFor="dataset">Choose a dataset: </label>
+      <select value={this.state.dataset} name='dataset' onChange={this.handleInputChange.bind(this)}>
+          {available_datasets}
+      </select>
+      <div>
+          <button onClick={this.submitNaming.bind(this)}>Submit</button>
+      </div>
+    </div>
+  );
 }
 
 }

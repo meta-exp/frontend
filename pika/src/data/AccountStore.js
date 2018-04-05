@@ -34,7 +34,6 @@ class AccountStore extends ReduceStore {
       case AccountActionTypes.LOGOUT:
         return state;
 
-
       case AccountActionTypes.DATASET_SELECTION:
         var newAccount = Object.assign({},state);
         newAccount.dataset = action.payload.dataset;
