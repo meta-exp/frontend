@@ -4,22 +4,30 @@ import MetaPathID from './MetaPathID';
 import MetaPathRater from './MetaPathRater';
 import { Table } from 'semantic-ui-react';
 
+import ExploreStore from '../../stores/ExploreStore';
+import ExploreActions from '../../actions/ExploreActions';
+
+
 class MetaPathDisplay extends Component {
-
-    /*
-        UI state handling
-    */
-
-    defaultState  = {
-        metapaths: [],
-        ratedPaths: [],
-        nextBatchAvailable: true,
-        timesClicked: 0
-    };
 
     constructor(props) {
         super();
-        this.state = this.defaultState;
+        this.state = {
+            metapaths: ExploreStore.getMetaPaths(),
+            ratedPaths: [],
+            nextBatchAvailable: true,
+            timesClicked: 0
+        };
+    }
+
+    componentWillMount(){
+        ExploreActions.fetchMetaPaths();
+    }
+
+    componentDidMount(){
+        ExploreStore.on("change", () => {
+            this.setState({ metapaths: ExploreStore.getMetaPaths() });
+        })
     }
 
     handleRatingChange(event, id) {
@@ -86,6 +94,7 @@ class MetaPathDisplay extends Component {
     }
 
     nextRatingIteration() {
+        ExploreActions.fetchMetapaths();
         let newRatedPaths = this.state.metapaths.map(path => path);
         let ratedPaths = this.state.ratedPaths.slice();
         ratedPaths = ratedPaths.concat(newRatedPaths);
@@ -105,7 +114,7 @@ class MetaPathDisplay extends Component {
     */
 
     render() {
-        let metaPaths = this.state.metapaths.map((path, index) => this.renderMetaPathRatingRow(path, index));
+        let metaPaths = this.state.metapaths.map(path => this.renderMetaPathRatingRow(path));
         let ratedPaths = this.state.ratedPaths.map(path => this.renderRatedMetaPathRow(path));
 
         let ratingButton = <button className="btn btn-primary mx-auto"
@@ -123,7 +132,7 @@ class MetaPathDisplay extends Component {
             ratingButton = <div />;
           }
         }
-        console.log(this.state.metapaths);
+        
         return (
             <div>
                 <Table celled>
@@ -204,7 +213,7 @@ class MetaPathDisplay extends Component {
             <tr>
                 <td><MetaPathID id={metaPath.id}/></td>
                 <td><MetaPath path={metaPath.metapath}/></td>
-                <td>< MetaPathRater id={metaPath.id} defaultRating={metaPath.rating} rating={metaPath.rating}
+                <td><MetaPathRater id={metaPath.id} defaultRating={metaPath.rating} rating={metaPath.rating}
                                     onChange={this.handleRatingChange.bind(this)}/></td>
             </tr>
         );
@@ -213,8 +222,8 @@ class MetaPathDisplay extends Component {
     renderRatedMetaPathRow(metaPath) {
         return (
             <tr>
-                <td>< MetaPathID id={metaPath.id}/></td>
-                <td> {metaPath.rating}</td>
+                <td><MetaPathID id={metaPath.id}/></td>
+                <td>{metaPath.rating}</td>
             </tr>
         );
     }

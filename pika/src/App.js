@@ -4,7 +4,7 @@ import TopMenuBar from './Components/NavComponents/Menu';
 import Footer from './Components/FooterComponents/Footer';
 import Setup from './Components/SetupComponents/Setup';
 import Config from './Components/Config';
-import Explore from './Components/Explore';
+import Explore from './Components/ExploreComponents/Explore';
 import Results from './Components/Results';
 import Login from './Components/Login';
 import LogoutButton from './Components/LogoutButton';

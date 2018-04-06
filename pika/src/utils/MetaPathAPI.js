@@ -1,4 +1,5 @@
-import ServerActions from '../actions/ServerActions.js'
+import AccountActions from '../actions/AccountActions';
+import ExploreActions from '../actions/ExploreActions';
 
 const Actions = {
 
@@ -11,7 +12,7 @@ const Actions = {
       fetch(process.env.REACT_APP_API_HOST + 'login', {
         method: 'POST',
         headers: {
-            Accept: 'application/json',
+            'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
         body: content,
@@ -21,7 +22,7 @@ const Actions = {
         ) {
             alert('Could not send data to server.');
         } else {
-          ServerActions.receiveLogin();
+          AccountActions.receiveLogin();
         }}
     ).catch((error) => {
         console.error(error);
@@ -32,7 +33,7 @@ const Actions = {
         method: 'GET',
         credentials: "include"
     }).then((response) => {
-      ServerActions.receiveLogout();
+      AccountActions.receiveLogout();
     }
     ).catch((error) => {
         console.error(error);
@@ -45,13 +46,29 @@ const Actions = {
         method: 'GET',
         credentials: "include"
     }).then((response) => {return response.json()}).then( (json) => {
-      ServerActions.receiveDatasets(json);
+      AccountActions.receiveDatasets(json);
     }
   ).catch((error) => {
       alert("fetch error for datasets. Is server running?");
         console.error(error);
     })
     ;
+  },
+  fetchMetaPaths(){
+    fetch('http://localhost:8000/next-meta-paths/5', {
+      method: 'GET',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+      },
+      credentials: "include"
+    }).then((response) => {return response.json()}).then( (json) => {
+      console.log(JSON.stringify(json));
+      console.log(JSON.stringify(json.meta_paths));
+      ExploreActions.receiveMetaPaths(json);
+    }).catch((error) => {
+      console.error(error);
+    });
   }
 }
 

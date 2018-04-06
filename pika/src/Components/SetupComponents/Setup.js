@@ -32,10 +32,10 @@ class Setup extends Component {
 					<SearchNodesSection /> 
 				</div> 
 				<div style={{margin: 20 + 'px ' + 0 + 'px'}}> 
-					<ResultSetSection cypherQuery={this.state.cypherQuery} /> 
+					
 				</div> 
 				<div style={{margin: 20 + 'px ' + 0 + 'px'}}> 
-					<NodeSetsSection /> 
+					 
 				</div>
 			</div>
 		);
@@ -44,3 +44,6 @@ class Setup extends Component {
 }
 
 export default Setup;
+
+//<ResultSetSection cypherQuery={this.state.cypherQuery} /> 
+//<NodeSetsSection />

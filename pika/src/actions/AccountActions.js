@@ -1,6 +1,6 @@
-import AccountActionTypes from './AccountActionTypes'
-import AccountDispatcher from '../dispatchers/AccountDispatcher'
-import MetaPathAPI from '../utils/MetaPathAPI'
+import AccountActionTypes from './AccountActionTypes';
+import AccountDispatcher from '../dispatchers/AccountDispatcher';
+import MetaPathAPI from '../utils/MetaPathAPI';
 
 const Actions = {
 
@@ -37,7 +37,25 @@ const Actions = {
       type: AccountActionTypes.DATASET_SELECTION,
       payload: {'dataset': dataset}
     })
-  }
+  },
+  
+  receiveLogin(response) {
+    AccountDispatcher.dispatch({
+      type: AccountActionTypes.LOGIN_RESPONSE
+    });
+  },
+
+  receiveLogout(){
+      AccountDispatcher.dispatch({
+        type: AccountActionTypes.LOGOUT_RESPONSE
+      })
+  },
+
+  receiveDatasets(response){
+    AccountDispatcher.dispatch({
+      type: AccountActionTypes.LOAD_DATASETS_RESPONSE,
+      payload: response
+  })}
 };
 
 export default Actions;
