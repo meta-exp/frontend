@@ -63,9 +63,7 @@ const Actions = {
       },
       credentials: "include"
     }).then((response) => {return response.json()}).then( (json) => {
-      console.log(JSON.stringify(json));
-      console.log(JSON.stringify(json.meta_paths));
-      ExploreActions.receiveMetaPaths(json);
+      ExploreActions.receiveMetaPaths(json.meta_paths);
     }).catch((error) => {
       console.error(error);
     });
