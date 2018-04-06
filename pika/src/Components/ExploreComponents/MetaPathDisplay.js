@@ -114,7 +114,6 @@ class MetaPathDisplay extends Component {
     */
 
     render() {
-        alert(JSON.stringify(this.state.metapaths));
         let metaPaths = this.state.metapaths.map(path => this.renderMetaPathRatingRow(path));
         let ratedPaths = this.state.ratedPaths.map(path => this.renderRatedMetaPathRow(path));
 
