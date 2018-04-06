@@ -1,5 +1,6 @@
 import AccountActions from '../actions/AccountActions';
 import ExploreActions from '../actions/ExploreActions';
+import ConfigActions from '../actions/ConfigActions';
 
 const Actions = {
 
@@ -62,8 +63,28 @@ const Actions = {
           'Content-Type': 'application/json'
       },
       credentials: "include"
-    }).then((response) => {return response.json()}).then( (json) => {
+    }).then((response) => {return response.json();}).then( (json) => {
       ExploreActions.receiveMetaPaths(json.meta_paths);
+    }).catch((error) => {
+      console.error(error);
+    });
+  },
+  fetchNodeTypes(){
+    fetch('http://localhost:8000/get-node-types', {
+        method: 'GET',
+        credentials: "include"
+    }).then((response) => {return response.json();}).then((json) => {
+      ConfigActions.receiveNodeTypes(json);
+    }).catch((error) => {
+      console.error(error);
+    });
+  },
+  fetchEdgeTypes(){
+    fetch('http://localhost:8000/get-edge-types', {
+        method: 'GET',
+        credentials: "include"
+    }).then((response) => {return response.json();}).then((json) => {
+      ConfigActions.receiveEdgeTypes(json);
     }).catch((error) => {
       console.error(error);
     });

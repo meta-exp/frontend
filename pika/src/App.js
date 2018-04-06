@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import TopMenuBar from './Components/NavComponents/Menu';
 import Footer from './Components/FooterComponents/Footer';
 import Setup from './Components/SetupComponents/Setup';
-import Config from './Components/Config';
+import Config from './Components/ConfigComponents/Config';
 import Explore from './Components/ExploreComponents/Explore';
 import Results from './Components/Results';
 import Login from './Components/Login';
@@ -19,7 +19,7 @@ class App extends Component {
 		super();
 
 		this.state = {
-			logged_in: false,
+			logged_in: true,
 			prevActive: false,
 			nextActive: true,
 			prevHref: '#',

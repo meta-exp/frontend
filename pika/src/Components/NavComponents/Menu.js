@@ -11,6 +11,9 @@ export default class TopMenuBar extends Component {
 
 	constructor(){
 		super();
+
+		this.getActivePage = this.getActivePage.bind(this);
+		
 		this.menuPoints = [
 			{
 				title: 'MetaExp',
@@ -38,9 +41,15 @@ export default class TopMenuBar extends Component {
 	}
 
 	componentWillMount(){
-		AppStore.on("change", () => {
-			this.setState({ activeItem: AppStore.getActivePage() });
-		})
+		AppStore.on("change", this.getActivePage);
+	}
+
+	componentWillUnmount(){
+		AppStore.removeListener("change", this.getActivePage);
+	}
+
+	getActivePage(){
+		this.setState({ activeItem: AppStore.getActivePage() });
 	}
 
 	getAccountActionItem() {

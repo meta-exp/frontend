@@ -1,19 +1,46 @@
 import React, { Component } from 'react';
-import SelectorList from './ConfigComponents/SelectorList';
+import SelectorList from './SelectorList';
 import { Checkbox } from 'semantic-ui-react';
+
+import ConfigStore from '../../stores/ConfigStore';
+import ConfigActions from '../../actions/ConfigActions';
 
 class Config extends Component {
 
   constructor(props){
     super(props);
+
+    this.getEntityTypes = this.getEntityTypes.bind(this);
+
     this.state = {
-      node_types: [],
-      edge_types: [],
+      node_types: ConfigStore.getNodeTypes(),
+      edge_types: ConfigStore.getEdgeTypes(),
     }
-    this.loadFromServer();
   }
 
-  changeSelection(newState){
+  componentWillMount(){
+    ConfigActions.fetchEdgeTypes();
+    ConfigActions.fetchNodeTypes();
+  }
+
+  componentDidMount(){
+    ConfigStore.on("change", this.getEntityTypes);
+  }
+
+  componentWillUnmount(){
+    ConfigStore.removeListener("change", this.getEntityTypes);
+  }
+
+  getEntityTypes(){
+    this.setState({ 
+      node_types: ConfigStore.getNodeTypes(),
+      edge_types: ConfigStore.getEdgeTypes()
+    });
+  }
+
+  changeSelection(index, stateKey, stateValue){
+    var newState = {};
+    newState[stateKey] = this.switchValue(index, stateValue.slice());
     this.setState(newState);
     this.saveToServer();
   }
@@ -28,45 +55,26 @@ class Config extends Component {
       <div>
         <h1>Config</h1>
         <div className='row' style={{marginTop:30+'px'}}>
-          <div className="col" style={{marginLeft:15+'px'}}>
+          <div className="col">
             <SelectorList
               item_names='Node type'
-              check_note='Include?'
               items={this.state.node_types}
-              onChange={(index) => {this.changeSelection({nodeTypes: this.switchValue(index, this.state.node_types.slice())})}}/>
+              onChange={(index) => {this.changeSelection(index, 'node_types', this.state.node_types)}} />
           </div>
-          <div className="col" style={{marginRight:15+'px'}}>
+          <div className="col">
             <SelectorList
               item_names='Edge type'
-              check_note='Include?'
               items={this.state.edge_types}
-              onChange={(index) => {this.changeSelection({edgeTypes: this.switchValue(index, this.state.edge_types.slice())})}}/>
+              onChange={(index) => {this.changeSelection(index, 'edge_types', this.state.edge_types)}} />
           </div>
         </div>
       </div>
     );
   }
 
-  /*
-      Backend Interaction
-  */
-
-  loadFromServer(){
-    this.loadEdgeTypes();
-    this.loadNodeTypes();
-  }
-
   saveToServer(){
     this.saveEdgeTypes();
     this.saveNodeTypes();
-  }
-
-  loadEdgeTypes() {
-    this.getJsonFromBackend('get-edge-types', (fetched) => this.setState({edge_types: fetched}));
-  }
-
-  loadNodeTypes() {
-    this.getJsonFromBackend('get-node-types', (fetched) => this.setState({node_types: fetched}));
   }
 
   saveEdgeTypes(state) {
@@ -75,20 +83,6 @@ class Config extends Component {
 
   saveNodeTypes(state) {
     this.postJsonToBackend('set-node-types', this.state.node_types);
-  }
-
-  // TODO Move those methods into a utils package?
-  getJsonFromBackend(endpoint, callback) {
-      fetch('http://localhost:8000/' + endpoint, {
-          method: 'GET',
-          credentials: "include"
-      }).then((response) => {
-        console.log(response);
-        return response.json();
-      }
-      ).then(callback).catch((error) => {
-          console.error(error);
-      });
   }
 
   postJsonToBackend(endpoint, data) {
