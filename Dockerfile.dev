@@ -20,16 +20,4 @@ RUN yarn add graph-app-kit --registry https://neo.jfrog.io/neo/api/npm/npm
 # Bundle app source
 COPY pika/ .
 
-RUN REACT_APP_API_HOST=$api_host npm run build
-
-####### Serve site
-FROM nginx
-
-# Remove default website files
-RUN rm -rf /usr/share/nginx/html/*
-
-COPY deployment/default.conf /etc/nginx/conf.d/
-COPY --from=build /usr/src/pika/build/ /usr/share/nginx/html
-
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 3000

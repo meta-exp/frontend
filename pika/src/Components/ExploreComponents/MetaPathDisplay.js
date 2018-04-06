@@ -2,23 +2,32 @@ import React, {Component} from 'react';
 import MetaPath from './MetaPath';
 import MetaPathID from './MetaPathID';
 import MetaPathRater from './MetaPathRater';
+import { Table } from 'semantic-ui-react';
+
+import ExploreStore from '../../stores/ExploreStore';
+import ExploreActions from '../../actions/ExploreActions';
+
 
 class MetaPathDisplay extends Component {
 
-    /*
-        UI state handling
-    */
-
-    defaultState  = {
-        metapaths: [],
-        ratedPaths: [],
-        nextBatchAvailable: true,
-        timesClicked: 0
-    };
-
     constructor(props) {
         super();
-        this.state = this.defaultState;
+        this.state = {
+            metapaths: ExploreStore.getMetaPaths(),
+            ratedPaths: [],
+            nextBatchAvailable: true,
+            timesClicked: 0
+        };
+    }
+
+    componentWillMount(){
+        ExploreActions.fetchMetaPaths();
+    }
+
+    componentDidMount(){
+        ExploreStore.on("change", () => {
+            this.setState({ metapaths: ExploreStore.getMetaPaths() });
+        })
     }
 
     handleRatingChange(event, id) {
@@ -28,7 +37,7 @@ class MetaPathDisplay extends Component {
         this.setState({metapaths: metapaths});
     }
 
-    //TODO onmount make first request
+    //TODO on mount make first request
 
     /*
         Backend Interaction
@@ -60,7 +69,7 @@ class MetaPathDisplay extends Component {
         ;
     }
 
-postJsonToBackend(endpoint, data, callback) {
+    postJsonToBackend(endpoint, data, callback) {
         fetch('http://localhost:8000/' + endpoint, {
             method: 'POST',
             headers: {
@@ -85,6 +94,7 @@ postJsonToBackend(endpoint, data, callback) {
     }
 
     nextRatingIteration() {
+        ExploreActions.fetchMetapaths();
         let newRatedPaths = this.state.metapaths.map(path => path);
         let ratedPaths = this.state.ratedPaths.slice();
         ratedPaths = ratedPaths.concat(newRatedPaths);
@@ -104,7 +114,7 @@ postJsonToBackend(endpoint, data, callback) {
     */
 
     render() {
-        let tableRows = this.state.metapaths.map((path, index) => this.renderMetaPathRatingRow(path, index));
+        let metaPaths = this.state.metapaths.map(path => this.renderMetaPathRatingRow(path));
         let ratedPaths = this.state.ratedPaths.map(path => this.renderRatedMetaPathRow(path));
 
         let ratingButton = <button className="btn btn-primary mx-auto"
@@ -122,27 +132,34 @@ postJsonToBackend(endpoint, data, callback) {
             ratingButton = <div />;
           }
         }
-
+        
         return (
             <div>
+                <Table celled>
+                    <Table.Header>
+                        <Table.Row>
+                            <Table.HeaderCell>ID</Table.HeaderCell>
+                            <Table.HeaderCell>Meta Paths</Table.HeaderCell>
+                        </Table.Row>
+                    </Table.Header>
+
+                    <Table.Body>
+                        {this.state.metapaths.map(path =>
+                        <Table.Row>
+                            <Table.Cell><MetaPathID id={path.id}/></Table.Cell>
+                            <Table.Cell><MetaPath path={path.metapath}/></Table.Cell>
+                        </Table.Row>)}
+                    </Table.Body>
+                </Table>
                 <h3 align='center' className="font-weight-bold"> Found Meta Paths </h3>
                 <table align="center">
                     <thead>
                     <tr>
-                        <td> ID</td>
-                        <td> Path</td>
-                        <td> Rating</td>
+                        <td> Paths</td>
                     </tr>
                     </thead>
                     <tbody>
-                    {tableRows}
-                    <tr>
-                        <td colSpan="3">
-                            <div className="row">
-                                {ratingButton}
-                            </div>
-                        </td>
-                    </tr>
+                        {metaPaths}
                     </tbody>
                 </table>
                 <h3 align='center' className="font-weight-bold"> Rated Meta Paths </h3>
@@ -196,7 +213,7 @@ postJsonToBackend(endpoint, data, callback) {
             <tr>
                 <td><MetaPathID id={metaPath.id}/></td>
                 <td><MetaPath path={metaPath.metapath}/></td>
-                <td>< MetaPathRater id={metaPath.id} defaultRating={metaPath.rating} rating={metaPath.rating}
+                <td><MetaPathRater id={metaPath.id} defaultRating={metaPath.rating} rating={metaPath.rating}
                                     onChange={this.handleRatingChange.bind(this)}/></td>
             </tr>
         );
@@ -205,8 +222,8 @@ postJsonToBackend(endpoint, data, callback) {
     renderRatedMetaPathRow(metaPath) {
         return (
             <tr>
-                <td>< MetaPathID id={metaPath.id}/></td>
-                <td> {metaPath.rating}</td>
+                <td><MetaPathID id={metaPath.id}/></td>
+                <td>{metaPath.rating}</td>
             </tr>
         );
     }

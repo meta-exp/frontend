@@ -13,6 +13,8 @@ import "../../../node_modules/cypher-codemirror/dist/cypher-codemirror-syntax.cs
 
 import { Button, Icon } from 'semantic-ui-react';
 
+import SetupStore from '../../stores/SetupStore';
+import SetupActions from '../../actions/SetupActions';
 
 class SearchNodesSection extends Component {
 
@@ -20,18 +22,24 @@ class SearchNodesSection extends Component {
 	    super(); 
 	 
 	    this.state = { 
-      		cypherQuery: "MATCH(n)\nRETURN n" 
+      		cypherQuery: SetupStore.getCyperQuery()
 	    }; 
-	} 
-	 
-	handleClick = e => { 
-		e.preventDefault(); 
-		e.stopPropagation(); 
+	}
 
-		this.props.onClick(this.state.cypherQuery); 
-	} 
+	componentWillMount(){
+		SetupStore.on("change", () => {
+			this.setState({ cypherQuery: SetupStore.getCyperQuery() });
+		})
+	}
+
+	handleQueryExecution = (e) => {
+		e.preventDefault(); 
+		e.stopPropagation();
+
+		SetupActions.executeQuery(this.state.cypherQuery);
+	}
 	 
-	handleChange = (value, change) => { 
+	handleQueryChange = (value, change) => { 
 		this.setState({cypherQuery: value}); 
 	} 
 	 
@@ -42,17 +50,17 @@ class SearchNodesSection extends Component {
 					<span style={{marginRight: 20 + 'px'}}> 
 						Search for Nodes 
 					</span> 
-					<Button onClick={this.handleClick} icon primary> 
+					<Button onClick={this.handleQueryExecution} icon primary> 
 						<Icon name='search' /> 
 						<span style={{marginLeft: 10 + 'px'}}>Search</span> 
 					</Button> 
 				</h2> 
 				<CypherEditor id="search-query-editor" 
-					onValueChange={this.handleChange} 
+					onValueChange={this.handleQueryChange} 
 					value={this.state.cypherQuery} 
 					options={{ 
 						mode: "cypher", 
-						theme: "cypher", 
+						theme: "cypher",
 						lineNumberFormatter: line => line
 					}} 
 				/> 
