@@ -21,7 +21,7 @@ class SelectorList extends Component {
         </Table.Header>
         <Table.Body>
           {this.props.items.map(([item, selected], index) => 
-            <Table.Row>
+            <Table.Row key={index}>
               <Table.Cell>{item}</Table.Cell>
               <Table.Cell textAlign='right'>
                 <Checkbox toggle checked={selected} onChange={this.switchState(index)} />

@@ -22,6 +22,7 @@ class SetupStore extends EventEmitter {
 		switch(action.type){
 			case SetupActionTypes.EXECUTE_CYPHER_QUERY: {
 				this.setCyperQuery(action.payload.query);
+				return this.cyperQuery;
 			}
 		}
 	}

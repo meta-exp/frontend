@@ -13,7 +13,7 @@ export default class TopMenuBar extends Component {
 		super();
 
 		this.getActivePage = this.getActivePage.bind(this);
-		
+
 		this.menuPoints = [
 			{
 				title: 'MetaExp',
@@ -79,9 +79,9 @@ export default class TopMenuBar extends Component {
 		let menuItems;
 
         if(this.menuPoints){
-            menuItems = this.menuPoints.map(item => {
+            menuItems = this.menuPoints.map((item, index) => {
                 return (
-                    <Menu.Item name={item.title} active={activeItem === item.title} onClick={this.handleItemClick} />
+                    <Menu.Item key={index} name={item.title} active={activeItem === item.title} onClick={this.handleItemClick} />
                 );
             });
         }
