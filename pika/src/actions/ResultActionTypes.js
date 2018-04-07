@@ -1,0 +1,8 @@
+const ResultActionTypes = {
+
+  FETCH_SIMILARITY_SCORE: 'FETCH_SIMILARITY_SCORE',
+  RECEIVE_SIMILARITY_SCORE: 'RECEIVE_SIMILARITY_SCORE'
+  
+}
+
+export default ResultActionTypes;

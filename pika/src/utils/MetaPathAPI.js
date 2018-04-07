@@ -1,6 +1,7 @@
 import AccountActions from '../actions/AccountActions';
 import ExploreActions from '../actions/ExploreActions';
 import ConfigActions from '../actions/ConfigActions';
+import ResultActions from '../actions/ResultActions';
 
 const Actions = {
 
@@ -121,6 +122,16 @@ const Actions = {
       }
     }).catch((error) => {
         console.error(error);
+    });
+  },
+  fetchSimilarityScore(){
+    fetch(process.env.REACT_APP_API_HOST + 'get-similarity-score', {
+        method: 'GET',
+        credentials: "include"
+    }).then((response) => {return response.json();}).then((json) => {
+      ResultActions.receiveSimilarityScore(json.similarity_score);
+    }).catch((error) => {
+      console.error(error);
     });
   }
 }
