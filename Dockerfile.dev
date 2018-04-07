@@ -1,5 +1,4 @@
 FROM node:carbon as build
-ARG api_host
 
 # Create app directory
 WORKDIR /usr/src/pika

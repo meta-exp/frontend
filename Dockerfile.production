@@ -1,4 +1,6 @@
 FROM dev-ui as build
+ARG api_host
+
 RUN REACT_APP_API_HOST=$api_host npm run build  
  
 ####### Serve site 
