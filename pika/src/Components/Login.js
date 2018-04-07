@@ -19,7 +19,7 @@ class Login extends Component {
   }
 
   getJsonFromBackend(endpoint, callback) {
-      fetch('http://localhost:8000/' + endpoint, {
+      fetch(process.env.REACT_APP_API_HOST + endpoint, {
           method: 'GET',
           credentials: "include"
       }).then((response) => {
@@ -33,7 +33,7 @@ class Login extends Component {
   }
 
   postJsonToBackend(endpoint, data, callback) {
-      fetch('http://localhost:8000/' + endpoint, {
+      fetch(process.env.REACT_APP_API_HOST + endpoint, {
           method: 'POST',
           headers: {
               Accept: 'application/json',

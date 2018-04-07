@@ -56,7 +56,7 @@ const Actions = {
     ;
   },
   fetchMetaPaths(){
-    fetch('http://localhost:8000/next-meta-paths/5', {
+    fetch(process.env.REACT_APP_API_HOST + '/next-meta-paths/5', {
       method: 'GET',
       headers: {
           'Accept': 'application/json',
@@ -70,7 +70,7 @@ const Actions = {
     });
   },
   fetchNodeTypes(){
-    fetch('http://localhost:8000/get-node-types', {
+    fetch(process.env.REACT_APP_API_HOST + '/get-node-types', {
         method: 'GET',
         credentials: "include"
     }).then((response) => {return response.json();}).then((json) => {
@@ -80,7 +80,7 @@ const Actions = {
     });
   },
   fetchEdgeTypes(){
-    fetch('http://localhost:8000/get-edge-types', {
+    fetch(process.env.REACT_APP_API_HOST + 'get-edge-types', {
         method: 'GET',
         credentials: "include"
     }).then((response) => {return response.json();}).then((json) => {
@@ -90,7 +90,7 @@ const Actions = {
     });
   },
   sendNodeTypes(nodeTypes){
-    fetch('http://localhost:8000/set-node-types', {
+    fetch(process.env.REACT_APP_API_HOST + 'set-node-types', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -107,7 +107,7 @@ const Actions = {
     });
   },
   sendEdgeTypes(edgeTypes){
-    fetch('http://localhost:8000/set-edge-types', {
+    fetch(process.env.REACT_APP_API_HOST + 'set-edge-types', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
