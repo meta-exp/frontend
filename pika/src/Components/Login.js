@@ -98,7 +98,7 @@ render() {
 
 
 renderNaming() {
-  let available_datasets = this.state.available_datasets.map((dataset) => (<option value={dataset.name}>{dataset.name}</option>));
+  let available_datasets = this.state.available_datasets.map((dataset, index) => (<option key={index} value={dataset.name}>{dataset.name}</option>));
 
   return (
     <div>
