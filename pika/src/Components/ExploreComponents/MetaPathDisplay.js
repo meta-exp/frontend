@@ -12,8 +12,11 @@ class MetaPathDisplay extends Component {
 
     constructor(props) {
         super();
+
+        this.getMetapaths = this.getMetapaths.bind(this);
+
         this.state = {
-            metapaths: ExploreStore.getMetaPaths(),
+            metapaths: [],
             ratedPaths: [],
             nextBatchAvailable: true,
             timesClicked: 0
@@ -25,9 +28,15 @@ class MetaPathDisplay extends Component {
     }
 
     componentDidMount(){
-        ExploreStore.on("change", () => {
-            this.setState({ metapaths: ExploreStore.getMetaPaths() });
-        })
+        ExploreStore.on("change", this.getMetapaths);
+    }
+
+    componentWillUnmount(){
+        ExploreStore.removeListener("change", this.getMetapaths);
+    }
+
+    getMetapaths(){
+        this.setState({ metapaths: ExploreStore.getMetaPaths() });
     }
 
     handleRatingChange(event, id) {
@@ -114,8 +123,8 @@ class MetaPathDisplay extends Component {
     */
 
     render() {
-        let metaPaths = this.state.metapaths.map(path => this.renderMetaPathRatingRow(path));
-        let ratedPaths = this.state.ratedPaths.map(path => this.renderRatedMetaPathRow(path));
+        let metaPaths = this.state.metapaths.map((path, index) => this.renderMetaPathRatingRow(path, index));
+        let ratedPaths = this.state.ratedPaths.map((path, index) => this.renderRatedMetaPathRow(path, index));
 
         let ratingButton = <button className="btn btn-primary mx-auto"
                 id="show-more-meta-paths-btn"
@@ -144,8 +153,8 @@ class MetaPathDisplay extends Component {
                     </Table.Header>
 
                     <Table.Body>
-                        {this.state.metapaths.map(path =>
-                        <Table.Row>
+                        {this.state.metapaths.map((path, index) =>
+                        <Table.Row key={index}>
                             <Table.Cell><MetaPathID id={path.id}/></Table.Cell>
                             <Table.Cell><MetaPath path={path.metapath}/></Table.Cell>
                         </Table.Row>)}
@@ -180,7 +189,7 @@ class MetaPathDisplay extends Component {
     }
 
     renderNaming() {
-        let available_datasets = this.state.available_datasets.map((dataset) => (<option value={dataset.name}>{dataset.name}</option>));
+        let available_datasets = this.state.available_datasets.map((dataset, index) => (<option key={index} value={dataset.name}>{dataset.name}</option>));
 
         return (<div>
             <label htmlFor="uname"> Your Name: </label>
@@ -208,9 +217,9 @@ class MetaPathDisplay extends Component {
     }
 
 
-    renderMetaPathRatingRow(metaPath) {
+    renderMetaPathRatingRow(metaPath, index) {
         return (
-            <tr>
+            <tr key={index}>
                 <td><MetaPathID id={metaPath.id}/></td>
                 <td><MetaPath path={metaPath.metapath}/></td>
                 <td><MetaPathRater id={metaPath.id} defaultRating={metaPath.rating} rating={metaPath.rating}
@@ -219,9 +228,9 @@ class MetaPathDisplay extends Component {
         );
     }
 
-    renderRatedMetaPathRow(metaPath) {
+    renderRatedMetaPathRow(metaPath, index) {
         return (
-            <tr>
+            <tr key={index}>
                 <td><MetaPathID id={metaPath.id}/></td>
                 <td>{metaPath.rating}</td>
             </tr>
