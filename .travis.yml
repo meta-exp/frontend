@@ -4,9 +4,10 @@ services:
   - docker
 
 script:
-  - deployment/build-ui.sh .
-  - deployment/run-ui.sh
+  - deployment/build-dev-ui.sh . https://hpi.de/mueller/metaexp-demo-api/
+  - deployment/build-production-ui.sh .
+  - deployment/run-production-ui.sh
   - docker ps -a
 
 after_script:
-  - docker rm -f ui-container
+  - docker rm -f ui-production-container

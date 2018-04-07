@@ -19,12 +19,12 @@ class App extends Component {
 		super();
 
 		this.state = {
-			logged_in: true,
+			logged_in: false,
 			prevActive: false,
 			nextActive: true,
 			prevHref: '#',
 			nextHref: 'config.html',
-			activePage: AppStore.getActivePage()
+			activePage: 'Setup'
 		};
 
 	}

@@ -16,7 +16,7 @@ class MetaPathDisplay extends Component {
         this.getMetapaths = this.getMetapaths.bind(this);
 
         this.state = {
-            metapaths: ExploreStore.getMetaPaths(),
+            metapaths: [],
             ratedPaths: [],
             nextBatchAvailable: true,
             timesClicked: 0

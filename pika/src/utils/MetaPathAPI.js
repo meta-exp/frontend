@@ -88,6 +88,40 @@ const Actions = {
     }).catch((error) => {
       console.error(error);
     });
+  },
+  sendNodeTypes(nodeTypes){
+    fetch('http://localhost:8000/set-node-types', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(nodeTypes),
+      credentials: "include"
+    }).then((response) => {
+      if (!(response.status === 200)) {
+        alert('Could not send node types to server.');
+      }
+    }).catch((error) => {
+        console.error(error);
+    });
+  },
+  sendEdgeTypes(edgeTypes){
+    fetch('http://localhost:8000/set-edge-types', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(edgeTypes),
+      credentials: "include"
+    }).then((response) => {
+      if (!(response.status === 200)) {
+        alert('Could not send edge types to server.');
+      }
+    }).catch((error) => {
+        console.error(error);
+    });
   }
 }
 

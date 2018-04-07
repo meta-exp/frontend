@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Checkbox, Table } from 'semantic-ui-react';
+import ConfigActions from '../../actions/ConfigActions';
 
 class SelectorList extends Component {
 
@@ -7,7 +8,15 @@ class SelectorList extends Component {
     super();
   }
 
-  switchState(index){
+  handleChange(index){
+    if(this.props.is_node_type_list){
+      ConfigActions.changeNodeTypeState(index);
+      ConfigActions.sendNodeTypes(this.props.items);
+    }
+    else{
+      ConfigActions.changeEdgeTypeState(index);
+      ConfigActions.sendEdgeTypes(this.props.items);
+    }
   }
 
   render() {
@@ -24,7 +33,7 @@ class SelectorList extends Component {
             <Table.Row key={index}>
               <Table.Cell>{item}</Table.Cell>
               <Table.Cell textAlign='right'>
-                <Checkbox toggle checked={selected} onChange={this.switchState(index)} />
+                <Checkbox toggle defaultChecked={selected} onClick={(e) => this.handleChange(index)} />
               </Table.Cell>
             </Table.Row>
           )}
