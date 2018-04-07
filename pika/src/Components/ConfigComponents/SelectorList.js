@@ -1,51 +1,44 @@
 import React, { Component } from 'react';
-import { Checkbox } from 'semantic-ui-react';
+import { Checkbox, Table } from 'semantic-ui-react';
+import ConfigActions from '../../actions/ConfigActions';
 
 class SelectorList extends Component {
 
-  buildTableHead(itemNames, checkNote) {
-    return (
-      <thead>
-        <tr>
-          <th>{itemNames}</th>
-          <th className="text-right">{checkNote}</th>
-        </tr>
-      </thead>
-		);
+  constructor(){
+    super();
   }
 
-  buildTableBody(items){
-    const selectionRows = this.props.items.map(([itemName, selected], index) => this.buildSelectionRows(itemName, selected, index));
-
-    return (
-      <tbody>
-        {selectionRows}
-      </tbody>
-    );
-  }
-
-  buildSelectionRows(itemName, selected, index) {
-    return (
-			<tr>
-					<td>
-            {itemName}
-          </td>
-          <td className="float-right">
-            <Checkbox toggle checked={selected} onChange={() => this.props.onChange(index)}/>
-          </td>
-			</tr>
-		);
+  handleChange(index){
+    if(this.props.is_node_type_list){
+      ConfigActions.changeNodeTypeState(index);
+      ConfigActions.sendNodeTypes(this.props.items);
+    }
+    else{
+      ConfigActions.changeEdgeTypeState(index);
+      ConfigActions.sendEdgeTypes(this.props.items);
+    }
   }
 
   render() {
-    const tableHead = this.buildTableHead(this.props.item_names, this.props.check_note);
-    const tableBody = this.buildTableBody(this.props.items);
-
     return (
-      <table className="table table-striped type-preference-table">
-        {tableHead}
-        {tableBody}
-      </table>
+      <Table unstackable striped>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell>{this.props.item_names}</Table.HeaderCell>
+            <Table.HeaderCell textAlign='right'>Include?</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+          {this.props.items.map(([item, selected], index) => 
+            <Table.Row key={index}>
+              <Table.Cell>{item}</Table.Cell>
+              <Table.Cell textAlign='right'>
+                <Checkbox toggle defaultChecked={selected} onClick={(e) => this.handleChange(index)} />
+              </Table.Cell>
+            </Table.Row>
+          )}
+        </Table.Body>
+      </Table>
     );
   }
 

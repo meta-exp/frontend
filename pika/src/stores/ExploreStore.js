@@ -22,6 +22,7 @@ class ExploreStore extends EventEmitter {
 		switch(action.type){
 			case ExploreActionTypes.RECEIVE_METAPATHS: {
 				this.receiveMetaPaths(action.payload.metapaths);
+				return this.metapaths;
 			}
 		}
 	}

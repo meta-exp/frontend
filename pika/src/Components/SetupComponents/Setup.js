@@ -13,15 +13,23 @@ class Setup extends Component {
 	constructor(){
 		super();
 
+		this.getCyperQuery = this.getCyperQuery.bind(this);
+
 		this.state = {
-			cypherQuery: SetupStore.getCyperQuery()
+			cypherQuery: 'RETURN 1'
 		};
 	}
 
 	componentWillMount(){
-		SetupStore.on("change", () => {
-			this.setState({ cypherQuery: SetupStore.getCyperQuery() });
-		})
+		SetupStore.on("change", this.getCyperQuery);
+	}
+
+	componentWillUnmount(){
+		SetupStore.removeListener("change", this.getCyperQuery);
+	}
+
+	getCyperQuery(){
+		this.setState({ cypherQuery: SetupStore.getCyperQuery() });
 	}
 
 	render() {
