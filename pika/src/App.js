@@ -5,7 +5,7 @@ import Footer from './Components/FooterComponents/Footer';
 import Setup from './Components/SetupComponents/Setup';
 import Config from './Components/ConfigComponents/Config';
 import Explore from './Components/ExploreComponents/Explore';
-import Results from './Components/Results';
+import Results from './Components/ResultComponents/Results';
 import Login from './Components/Login';
 import LogoutButton from './Components/LogoutButton';
 
