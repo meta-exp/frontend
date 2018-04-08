@@ -46,6 +46,20 @@ const ResultActions = {
     });
   },
 
+  fetchContributingMetaPaths(){
+    ResultDispatcher.dispatch({
+      type: ResultActionTypes.FETCH_CONTRIBUTING_META_PATHS
+    });
+    MetaPathAPI.fetchContributingMetaPaths();
+  },
+
+  receiveContributingMetaPaths(metaPaths){
+    ResultDispatcher.dispatch({
+      type: ResultActionTypes.RECEIVE_CONTRIBUTING_META_PATHS,
+      payload: {metaPaths: metaPaths}
+    });
+  },
+
 };
 
 export default ResultActions;

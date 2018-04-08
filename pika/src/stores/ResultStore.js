@@ -9,6 +9,7 @@ class ResultStore extends EventEmitter {
 		this.similarityScore = 0.0;
 		this.firstNodeSetQuery = 'MATCH (n) RETURN n';
 		this.secondNodeSetQuery = 'MATCH (n) RETURN n';
+		this.contributingMetaPaths = [];
 	}
 
 	getSimilarityScore(){
@@ -30,10 +31,21 @@ class ResultStore extends EventEmitter {
 
 	receiveFirstNodeSetQuery(nodeSetQuery){
 		this.firstNodeSetQuery = nodeSetQuery;
+		this.emit("change");
 	}
 
 	receiveSecondNodeSetQuery(nodeSetQuery){
 		this.secondNodeSetQuery = nodeSetQuery;
+		this.emit("change");
+	}
+
+	getContributingMetaPaths(){
+		return this.contributingMetaPaths;
+	}
+
+	receiveContributingMetaPaths(metaPaths){
+		this.contributingMetaPaths = metaPaths;
+		this.emit("change");
 	}
 
 	handleActions(action){
@@ -49,6 +61,10 @@ class ResultStore extends EventEmitter {
 			case ResultActionTypes.RECEIVE_SECOND_NODE_SET_QUERY: {
 				this.receiveSecondNodeSetQuery(action.payload.nodeSetQuery);
 				return this.secondNodeSetQuery;
+			};
+			case ResultActionTypes.RECEIVE_CONTRIBUTING_META_PATHS: {
+				this.receiveContributingMetaPaths(action.payload.metaPaths);
+				return this.contributingMetaPaths;
 			};
 		}
 	}

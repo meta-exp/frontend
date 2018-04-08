@@ -14,7 +14,8 @@ COPY pika/package*.json ./
 RUN yarn install --only=production
 
 RUN yarn add graph-app-kit --registry https://neo.jfrog.io/neo/api/npm/npm
-
+RUN npm install lodash-es
+RUN yarn add @nivo/pie
 
 # Bundle app source
 COPY pika/ .
