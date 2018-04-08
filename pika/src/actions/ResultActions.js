@@ -16,7 +16,35 @@ const ResultActions = {
       type: ResultActionTypes.RECEIVE_SIMILARITY_SCORE,
       payload: {similarityScore: similarityScore}
     });
-  }
+  },
+
+  fetchFirstNodeSetQuery(){
+    ResultDispatcher.dispatch({
+      type: ResultActionTypes.FETCH_FIRST_NODE_SET_QUERY
+    });
+    MetaPathAPI.fetchFirstNodeSetQuery();
+  },
+
+  fetchSecondNodeSetQuery(){
+    ResultDispatcher.dispatch({
+      type: ResultActionTypes.FETCH_SECOND_NODE_SET_QUERY
+    });
+    MetaPathAPI.fetchSecondNodeSetQuery();
+  },
+
+  receiveFirstNodeSetQuery(nodeSetQuery){
+    ResultDispatcher.dispatch({
+      type: ResultActionTypes.RECEIVE_FIRST_NODE_SET_QUERY,
+      payload: {nodeSetQuery: nodeSetQuery}
+    });
+  },
+
+  receiveSecondNodeSetQuery(nodeSetQuery){
+    ResultDispatcher.dispatch({
+      type: ResultActionTypes.RECEIVE_SECOND_NODE_SET_QUERY,
+      payload: {nodeSetQuery: nodeSetQuery}
+    });
+  },
 
 };
 
