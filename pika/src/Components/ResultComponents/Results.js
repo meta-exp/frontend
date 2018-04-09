@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import NodeSet from './NodeSet';
 import ContributingMetaPaths from './ContributingMetaPaths';
+import MetaPathDetails from './MetaPathDetails';
 
 import { Table } from 'semantic-ui-react';
 
@@ -16,12 +17,19 @@ class Results extends Component {
 		this.getSimilarityScore = this.getSimilarityScore.bind(this);
 		this.getNodeSetQueries = this.getNodeSetQueries.bind(this);
 		this.getContributingMetaPaths = this.getContributingMetaPaths.bind(this);
+		this.getMetaPathDetails = this.getMetaPathDetails.bind(this);
 
 		this.state = {
 			similarity_score: 0.0,
 			first_node_set_query: 'MATCH (n) RETURN n',
 			second_node_set_query: 'MATCH (n) RETURN n',
-			contributing_meta_paths: []
+			contributing_meta_paths: [],
+			meta_path_details: {
+				"id": 0,
+				"label": "Meta-Path 0",
+				"value": 0,
+				"color": "hsl(341, 70%, 50%)"
+			}
 		};
 	}
 
@@ -36,12 +44,14 @@ class Results extends Component {
 		ResultStore.on("change", this.getSimilarityScore);
 		ResultStore.on("change", this.getNodeSetQueries);
 		ResultStore.on("change", this.getContributingMetaPaths);
+		ResultStore.on("change", this.getMetaPathDetails);
 	}
 
 	componentWillUnmount(){
 		ResultStore.removeListener("change", this.getSimilarityScore);
 		ResultStore.removeListener("change", this.getNodeSetQueries);
 		ResultStore.removeListener("change", this.getContributingMetaPaths);
+		ResultStore.removeListener("change", this.getMetaPathDetails);
 	}
 
 	getSimilarityScore(){
@@ -58,6 +68,10 @@ class Results extends Component {
 
 	getContributingMetaPaths(){
 		this.setState({ contributing_meta_paths: ResultStore.getContributingMetaPaths() });
+	}
+
+	getMetaPathDetails(){
+		this.setState({ meta_path_details: ResultStore.getMetaPathDetails() });
 	}
 
 	render() {
@@ -84,6 +98,7 @@ class Results extends Component {
 					</div>
 					<div className="col">
 						<h3>Meta-Path Details</h3>
+						<MetaPathDetails details={this.state.meta_path_details} />
 					</div>
 				</div>
 			</div>

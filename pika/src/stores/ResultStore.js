@@ -10,6 +10,16 @@ class ResultStore extends EventEmitter {
 		this.firstNodeSetQuery = 'MATCH (n) RETURN n';
 		this.secondNodeSetQuery = 'MATCH (n) RETURN n';
 		this.contributingMetaPaths = [];
+		this.metaPathDetails = {
+			"id": 0,
+			"label": "Meta-Path 0",
+			"value": 0,
+			"color": "hsl(341, 70%, 50%)"
+		};
+	}
+
+	getMetaPathDetails(){
+		return this.metaPathDetails;
 	}
 
 	getSimilarityScore(){
