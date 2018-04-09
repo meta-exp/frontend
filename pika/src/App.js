@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 import TopMenuBar from './Components/NavComponents/Menu';
 import Footer from './Components/FooterComponents/Footer';
 import Setup from './Components/SetupComponents/Setup';
-import Config from './Components/Config';
+import Config from './Components/ConfigComponents/Config';
 import Explore from './Components/ExploreComponents/Explore';
-import Results from './Components/Results';
+import Results from './Components/ResultComponents/Results';
 import Login from './Components/Login';
 import LogoutButton from './Components/LogoutButton';
 
@@ -18,21 +18,29 @@ class App extends Component {
 	constructor(){
 		super();
 
+		this.getActivePage = this.getActivePage.bind(this);
+
 		this.state = {
 			logged_in: false,
 			prevActive: false,
 			nextActive: true,
 			prevHref: '#',
 			nextHref: 'config.html',
-			activePage: AppStore.getActivePage()
+			activePage: 'Setup'
 		};
 
 	}
 
 	componentWillMount(){
-		AppStore.on("change", () => {
-			this.setState({ activePage: AppStore.getActivePage() });
-		})
+		AppStore.on("change", this.getActivePage);
+	}
+
+	componentWillUnmount(){
+		AppStore.removeListener("change", this.getActivePage);
+	}
+
+	getActivePage(){
+		this.setState({ activePage: AppStore.getActivePage() });
 	}
 
 	handleNavAction = pageTitle => {
