@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { Button, Icon, Progress } from 'semantic-ui-react';
+
 class MetaPathDetails extends Component {
 
 	constructor(){
@@ -9,11 +11,29 @@ class MetaPathDetails extends Component {
 	render(){
 		return(
 			<div>
-				<h3>{this.props.details.label}</h3>
-				<ul>
-					<li>{this.props.details.id}</li>
-					<li>{this.props.details.value}</li>
-				</ul>
+				<div className="row">
+					<div className="col-4">
+						<Button icon primary={true}>
+							<Icon name='trophy' />
+							<span style={{marginLeft: 10 + 'px'}}>{this.props.details.contribution_ranking}</span>
+						</Button>
+					</div>
+					<div className="col-2">
+						<Button icon primary={false}>
+							<Icon name='lab' />
+							<span style={{marginLeft: 10 + 'px'}}>{this.props.details.contribution_value}%</span>
+						</Button>
+					</div>
+					<div className="col-6">
+						<Progress style={{marginTop: 10 + 'px'}} percent={this.props.details.contribution_value} success={true} />
+					</div>
+				</div>
+				<div className="row" style={{marginTop: 20 + 'px'}}>
+					<div className="col">
+						<h4>Structural Value: <b>{this.props.details.structural_value}</b> instances</h4>
+						<h4>Meta-Path:</h4>{this.props.details.meta_path}
+					</div>
+				</div>
 			</div>
 		);
 	}

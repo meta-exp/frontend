@@ -23,3 +23,10 @@
 	font-family: 'Roboto', sans-serif;
 	font-size: 1.75rem;
 }
+
+.content-wrapper h4{
+	font-weight: normal;
+	color: #646464;
+	font-family: 'Roboto', sans-serif;
+	font-size: 1.5rem;
+}

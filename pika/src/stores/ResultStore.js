@@ -12,9 +12,11 @@ class ResultStore extends EventEmitter {
 		this.contributingMetaPaths = [];
 		this.metaPathDetails = {
 			"id": 0,
-			"label": "Meta-Path 0",
-			"value": 0,
-			"color": "hsl(341, 70%, 50%)"
+			"name": "Meta-Path 0",
+			"structural_value": 0,
+			"contribution_ranking": 0,
+			"contribution_value": 0,
+			"meta_path": "---"
 		};
 	}
 

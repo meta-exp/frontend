@@ -26,9 +26,11 @@ class Results extends Component {
 			contributing_meta_paths: [],
 			meta_path_details: {
 				"id": 0,
-				"label": "Meta-Path 0",
-				"value": 0,
-				"color": "hsl(341, 70%, 50%)"
+				"name": "Meta-Path 0",
+				"structural_value": 0,
+				"contribution_ranking": 0,
+				"contribution_value": 0,
+				"meta_path": "---"
 			}
 		};
 	}
@@ -80,10 +82,10 @@ class Results extends Component {
 				<h1>Results</h1>
 				<div className="row">
 					<div className="col" style={{marginRight: 10 + 'px'}}> 
-						<NodeSet cypherQuery={this.state.first_node_set_query} title="Node Set A" />
+						
 					</div> 
 					<div className="col" style={{marginLeft: 10 + 'px', textAlign: 'right'}}> 
-						 <NodeSet cypherQuery={this.state.second_node_set_query} title="Node Set B" />
+						 
 					</div>
 				</div>
 				<div className="row" style={{marginTop: 20 + 'px'}}>
@@ -97,7 +99,6 @@ class Results extends Component {
 						<ContributingMetaPaths metaPathData={this.state.contributing_meta_paths} />
 					</div>
 					<div className="col">
-						<h3>Meta-Path Details</h3>
 						<MetaPathDetails details={this.state.meta_path_details} />
 					</div>
 				</div>
@@ -108,3 +109,5 @@ class Results extends Component {
 }
 
 export default Results;
+
+//<NodeSet cypherQuery={this.state.first_node_set_query} title="Node Set A" />
