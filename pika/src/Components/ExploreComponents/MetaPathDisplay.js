@@ -13,7 +13,7 @@ class MetaPathDisplay extends Component {
     constructor(props) {
         super();
         this.state = {
-            metapaths: ExploreStore.getMetaPaths(),
+            metapaths: [],
             ratedPaths: [],
             nextBatchAvailable: true,
             timesClicked: 0
