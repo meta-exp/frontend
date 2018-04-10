@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import NodeSet from './NodeSet';
 import ContributingMetaPaths from './ContributingMetaPaths';
 import MetaPathDetails from './MetaPathDetails';
+import SimilarNodes from './SimilarNodes';
 
 import { Tab } from 'semantic-ui-react';
 
@@ -18,6 +19,7 @@ class Results extends Component {
 		this.getNodeSetQueries = this.getNodeSetQueries.bind(this);
 		this.getContributingMetaPaths = this.getContributingMetaPaths.bind(this);
 		this.getMetaPathDetails = this.getMetaPathDetails.bind(this);
+		this.getSimilarNodes = this.getSimilarNodes.bind(this);
 		this.changeMetaPathDetails = this.changeMetaPathDetails.bind(this);
 
 		this.state = {
@@ -37,7 +39,37 @@ class Results extends Component {
 					"MATCH (n)-[r]->(m) RETURN n,r,m",
 					"MATCH (n)-[r]->(m) RETURN n,r,m"
 				]
-			}
+			},
+			similar_nodes: [
+				{
+					"name": "Node AA",
+					"cypher_query": "MATCH (n) RETURN n LIMIT 1",
+					"properties": {
+					"label": "Node Type A"
+					}
+				},
+				{
+					"name": "Node BB",
+					"cypher_query": "MATCH (n) RETURN n LIMIT 1",
+					"properties": {
+					"label": "Node Type B"
+					}
+				},
+				{
+					"name": "Node CC",
+					"cypher_query": "MATCH (n) RETURN n LIMIT 1",
+					"properties": {
+						"label": "Node Type A"
+					}
+				},
+				{
+					"name": "Node DD",
+					"cypher_query": "MATCH (n) RETURN n LIMIT 1",
+					"properties": {
+						"label": "Node Type B"
+					}
+				}
+			]
 		};
 	}
 
@@ -54,6 +86,7 @@ class Results extends Component {
 		ResultStore.on("change", this.getNodeSetQueries);
 		ResultStore.on("change", this.getContributingMetaPaths);
 		ResultStore.on("change", this.getMetaPathDetails);
+		ResultStore.on("change", this.getSimilarNodes);
 	}
 
 	componentWillUnmount(){
@@ -61,6 +94,10 @@ class Results extends Component {
 		ResultStore.removeListener("change", this.getNodeSetQueries);
 		ResultStore.removeListener("change", this.getContributingMetaPaths);
 		ResultStore.removeListener("change", this.getMetaPathDetails);
+	}
+
+	getSimilarNodes(){
+		this.setState({ similar_nodes: ResultStore.getSimilarNodes() });
 	}
 
 	getSimilarityScore(){
@@ -122,6 +159,12 @@ class Results extends Component {
 					</div>
 					<div className="col">
 						<Tab onTabChange={(e,data) => this.changeMetaPathDetails(e,data)} panes={metaPaths} />
+					</div>
+				</div>
+				<div className="row" style={{marginTop: 20 + 'px'}}>
+					<div className="col">
+						<h3>Similar Nodes</h3>
+						<SimilarNodes nodes={this.state.similar_nodes} />
 					</div>
 				</div>
 			</div>
