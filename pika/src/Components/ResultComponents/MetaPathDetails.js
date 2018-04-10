@@ -64,7 +64,7 @@ class MetaPathDetails extends Component {
 				<div className="row" style={{marginTop: 20 + 'px'}}>
 					<div className="col">
 						<h4>Structural Value: <b>{this.props.details.structural_value}</b> instances</h4>
-						<h4>Meta-Path:</h4><b>{this.props.details.meta_path}</b>
+						<h4>Meta-Path ({this.props.details.name}):</h4><b>{this.props.details.meta_path}</b>
 						<h4 style={{marginTop: 20 + 'px'}}>Instances:</h4>
 						<Button onClick={(e) => this.toggleInstances()} icon primary={true}>
 							<Icon name={this.state.arrow_incon} />

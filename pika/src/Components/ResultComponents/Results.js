@@ -4,7 +4,7 @@ import NodeSet from './NodeSet';
 import ContributingMetaPaths from './ContributingMetaPaths';
 import MetaPathDetails from './MetaPathDetails';
 
-import { Table } from 'semantic-ui-react';
+import { Tab } from 'semantic-ui-react';
 
 import ResultStore from '../../stores/ResultStore';
 import ResultActions from '../../actions/ResultActions';
@@ -18,6 +18,7 @@ class Results extends Component {
 		this.getNodeSetQueries = this.getNodeSetQueries.bind(this);
 		this.getContributingMetaPaths = this.getContributingMetaPaths.bind(this);
 		this.getMetaPathDetails = this.getMetaPathDetails.bind(this);
+		this.changeMetaPathDetails = this.changeMetaPathDetails.bind(this);
 
 		this.state = {
 			similarity_score: 0.0,
@@ -82,7 +83,22 @@ class Results extends Component {
 		this.setState({ meta_path_details: ResultStore.getMetaPathDetails() });
 	}
 
+	changeMetaPathDetails(e,data){
+		ResultActions.fetchMetaPathDetails(data.panes[data.activeIndex].meta_path_id);
+	}
+
 	render() {
+		let metaPaths = this.state.contributing_meta_paths.map((meta_path, index) => {
+			return { 
+				menuItem: meta_path.label,
+				meta_path_id: meta_path.id,
+				render: () => 
+					<Tab.Pane>
+						<MetaPathDetails details={this.state.meta_path_details} />
+					</Tab.Pane> 
+			};
+		});
+
 		return (
 			<div>
 				<h1>Results</h1>
@@ -105,7 +121,7 @@ class Results extends Component {
 						<ContributingMetaPaths metaPathData={this.state.contributing_meta_paths} />
 					</div>
 					<div className="col">
-						<MetaPathDetails details={this.state.meta_path_details} />
+						<Tab onTabChange={(e,data) => this.changeMetaPathDetails(e,data)} panes={metaPaths} />
 					</div>
 				</div>
 			</div>
