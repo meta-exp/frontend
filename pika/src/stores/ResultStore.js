@@ -23,6 +23,40 @@ class ResultStore extends EventEmitter {
 				"MATCH (n)-[r]->(m) RETURN n,r,m"
 			]
 		};
+		this.similar_nodes = [
+			{
+				"name": "Node A",
+				"cypher_query": "MATCH (n) RETURN n LIMIT 1",
+				"properties": {
+				"label": "Node Type A"
+				}
+			},
+			{
+				"name": "Node B",
+				"cypher_query": "MATCH (n) RETURN n LIMIT 1",
+				"properties": {
+				"label": "Node Type B"
+				}
+			},
+			{
+				"name": "Node C",
+				"cypher_query": "MATCH (n) RETURN n LIMIT 1",
+				"properties": {
+					"label": "Node Type A"
+				}
+			},
+			{
+				"name": "Node D",
+				"cypher_query": "MATCH (n) RETURN n LIMIT 1",
+				"properties": {
+					"label": "Node Type B"
+				}
+			}
+		];
+	}
+
+	getSimilarNodes(){
+		return this.similar_nodes;
 	}
 
 	getMetaPathDetails(){
