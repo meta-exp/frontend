@@ -30,7 +30,12 @@ class Results extends Component {
 				"structural_value": 0,
 				"contribution_ranking": 0,
 				"contribution_value": 0,
-				"meta_path": "---"
+				"meta_path": "---",
+				"instance_queries": [
+					"MATCH (n)-[r]->(m) RETURN n,r,m",
+					"MATCH (n)-[r]->(m) RETURN n,r,m",
+					"MATCH (n)-[r]->(m) RETURN n,r,m"
+				]
 			}
 		};
 	}
