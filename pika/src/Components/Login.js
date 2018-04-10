@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { Button, Icon } from 'semantic-ui-react';
+
 import AccountStore from '../stores/AccountStore';
 import AccountActions from '../actions/AccountActions';
 
@@ -11,7 +13,8 @@ class Login extends Component {
       this.getDatasets = this.getDatasets.bind(this);
       this.getUserName = this.getUserName.bind(this);
       this.submitNaming = this.submitNaming.bind(this);
-      this.handleInputChange = this.handleInputChange.bind(this);
+      this.handleDatasetChange = this.handleDatasetChange.bind(this);
+      this.handleUsernameChange = this.handleUsernameChange.bind(this);
 
       this.state = {
         is_loading: true,
@@ -70,69 +73,65 @@ class Login extends Component {
       ;
   }
 
-handleInputChange(event) {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-
-    this.setState({
-        [name]: value
-    });
-}
-
-submitNaming() {
-  this.postJsonToBackend('login',{
-    purpose: this.state.similarity_type,
-    username: this.state.user_name,
-    dataset: this.state.dataset
-  },()=>{});
-
-  this.props.onLogin({
-    similarityType: this.state.similarity_type,
-    userName: this.state.user_name,
-    dataset: this.state.dataset
-  });
-}
-
-render() {
-  if (this.state.is_loading === true) {
-    return (<div> Loading... </div>);
+  handleDatasetChange(event){
+    AccountActions.selectDataset(event.target.value);
   }
-  return this.renderNaming();
-}
 
+  handleUsernameChange(event){
+    AccountActions.updateUsername(event.target.value);
+  }
 
-renderNaming() {
-  let available_datasets = this.state.available_datasets.map((dataset, index) => {
-    <option key={index} value={dataset.name}>{dataset.name}</option>
-  });
+  submitNaming() {
+    this.postJsonToBackend('login',{
+      purpose: this.state.similarity_type,
+      username: this.state.user_name,
+      dataset: this.state.dataset
+    },()=>{});
 
-  return (
-    <div>
-      <label htmlFor="uname"> Your Name: </label>
-      <input type="text"
-             id="uname"
-             name="user_name"
-             value={this.state.user_name}
-             onChange={this.handleInputChange()}/>
-      <br/>
-      <label htmlFor="simtype"> Describe the type of similarity: </label>
-      <input type="text"
-             id="simtype"
-             name="similarity_type"
-             value={this.state.similarity_type}
-             onChange={this.handleInputChange()}/>
-      <br />
-        <label htmlFor="dataset">Choose a dataset: </label>
-      <select value={this.state.dataset} name='dataset' onChange={this.handleInputChange()}>
-          {available_datasets}
-      </select>
+    this.props.onLogin({
+      similarityType: this.state.similarity_type,
+      userName: this.state.user_name,
+      dataset: this.state.dataset
+    });
+  }
+
+  renderNaming() {
+    let available_datasets = this.state.available_datasets.map((dataset, index) => {
+      return(
+        <option key={index} value={dataset.name}>{dataset.name}</option>
+      );
+    });
+
+    return (
       <div>
-          <button onClick={(e) => this.submitNaming()}>Submit</button>
+        <label htmlFor="uname">Your Name: </label>
+        <input type="text"
+               id="uname"
+               name="user_name"
+               value={this.state.user_name}
+               onChange={(e) => this.handleUsernameChange(e)}/>
+        <br/>
+        <label htmlFor="dataset">Choose a dataset: </label>
+        <select value={this.state.dataset} name='dataset' onChange={(e) => this.handleDatasetChange(e)}>
+            {available_datasets}
+        </select>
+        <div>
+            <Button onClick={(e) => this.submitNaming()} icon primary={true}>
+              <Icon name='save' />
+              <span style={{marginLeft: 10 + 'px'}}>Submit</span>
+            </Button>
+        </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
+
+  render() {
+    if (this.state.is_loading === true) {
+      return (<div> Loading... </div>);
+    }
+    return this.renderNaming();
+  }
 
 }
+
 export default Login;

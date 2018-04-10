@@ -48,14 +48,16 @@ const Actions = {
   receiveLogout(){
       AccountDispatcher.dispatch({
         type: AccountActionTypes.LOGOUT_RESPONSE
-      })
+      });
   },
 
   receiveDatasets(datasets){
     AccountDispatcher.dispatch({
       type: AccountActionTypes.LOAD_DATASETS_RESPONSE,
       payload: {datasets: datasets}
-  })}
+    });
+  }
+
 };
 
 export default Actions;
