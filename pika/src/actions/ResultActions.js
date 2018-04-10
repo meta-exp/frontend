@@ -73,6 +73,20 @@ const ResultActions = {
       type: ResultActionTypes.RECEIVE_META_PATH_DETAILS,
       payload: {metaPath: metaPath}
     });
+  },
+
+  fetchSimilarNodes(){
+    ResultDispatcher.dispatch({
+      type: ResultActionTypes.FETCH_SIMILAR_NODES
+    });
+    MetaPathAPI.fetchSimilarNodes();
+  },
+
+  receiveSimilarNodes(similarNodes){
+    ResultDispatcher.dispatch({
+      type: ResultActionTypes.RECEIVE_SIMILAR_NODES,
+      payload: {similarNodes: similarNodes}
+    });
   }
 
 };

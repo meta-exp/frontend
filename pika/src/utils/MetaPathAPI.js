@@ -173,6 +173,16 @@ const Actions = {
     }).catch((error) => {
       console.error(error);
     });
+  },
+  fetchSimilarNodes(){
+    fetch(process.env.REACT_APP_API_HOST + 'similar-nodes', {
+        method: 'GET',
+        credentials: "include"
+    }).then((response) => {return response.json();}).then((json) => {
+      ResultActions.receiveSimilarNodes(json.similar_nodes);
+    }).catch((error) => {
+      console.error(error);
+    });
   }
 }
 

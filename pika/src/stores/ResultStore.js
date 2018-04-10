@@ -23,7 +23,7 @@ class ResultStore extends EventEmitter {
 				"MATCH (n)-[r]->(m) RETURN n,r,m"
 			]
 		};
-		this.similar_nodes = [
+		this.similarNodes = [
 			{
 				"name": "Node AAA",
 				"cypher_query": "MATCH (n) RETURN n LIMIT 1",
@@ -56,7 +56,7 @@ class ResultStore extends EventEmitter {
 	}
 
 	getSimilarNodes(){
-		return this.similar_nodes;
+		return this.similarNodes;
 	}
 
 	getMetaPathDetails(){
@@ -104,6 +104,11 @@ class ResultStore extends EventEmitter {
 		this.emit("change");
 	}
 
+	receiveSimilarNodes(similarNodes){
+		this.similarNodes = similarNodes;
+		this.emit("change");
+	}
+
 	handleActions(action){
 		switch(action.type){
 			case ResultActionTypes.RECEIVE_SIMILARITY_SCORE: {
@@ -125,6 +130,10 @@ class ResultStore extends EventEmitter {
 			case ResultActionTypes.RECEIVE_META_PATH_DETAILS: {
 				this.receiveMetaPathDetails(action.payload.metaPath);
 				return this.metaPathDetails;
+			};
+			case ResultActionTypes.RECEIVE_SIMILAR_NODES: {
+				this.receiveSimilarNodes(action.payload.similarNodes);
+				return this.similarNodes;
 			};
 		}
 	}

@@ -79,6 +79,7 @@ class Results extends Component {
 		ResultActions.fetchSecondNodeSetQuery();
 		ResultActions.fetchContributingMetaPaths();
 		ResultActions.fetchMetaPathDetails(1);
+		ResultActions.fetchSimilarNodes();
 	}
 
 	componentDidMount(){
