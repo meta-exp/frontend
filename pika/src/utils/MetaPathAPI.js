@@ -163,6 +163,16 @@ const Actions = {
     }).catch((error) => {
       console.error(error);
     });
+  },
+  fetchMetaPathDetails(metaPathId){
+    fetch(process.env.REACT_APP_API_HOST + 'contributing-meta-path/' + metaPathId, {
+        method: 'GET',
+        credentials: "include"
+    }).then((response) => {return response.json();}).then((json) => {
+      ResultActions.receiveMetaPathDetails(json.meta_path);
+    }).catch((error) => {
+      console.error(error);
+    });
   }
 }
 

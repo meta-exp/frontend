@@ -40,6 +40,7 @@ class Results extends Component {
 		ResultActions.fetchFirstNodeSetQuery();
 		ResultActions.fetchSecondNodeSetQuery();
 		ResultActions.fetchContributingMetaPaths();
+		ResultActions.fetchMetaPathDetails(1);
 	}
 
 	componentDidMount(){

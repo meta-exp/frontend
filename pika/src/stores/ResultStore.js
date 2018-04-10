@@ -60,6 +60,11 @@ class ResultStore extends EventEmitter {
 		this.emit("change");
 	}
 
+	receiveMetaPathDetails(metaPath){
+		this.metaPathDetails = metaPath;
+		this.emit("change");
+	}
+
 	handleActions(action){
 		switch(action.type){
 			case ResultActionTypes.RECEIVE_SIMILARITY_SCORE: {
@@ -77,6 +82,10 @@ class ResultStore extends EventEmitter {
 			case ResultActionTypes.RECEIVE_CONTRIBUTING_META_PATHS: {
 				this.receiveContributingMetaPaths(action.payload.metaPaths);
 				return this.contributingMetaPaths;
+			};
+			case ResultActionTypes.RECEIVE_META_PATH_DETAILS: {
+				this.receiveMetaPathDetails(action.payload.metaPath);
+				return this.metaPathDetails;
 			};
 		}
 	}

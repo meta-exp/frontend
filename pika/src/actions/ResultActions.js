@@ -60,6 +60,21 @@ const ResultActions = {
     });
   },
 
+  fetchMetaPathDetails(metaPathId){
+    ResultDispatcher.dispatch({
+      type: ResultActionTypes.FETCH_META_PATH_DETAILS,
+      payload: {metaPathId: metaPathId}
+    });
+    MetaPathAPI.fetchMetaPathDetails(metaPathId);
+  },
+
+  receiveMetaPathDetails(metaPath){
+    ResultDispatcher.dispatch({
+      type: ResultActionTypes.RECEIVE_META_PATH_DETAILS,
+      payload: {metaPath: metaPath}
+    });
+  }
+
 };
 
 export default ResultActions;
