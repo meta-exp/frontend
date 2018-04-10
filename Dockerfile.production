@@ -1,7 +1,7 @@
 FROM dev-ui as build
-ARG api_host
+ARG API_HOST
 
-RUN REACT_APP_API_HOST=$api_host npm run build  
+RUN REACT_APP_API_HOST=$API_HOST npm run build
  
 ####### Serve site 
 FROM nginx 
