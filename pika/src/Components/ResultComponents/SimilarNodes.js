@@ -16,7 +16,7 @@ class SimilarNodes extends Component {
 		var startNodeIndex = rowIndex * this.props.itemsPerRow;
 
 		return(
-			<Grid.Row>
+			<Grid.Row key={rowIndex}>
 				{this.renderRowCells(rowIndex, numberOfCells)}
 			</Grid.Row>
 		);
@@ -28,7 +28,7 @@ class SimilarNodes extends Component {
 
 		for(var i=0; i<numberOfCells; i++){
 			cells.push(
-				<Grid.Column>
+				<Grid.Column key={i}>
 					<SimilarNode similarNode={this.props.similarNodes[startNodeIndex + i]}/>
 				</Grid.Column>
 			);

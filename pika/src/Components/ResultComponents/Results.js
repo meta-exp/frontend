@@ -42,30 +42,30 @@ class Results extends Component {
 			},
 			similar_nodes: [
 				{
-					"name": "Node AA",
 					"cypher_query": "MATCH (n) RETURN n LIMIT 1",
 					"properties": {
-					"label": "Node Type A"
-					}
-				},
-				{
-					"name": "Node BB",
-					"cypher_query": "MATCH (n) RETURN n LIMIT 1",
-					"properties": {
-					"label": "Node Type B"
-					}
-				},
-				{
-					"name": "Node CC",
-					"cypher_query": "MATCH (n) RETURN n LIMIT 1",
-					"properties": {
+						"name": "Node AA",
 						"label": "Node Type A"
 					}
 				},
 				{
-					"name": "Node DD",
 					"cypher_query": "MATCH (n) RETURN n LIMIT 1",
 					"properties": {
+						"name": "Node BB",
+						"label": "Node Type B"
+					}
+				},
+				{
+					"cypher_query": "MATCH (n) RETURN n LIMIT 1",
+					"properties": {
+						"name": "Node CC",
+						"label": "Node Type A"
+					}
+				},
+				{
+					"cypher_query": "MATCH (n) RETURN n LIMIT 1",
+					"properties": {
+						"name": "Node DD",
 						"label": "Node Type B"
 					}
 				}
@@ -95,6 +95,7 @@ class Results extends Component {
 		ResultStore.removeListener("change", this.getNodeSetQueries);
 		ResultStore.removeListener("change", this.getContributingMetaPaths);
 		ResultStore.removeListener("change", this.getMetaPathDetails);
+		ResultStore.removeListener("change", this.getSimilarNodes);
 	}
 
 	getSimilarNodes(){
@@ -164,7 +165,7 @@ class Results extends Component {
 				</div>
 				<div className="row" style={{marginTop: 20 + 'px'}}>
 					<div className="col">
-						<h3 style={{marginTop: 10 + 'px'}}>Similar Nodes</h3>
+						<h3 style={{marginBottom: 20 + 'px'}}>Similar Nodes</h3>
 						<SimilarNodes itemsPerRow={3} similarNodes={this.state.similar_nodes} />
 					</div>
 				</div>
