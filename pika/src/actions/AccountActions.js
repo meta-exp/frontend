@@ -51,10 +51,10 @@ const Actions = {
       })
   },
 
-  receiveDatasets(response){
+  receiveDatasets(datasets){
     AccountDispatcher.dispatch({
       type: AccountActionTypes.LOAD_DATASETS_RESPONSE,
-      payload: response
+      payload: {datasets: datasets}
   })}
 };
 
