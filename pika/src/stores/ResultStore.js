@@ -25,28 +25,28 @@ class ResultStore extends EventEmitter {
 		};
 		this.similar_nodes = [
 			{
-				"name": "Node A",
+				"name": "Node AAA",
 				"cypher_query": "MATCH (n) RETURN n LIMIT 1",
 				"properties": {
 				"label": "Node Type A"
 				}
 			},
 			{
-				"name": "Node B",
+				"name": "Node BBB",
 				"cypher_query": "MATCH (n) RETURN n LIMIT 1",
 				"properties": {
 				"label": "Node Type B"
 				}
 			},
 			{
-				"name": "Node C",
+				"name": "Node CCC",
 				"cypher_query": "MATCH (n) RETURN n LIMIT 1",
 				"properties": {
 					"label": "Node Type A"
 				}
 			},
 			{
-				"name": "Node D",
+				"name": "Node DDD",
 				"cypher_query": "MATCH (n) RETURN n LIMIT 1",
 				"properties": {
 					"label": "Node Type B"
