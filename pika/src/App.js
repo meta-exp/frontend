@@ -22,10 +22,6 @@ class App extends Component {
 
 		this.state = {
 			logged_in: false,
-			prevActive: false,
-			nextActive: true,
-			prevHref: '#',
-			nextHref: 'config.html',
 			activePage: 'Setup'
 		};
 
@@ -44,42 +40,7 @@ class App extends Component {
 	}
 
 	handleNavAction = pageTitle => {
-		if(pageTitle === 'Setup' || pageTitle === 'home.html'){
-			this.setState({
-				prevActive: false,
-				nextActive: true,
-				activePage: 'Setup',
-				prevHref: '#',
-				nextHref: 'config.html'
-			});
-		}
-		else if(pageTitle === 'Config' || pageTitle === 'config.html'){
-			this.setState({
-				prevActive: true,
-				nextActive: true,
-				activePage: 'Config',
-				prevHref: 'home.html',
-				nextHref: 'feedback.html'
-			});
-		}
-		else if(pageTitle === 'Explore' || pageTitle === 'feedback.html'){
-			this.setState({
-				prevActive: true,
-				nextActive: true,
-				activePage: 'Explore',
-				prevHref: 'config.html',
-				nextHref: 'results.html'
-			});
-		}
-		else if(pageTitle === 'Results' || pageTitle === 'results.html'){
-			this.setState({
-				prevActive: true,
-				nextActive: false,
-				activePage: 'Results',
-				prevHref: 'feedback.html',
-				nextHref: '#'
-			});
-		}
+		
 	}
 
 handleLogin(loginInfo){
@@ -125,7 +86,7 @@ handleLogout(){
 						{body}
 					</div>
 					<div className="container-fluid">
-						<Footer onClick={this.handleNavAction} prevHref={this.state.prevHref} nextHref={this.state.nextHref} prevActive={this.state.prevActive} nextActive={this.state.nextActive} />
+						<Footer />
 					</div>
 					<div align="center">
 					<LogoutButton onLogout={this.handleLogout.bind(this)}/>
