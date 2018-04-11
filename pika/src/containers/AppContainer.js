@@ -1,25 +1,16 @@
 import React, {Component} from 'react';
 import {Container} from 'flux/utils';
-import AccountStore from '../stores/AccountStore';
-import AccountActions from '../actions/AccountActions';
+
+import AppStore from '../stores/AccountStore';
 import App from '../App';
 
 class AppContainer extends Component {
   static getStores() {
-    return [
-      AccountStore
-    ];
+    return [AppStore];
   }
 
   static calculateState(prevState) {
-    return {
-      account: AccountStore.getState(),
-      loadDatasets: AccountActions.loadDatasets,
-      onUpdateUsername: AccountActions.updateUsername,
-      onLogin: AccountActions.login,
-      onLogout: AccountActions.logout,
-      onDatasetSelection: AccountActions.selectDataset
-    };
+    return {};
   }
 
   render() {
