@@ -4,6 +4,7 @@ import { Button, Icon, Dropdown, Form, Input } from 'semantic-ui-react';
 
 import AccountStore from '../stores/AccountStore';
 import AccountActions from '../actions/AccountActions';
+import MetaPathAPI from '../utils/MetaPathAPI';
 
 class Login extends Component {
 
@@ -15,6 +16,7 @@ class Login extends Component {
       this.submitNaming = this.submitNaming.bind(this);
       this.handleDatasetChange = this.handleDatasetChange.bind(this);
       this.handleUsernameChange = this.handleUsernameChange.bind(this);
+      this.renderNaming = this.renderNaming.bind(this);
 
       this.state = {
         is_loading: true,
@@ -25,13 +27,10 @@ class Login extends Component {
       };
   }
 
-  componentWillMount(){
+  componentDidMount(){
+    MetaPathAPI.getAvailableDatasets();
     AccountStore.on("change", this.getDatasets);
     AccountStore.on("change", this.getUserName);
-  }
-
-  componentDidMount(){
-    AccountActions.loadDatasets();
   }
 
   componentWillUnmount(){
@@ -80,7 +79,7 @@ class Login extends Component {
         </Form.Field>
         <Form.Field>
             <Button onClick={(e) => this.submitNaming()} icon primary={true}>
-              <Icon name='save' />
+              <Icon name='sign out' />
               <span style={{marginLeft: 10 + 'px'}}>Sign In</span>
             </Button>
         </Form.Field>

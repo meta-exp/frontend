@@ -94,6 +94,6 @@ class AccountStore extends EventEmitter {
 }
 
 const accountStore = new AccountStore;
-AccountDispatcher.register(accountStore.handleActions.bind(accountStore));
+accountStore.dispatchToken = AccountDispatcher.register(accountStore.handleActions.bind(accountStore));
 
 export default accountStore;

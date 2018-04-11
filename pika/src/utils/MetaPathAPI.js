@@ -20,13 +20,13 @@ const Actions = {
       body: content,
       credentials: 'include'
     }).then((response) => {
-        if (!(response.status === 200)
-        ) {
+        if (!(response.status === 200)){
             alert('Could not send data to server.');
-        } else {
+        }
+        else {
           AccountActions.receiveLogin();
-        }}
-    ).catch((error) => {
+        }
+    }).catch((error) => {
         console.error(error);
     });
   },
@@ -36,8 +36,7 @@ const Actions = {
         credentials: "include"
     }).then((response) => {
       AccountActions.receiveLogout();
-    }
-    ).catch((error) => {
+    }).catch((error) => {
         console.error(error);
         alert("Could not save this session.")
     })
@@ -49,8 +48,7 @@ const Actions = {
         credentials: "include"
     }).then((response) => {return response.json()}).then( (json) => {
       AccountActions.receiveDatasets(json);
-    }
-  ).catch((error) => {
+    }).catch((error) => {
       alert("fetch error for datasets. Is server running?");
         console.error(error);
     })

@@ -1,32 +1,29 @@
 import React, { Component } from 'react';
 
+import { Button, Icon } from 'semantic-ui-react';
+
+import AccountActions from '../actions/AccountActions';
 
 class LogoutButton extends Component {
 
+    constructor(){
+        super();
 
-  saveAndLogout() {
-    fetch('http://localhost:8000/' + 'logout', {
-        method: 'GET',
-        credentials: "include"
-    }).then((response) => {
-      this.props.onLogout();
+        this.saveAndLogout = this.saveAndLogout.bind(this);
     }
-    ).catch((error) => {
-        console.error(error);
-        alert("Could not save this session.")
-    })
-    ;
-  }
 
+    saveAndLogout() {
+        AccountActions.logout();
+    }
 
-render() {
-        return <button className="btn btn-primary mx-auto"
-                style={{background: 'green'}}
-                id="show-more-meta-paths-btn"
-                onClick={this.saveAndLogout.bind(this)}>
-            <span> Save and Logout </span>
-        </button>;
-}
+    render() {
+        return(
+            <Button onClick={(e) => this.saveAndLogout()} icon primary={true}>
+              <Icon name='sign in' />
+              <span style={{marginLeft: 10 + 'px'}}>Sign Out</span>
+            </Button>
+        );
+    }
 }
 
 export default LogoutButton;

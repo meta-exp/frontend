@@ -24,12 +24,11 @@ class App extends Component {
 
 		this.state = {
 			logged_in: false,
-			activePage: ''
+			activePage: 'Setup'
 		};
-
 	}
 
-	componentWillMount(){
+	componentDidMount(){
 		AppStore.on("change", this.getActivePage);
 		AccountStore.on("change", this.getLoggedIn);
 	}
@@ -64,7 +63,7 @@ class App extends Component {
 				body = <Explore
 							userName={this.state.userName}
 							similarityType={this.state.similarityType}
-							dataset={this.state.dataset}/>;
+							dataset={this.state.dataset} />;
 			}
 			else if(this.state.activePage === 'Results'){
 				body = <Results />;
@@ -82,7 +81,7 @@ class App extends Component {
 						{this.state.logged_in ? (<Footer />) : (<div></div>)}
 					</div>
 					<div align="center">
-						{this.state.logged_in ? (<LogoutButton onLogout={this.handleLogout.bind(this)}/>) : (<div></div>)}
+						{this.state.logged_in ? (<LogoutButton />) : (<div></div>)}
 					</div>
 				</div>
 			</div>
