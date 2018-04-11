@@ -23,3 +23,139 @@
 	font-family: 'Roboto', sans-serif;
 	font-size: 1.75rem;
 }
+
+
+/* All the same stuff for Firefox */
+input[type="range"][multiple]#slider1::-moz-range-thumb {
+	box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+	border: 1px solid #000000;
+	height: 36px;
+	width: 16px;
+	border-radius: 3px;
+	cursor: pointer;
+	pointer-events: all;
+}
+
+.slider0::-moz-range-thumb, button.slider0 {
+	background: #ceff29;
+}
+
+input[type="range"][multiple]:focus.slider0~table tbody .slider0{
+	background: #85a8ff;
+}
+
+.slider1::-moz-range-thumb, button.slider1 {
+	background: #ff8739;
+}
+
+input[type="range"][multiple]:focus.slider1~table tbody .slider1{
+	background: #85a8ff;
+}
+
+.slider2::-moz-range-thumb, button.slider2 {
+	background: blue;
+}
+
+input[type="range"][multiple]:focus.slider2~table tbody .slider2{
+	background: #85a8ff;
+}
+
+.slider3::-moz-range-thumb, button.slider3 {
+	background: #000000;
+}
+
+input[type="range"][multiple]:focus.slider3~table tbody .slider3{
+	background: #85a8ff;
+}
+
+.slider4::-moz-range-thumb, button.slider4 {
+	background: #ff1f19;
+}
+
+input[type="range"][multiple]:focus.slider4~table tbody .slider4{
+	background: #85a8ff;
+}
+
+.slider5::-moz-range-thumb, button.slider5 {
+	background: #3bff12;
+}
+
+input[type="range"][multiple]:focus.slider5~table tbody .slider5{
+	background: #85a8ff;
+}
+
+.slider6::-moz-range-thumb, button.slider6 {
+	background: #8cf7ff;
+}
+
+input[type="range"][multiple]:focus.slider6~table tbody .slider6{
+	background: #85a8ff;
+}
+
+
+
+input[type="range"][multiple] {
+	display: block;
+	height: 2em;
+	margin: 0;
+	pointer-events: none;
+	width: 100%;
+}
+
+input[type="range"][multiple]:focus {
+	outline-width: 0;
+}
+
+input[type="range"][multiple]:focus::-moz-range-thumb {
+	outline-width: 0;
+	box-shadow: 1px 1px 1px #398bff, 0px 0px 1px #398bff;
+	border: 1px solid #398bff;
+}
+
+/*table tbody .slider0{
+	background: #ff35c3;
+}*/
+
+
+
+
+input[type="range"][multiple] + input[type="range"][multiple] {
+	margin-top: -2em;
+}
+
+input[type="range"][multiple] + input[type="range"][multiple]::-moz-range-track{
+	opacity: 0;
+	/*margin-top: -.5px; for different height sliders */
+}
+
+
+input[type="range"][multiple]::-webkit-slider-thumb {
+	pointer-events: all;
+	box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+	border: 1px solid #000000;
+	height: 36px;
+	width: 16px;
+	border-radius: 3px;
+	cursor: pointer;
+}
+
+input[type="range"][multiple]::-moz-range-thumb {
+	box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+	border: 1px solid #000000;
+	height: 36px;
+	width: 16px;
+	border-radius: 3px;
+	cursor: pointer;
+	pointer-events: all;
+}
+
+input[type="range"][multiple]::-ms-thumb {
+	box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+	border: 1px solid #000000;
+	height: 36px;
+	width: 16px;
+	border-radius: 3px;
+	cursor: pointer;
+	pointer-events: all;
+}
+

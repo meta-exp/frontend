@@ -55,8 +55,9 @@ const Actions = {
     })
     ;
   },
-  fetchMetaPaths(){
-    fetch(process.env.REACT_APP_API_HOST + '/next-meta-paths/5', {
+  fetchMetaPaths(batchSize){
+      console.log(batchSize);
+    fetch(process.env.REACT_APP_API_HOST + 'next-meta-paths/' + batchSize.toString(), {
       method: 'GET',
       headers: {
           'Accept': 'application/json',
@@ -106,6 +107,23 @@ const Actions = {
         console.error(error);
     });
   },
+    sendRatedMetaPaths(ratedMetaPaths){
+        fetch(process.env.REACT_APP_API_HOST + 'rate-meta-paths', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(ratedMetaPaths),
+            credentials: "include"
+        }).then((response) => {
+            if (!(response.status === 200)) {
+                alert('Could not send node types to server.');
+            }
+        }).catch((error) => {
+            console.error(error);
+        });
+    },
   sendEdgeTypes(edgeTypes){
     fetch(process.env.REACT_APP_API_HOST + 'set-edge-types', {
       method: 'POST',
