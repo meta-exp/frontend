@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Button, Icon } from 'semantic-ui-react';
+import { Button, Icon, Dropdown, Form, Input } from 'semantic-ui-react';
 
 import AccountStore from '../stores/AccountStore';
 import AccountActions from '../actions/AccountActions';
@@ -19,9 +19,9 @@ class Login extends Component {
       this.state = {
         is_loading: true,
         available_datasets: [],
-        user_name: "Davide",
-        similarity_type: "Geolocation",
-        dataset: "huhu"
+        user_name: "",
+        similarity_type: "deprecated",
+        dataset: ""
       };
   }
 
@@ -73,12 +73,12 @@ class Login extends Component {
       ;
   }
 
-  handleDatasetChange(event){
-    AccountActions.selectDataset(event.target.value);
+  handleDatasetChange(data){
+    AccountActions.selectDataset(data.value);
   }
 
-  handleUsernameChange(event){
-    AccountActions.updateUsername(event.target.value);
+  handleUsernameChange(data){
+    AccountActions.updateUsername(data.value);
   }
 
   submitNaming() {
@@ -97,31 +97,26 @@ class Login extends Component {
 
   renderNaming() {
     let available_datasets = this.state.available_datasets.map((dataset, index) => {
-      return(
-        <option key={index} value={dataset.name}>{dataset.name}</option>
-      );
+      return { key: index, value: dataset.name, text: dataset.name };
     });
 
     return (
-      <div>
-        <label htmlFor="uname">Your Name: </label>
-        <input type="text"
-               id="uname"
-               name="user_name"
-               value={this.state.user_name}
-               onChange={(e) => this.handleUsernameChange(e)}/>
-        <br/>
-        <label htmlFor="dataset">Choose a dataset: </label>
-        <select value={this.state.dataset} name='dataset' onChange={(e) => this.handleDatasetChange(e)}>
-            {available_datasets}
-        </select>
-        <div>
+      <Form>
+        <Form.Field>
+          <label htmlFor="uname">Your Name</label>
+          <Input type="text" placeholder="Some Username" onChange={(e, data) => this.handleUsernameChange(data)} />
+        </Form.Field>
+        <Form.Field>
+          <label htmlFor="dataset">Dataset</label>
+          <Dropdown id="dataset" placeholder='Example Dataset' search selection options={available_datasets} onChange={(e, data) => this.handleDatasetChange(data)} />
+        </Form.Field>
+        <Form.Field>
             <Button onClick={(e) => this.submitNaming()} icon primary={true}>
               <Icon name='save' />
               <span style={{marginLeft: 10 + 'px'}}>Submit</span>
             </Button>
-        </div>
-      </div>
+        </Form.Field>
+      </Form>
     );
   }
 
