@@ -8,8 +8,8 @@ class AccountStore extends EventEmitter {
     super();
 
     this.loggedIn = false;
-    this.userName = 'Diving Unicorn';
-    this.dataset = 'example_dataset';
+    this.userName = '';
+    this.dataset = '';
     this.availableDatasets = [];
     this.isLoading = true;
   }
