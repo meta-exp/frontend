@@ -1,131 +1,99 @@
 import React, { Component } from 'react';
 
+import { Button, Icon, Dropdown, Form, Input } from 'semantic-ui-react';
+
+import AccountStore from '../stores/AccountStore';
+import AccountActions from '../actions/AccountActions';
+import MetaPathAPI from '../utils/MetaPathAPI';
 
 class Login extends Component {
 
   constructor(props) {
       super();
+
+      this.getDatasets = this.getDatasets.bind(this);
+      this.getUserName = this.getUserName.bind(this);
+      this.submitNaming = this.submitNaming.bind(this);
+      this.handleDatasetChange = this.handleDatasetChange.bind(this);
+      this.handleUsernameChange = this.handleUsernameChange.bind(this);
+      this.renderNaming = this.renderNaming.bind(this);
+
       this.state = {
-        isLoading: true,
+        is_loading: true,
         available_datasets: [],
-    		userName: "Davide",
-    		similarityType: "Geolocation",
-    		dataset: "huhu"
+        user_name: "",
+        similarity_type: "deprecated",
+        dataset: ""
       };
   }
 
   componentDidMount(){
-    this.getJsonFromBackend('get-available-datasets',this.setAvailableDatasets.bind(this));
+    MetaPathAPI.getAvailableDatasets();
+    AccountStore.on("change", this.getDatasets);
+    AccountStore.on("change", this.getUserName);
   }
 
-  getJsonFromBackend(endpoint, callback) {
-      fetch(process.env.REACT_APP_API_HOST + endpoint, {
-          method: 'GET',
-          credentials: "include"
-      }).then((response) => {
-        console.log(response);
-        return response.json();
-      }
-      ).then(callback).catch((error) => {
-          console.error(error);
-      })
-      ;
+  componentWillUnmount(){
+    AccountStore.removeListener("change", this.getDatasets);
+    AccountStore.removeListener("change", this.getUserName);
   }
 
-  postJsonToBackend(endpoint, data, callback) {
-      fetch(process.env.REACT_APP_API_HOST + endpoint, {
-          method: 'POST',
-          headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data),
-          credentials: "include"
-      }).then((response) => {
-          if (!(response.status === 200)
-          ) {
-              alert('Could not send data to server.');
-          } else {
-            callback();
-          }
-      }).catch((error) => {
-          console.error(error);
-      })
-      ;
-  }
-
-handleInputChange(event) {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-
+  getDatasets(){
     this.setState({
-        [name]: value
+      dataset: AccountStore.getDataset(),
+      available_datasets: AccountStore.getAvailableDatasets(),
+      is_loading: AccountStore.loading()
     });
-}
-
-setAvailableDatasets(data){
-  this.setState({
-      isLoading: false,
-      available_datasets: data,
-      dataset: data[0].name
-  });
-}
-
-handleLoginSuccess(){
-  this.postJsonToBackend('login',{
-        purpose: this.state.similarityType,
-        username: this.state.userName,
-        dataset: this.state.dataset
-      },
-    ()=>{});
-  this.props.onLogin({
-    similarityType: this.state.similarityType,
-    userName: this.state.userName,
-    dataset: this.state.dataset});
-}
-
-submitNaming() {
-    this.getJsonFromBackend('login',this.handleLoginSuccess.bind(this));
-}
-
-render() {
-  if (this.state.isLoading === true) {
-    return (<div> Loading... </div>);
   }
-  return this.renderNaming();
+
+  getUserName(){
+    this.setState({ user_name: AccountStore.getUserName() });
+  }
+
+  handleDatasetChange(data){
+    AccountActions.selectDataset(data.value);
+  }
+
+  handleUsernameChange(data){
+    AccountActions.updateUsername(data.value);
+  }
+
+  submitNaming() {
+    AccountActions.login(this.state.user_name, this.state.dataset);
+  }
+
+  renderNaming() {
+    let available_datasets = this.state.available_datasets.map((dataset, index) => {
+      return { key: index, value: dataset.name, text: dataset.name };
+    });
+
+    return (
+      <Form>
+        <Form.Field>
+          <label htmlFor="uname">Your Name</label>
+          <Input type="text" placeholder="Some Username" onChange={(e, data) => this.handleUsernameChange(data)} />
+        </Form.Field>
+        <Form.Field>
+          <label htmlFor="dataset">Dataset</label>
+          <Dropdown id="dataset" placeholder='Example Dataset' search selection options={available_datasets} onChange={(e, data) => this.handleDatasetChange(data)} />
+        </Form.Field>
+        <Form.Field>
+            <Button onClick={(e) => this.submitNaming()} icon primary={true}>
+              <Icon name='sign out' />
+              <span style={{marginLeft: 10 + 'px'}}>Sign In</span>
+            </Button>
+        </Form.Field>
+      </Form>
+    );
+  }
+
+  render() {
+    if (this.state.is_loading === true) {
+      return (<div> Loading... </div>);
+    }
+    return this.renderNaming();
+  }
+
 }
 
-
-renderNaming() {
-  let available_datasets = this.state.available_datasets.map((dataset, index) => (<option key={index} value={dataset.name}>{dataset.name}</option>));
-
-  return (
-    <div>
-      <label htmlFor="uname"> Your Name: </label>
-      <input type="text"
-             id="uname"
-             name="userName"
-             value={this.state.userName}
-             onChange={this.handleInputChange.bind(this)}/>
-      <br/>
-      <label htmlFor="simtype"> Describe the type of similarity: </label>
-      <input type="text"
-             id="simtype"
-             name="similarityType"
-             value={this.state.similarityType}
-             onChange={this.handleInputChange.bind(this)}/>
-      <br />
-        <label htmlFor="dataset">Choose a dataset: </label>
-      <select value={this.state.dataset} name='dataset' onChange={this.handleInputChange.bind(this)}>
-          {available_datasets}
-      </select>
-      <div>
-          <button onClick={this.submitNaming.bind(this)}>Submit</button>
-      </div>
-    </div>
-  );
-}
-
-}
 export default Login;
