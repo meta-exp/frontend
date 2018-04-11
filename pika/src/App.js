@@ -10,6 +10,7 @@ import Login from './Components/Login';
 import LogoutButton from './Components/LogoutButton';
 
 import AppStore from './stores/AppStore';
+import AccountStore from './stores/AccountStore';
 
 import './App.css';
 
@@ -19,46 +20,37 @@ class App extends Component {
 		super();
 
 		this.getActivePage = this.getActivePage.bind(this);
+		this.getLoggedIn = this.getLoggedIn.bind(this);
 
 		this.state = {
 			logged_in: false,
 			activePage: 'Setup'
 		};
-
 	}
 
-	componentWillMount(){
+	componentDidMount(){
 		AppStore.on("change", this.getActivePage);
+		AccountStore.on("change", this.getLoggedIn);
 	}
 
 	componentWillUnmount(){
 		AppStore.removeListener("change", this.getActivePage);
+		AccountStore.removeListener("change", this.getLoggedIn);
 	}
 
 	getActivePage(){
 		this.setState({ activePage: AppStore.getActivePage() });
 	}
 
-	handleNavAction = pageTitle => {
-		
+	getLoggedIn(){
+		this.setState({ logged_in: AccountStore.getLoggedIn() });
 	}
-
-handleLogin(loginInfo){
-	console.log("Logged in.");
-	this.setState({logged_in: true, userName: loginInfo.userName, dataset: loginInfo.dataset, similarityType: loginInfo.similarityType});
-}
-
-handleLogout(){
-	console.log("Logged out.");
-	this.setState({logged_in: false, prevActive: false, nextActive: true, activePage: 'Setup', prevHref: '#', nextHref: 'config.html'});
-}
-
 
 	render() {
 		let body;
 
 		if(this.state.logged_in === false){
-			body = <Login onLogin={this.handleLogin.bind(this)}/>;
+			body = <Login />;
 		}
 		else{
 			if(this.state.activePage === 'Setup'){
@@ -71,7 +63,7 @@ handleLogout(){
 				body = <Explore
 							userName={this.state.userName}
 							similarityType={this.state.similarityType}
-							dataset={this.state.dataset}/>;
+							dataset={this.state.dataset} />;
 			}
 			else if(this.state.activePage === 'Results'){
 				body = <Results />;
@@ -86,10 +78,10 @@ handleLogout(){
 						{body}
 					</div>
 					<div className="container-fluid">
-						<Footer />
+						{this.state.logged_in ? (<Footer />) : (<div></div>)}
 					</div>
 					<div align="center">
-					<LogoutButton onLogout={this.handleLogout.bind(this)}/>
+						{this.state.logged_in ? (<LogoutButton />) : (<div></div>)}
 					</div>
 				</div>
 			</div>

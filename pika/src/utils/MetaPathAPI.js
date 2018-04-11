@@ -6,26 +6,27 @@ const Actions = {
 
   login(userName,dataset) {
     var content = JSON.stringify({
-        purpose: 'deprecated',
-        username: userName,
-        dataset: dataset['name']
-      });
-      fetch(process.env.REACT_APP_API_HOST + 'login', {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: content,
-        credentials: "include"
+      purpose: 'deprecated',
+      username: userName,
+      dataset: dataset
+    });
+
+    fetch(process.env.REACT_APP_API_HOST + 'login', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: content,
+      credentials: 'include'
     }).then((response) => {
-        if (!(response.status === 200)
-        ) {
+        if (!(response.status === 200)){
             alert('Could not send data to server.');
-        } else {
+        }
+        else {
           AccountActions.receiveLogin();
-        }}
-    ).catch((error) => {
+        }
+    }).catch((error) => {
         console.error(error);
     });
   },
@@ -35,8 +36,7 @@ const Actions = {
         credentials: "include"
     }).then((response) => {
       AccountActions.receiveLogout();
-    }
-    ).catch((error) => {
+    }).catch((error) => {
         console.error(error);
         alert("Could not save this session.")
     })
@@ -48,8 +48,7 @@ const Actions = {
         credentials: "include"
     }).then((response) => {return response.json()}).then( (json) => {
       AccountActions.receiveDatasets(json);
-    }
-  ).catch((error) => {
+    }).catch((error) => {
       alert("fetch error for datasets. Is server running?");
         console.error(error);
     })
