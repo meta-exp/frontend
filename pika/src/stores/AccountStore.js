@@ -49,6 +49,11 @@ class AccountStore extends EventEmitter {
     this.emit("change");
   }
 
+  setUsername(userName){
+    this.userName = userName;
+    this.emit("change");
+  }
+
   setAvailableDatasets(availableDatasets){
     this.availableDatasets = availableDatasets;
     this.dataset = availableDatasets[0];
@@ -74,6 +79,10 @@ class AccountStore extends EventEmitter {
       case AccountActionTypes.LOAD_DATASETS_RESPONSE:{
         this.setAvailableDatasets(action.payload.datasets);
         return this.availableDatasets;
+      };
+      case AccountActionTypes.UPDATE_USERNAME: {
+        this.setUsername(action.payload.userName);
+        return this.userName;
       };
       default:{
         return this.state;

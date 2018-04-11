@@ -21,8 +21,8 @@ const Actions = {
   updateUsername(userName){
     AccountDispatcher.dispatch({
       type: AccountActionTypes.UPDATE_USERNAME,
-      payload: {'userName': userName}
-    })
+      payload: {userName: userName}
+    });
   },
 
   loadDatasets(){
@@ -35,7 +35,7 @@ const Actions = {
   selectDataset(dataset){
     AccountDispatcher.dispatch({
       type: AccountActionTypes.DATASET_SELECTION,
-      payload: {'dataset': dataset}
+      payload: {dataset: dataset}
     })
   },
   

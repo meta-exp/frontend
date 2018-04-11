@@ -51,28 +51,6 @@ class Login extends Component {
     this.setState({ user_name: AccountStore.getUserName() });
   }
 
-  postJsonToBackend(endpoint, data, callback) {
-      fetch(process.env.REACT_APP_API_HOST + endpoint, {
-          method: 'POST',
-          headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data),
-          credentials: "include"
-      }).then((response) => {
-          if (!(response.status === 200)
-          ) {
-              alert('Could not send data to server.');
-          } else {
-            callback();
-          }
-      }).catch((error) => {
-          console.error(error);
-      })
-      ;
-  }
-
   handleDatasetChange(data){
     AccountActions.selectDataset(data.value);
   }
@@ -82,17 +60,7 @@ class Login extends Component {
   }
 
   submitNaming() {
-    this.postJsonToBackend('login',{
-      purpose: this.state.similarity_type,
-      username: this.state.user_name,
-      dataset: this.state.dataset
-    },()=>{});
-
-    this.props.onLogin({
-      similarityType: this.state.similarity_type,
-      userName: this.state.user_name,
-      dataset: this.state.dataset
-    });
+    AccountActions.login(this.state.user_name, this.state.dataset);
   }
 
   renderNaming() {
@@ -113,7 +81,7 @@ class Login extends Component {
         <Form.Field>
             <Button onClick={(e) => this.submitNaming()} icon primary={true}>
               <Icon name='save' />
-              <span style={{marginLeft: 10 + 'px'}}>Submit</span>
+              <span style={{marginLeft: 10 + 'px'}}>Sign In</span>
             </Button>
         </Form.Field>
       </Form>

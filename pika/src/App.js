@@ -10,6 +10,7 @@ import Login from './Components/Login';
 import LogoutButton from './Components/LogoutButton';
 
 import AppStore from './stores/AppStore';
+import AccountStore from './stores/AccountStore';
 
 import './App.css';
 
@@ -19,45 +20,38 @@ class App extends Component {
 		super();
 
 		this.getActivePage = this.getActivePage.bind(this);
+		this.getLoggedIn = this.getLoggedIn.bind(this);
 
 		this.state = {
 			logged_in: false,
-			activePage: 'Setup'
+			activePage: ''
 		};
 
 	}
 
 	componentWillMount(){
 		AppStore.on("change", this.getActivePage);
+		AccountStore.on("change", this.getLoggedIn);
 	}
 
 	componentWillUnmount(){
 		AppStore.removeListener("change", this.getActivePage);
+		AccountStore.removeListener("change", this.getLoggedIn);
 	}
 
 	getActivePage(){
 		this.setState({ activePage: AppStore.getActivePage() });
 	}
 
-	handleNavAction = pageTitle => {
-		
-	}
-
-	handleLogin(loginInfo){
-		console.log("Logged in.");
-		this.setState({logged_in: true, userName: loginInfo.userName, dataset: loginInfo.dataset, similarityType: loginInfo.similarityType});
-	}
-
-	handleLogout(){
-		console.log("Logged out.");
-		this.setState({logged_in: false, prevActive: false, nextActive: true, activePage: 'Setup', prevHref: '#', nextHref: 'config.html'});
+	getLoggedIn(){
+		this.setState({ logged_in: AccountStore.getLoggedIn() });
 	}
 
 	render() {
 		let body;
 
 		if(this.state.logged_in === false){
-			body = <Login onLogin={this.handleLogin.bind(this)}/>;
+			body = <Login />;
 		}
 		else{
 			if(this.state.activePage === 'Setup'){

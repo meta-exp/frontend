@@ -6,18 +6,19 @@ const Actions = {
 
   login(userName,dataset) {
     var content = JSON.stringify({
-        purpose: 'deprecated',
-        username: userName,
-        dataset: dataset['name']
-      });
-      fetch(process.env.REACT_APP_API_HOST + 'login', {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: content,
-        credentials: "include"
+      purpose: 'deprecated',
+      username: userName,
+      dataset: dataset
+    });
+
+    fetch(process.env.REACT_APP_API_HOST + 'login', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: content,
+      credentials: 'include'
     }).then((response) => {
         if (!(response.status === 200)
         ) {
