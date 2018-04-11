@@ -10,6 +10,8 @@ class ExploreStore extends EventEmitter {
 		this.ratedMetapaths = [];
 		this.batchSize=5;
         this.interfaceState=true;
+        this.minPath={};
+        this.maxPath={};
 	}
 
 	getMetaPaths(){
@@ -28,9 +30,22 @@ class ExploreStore extends EventEmitter {
 		return this.interfaceState;
 	}
 
-	receiveMetaPaths(metapaths){
+	getMinPath(){
+		return this.minPath;
+	}
+
+	getMaxPath(){
+		return this.maxPath;
+	}
+
+	receiveMetaPaths(metapaths, next_batch_available, minPath, maxPath){
 		this.ratedMetapaths = this.ratedMetapaths.concat(this.metapaths);
 		this.metapaths = metapaths;
+		console.log(maxPath);
+        if(minPath !== undefined){
+            this.minPath = minPath;
+            this.maxPath = maxPath;
+        }
 		this.emit("change");
 	}
 
@@ -44,7 +59,8 @@ class ExploreStore extends EventEmitter {
 	handleActions(action){
 		switch(action.type){
 			case ExploreActionTypes.RECEIVE_METAPATHS: {
-				this.receiveMetaPaths(action.payload.metapaths);
+				this.receiveMetaPaths(action.payload.metapaths, action.payload.nextBatchAvailable,action.payload.minPath,action.payload.maxPath);
+
 				return this.metapaths;
 			}
 			case ExploreActionTypes.CHANGE_BATCH_SIZE: {
@@ -61,6 +77,16 @@ class ExploreStore extends EventEmitter {
 				this.changeRating(action.payload.id, action.payload.rating);
 				this.emit("change");
 				return action.payload.rating;
+			}
+			case ExploreActionTypes.CHANGE_MAXPATH_RATING:{
+				this.maxPath.rating = Math.max(action.payload.rating,this.minPath.rating);
+				this.emit("change");
+				return this.maxPath.rating;
+			}
+			case ExploreActionTypes.CHANGE_MINPATH_RATING:{
+				this.minPath.rating = Math.min(this.maxPath.rating, action.payload.rating);
+				this.emit("change");
+				return this.minPath.rating;
 			}
 		}
 	}

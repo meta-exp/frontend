@@ -24,11 +24,27 @@ const ExploreActions = {
                   rating: rating}
     })
     },
+    changeMinPathRating(rating){
+      ExploreDispatcher.dispatch({
+          type: ExploreActionTypes.CHANGE_MINPATH_RATING,
+          payload: {rating: rating}
+      })
+      },
 
-  receiveMetaPaths(metapaths){
+    changeMaxPathRating(rating){
+        ExploreDispatcher.dispatch({
+            type: ExploreActionTypes.CHANGE_MAXPATH_RATING,
+            payload: {rating: rating}
+        })
+    },
+
+  receiveMetaPaths(metapaths,nextBatchAvailable,minPath,maxPath){
     ExploreDispatcher.dispatch({
       type: ExploreActionTypes.RECEIVE_METAPATHS,
-      payload: {metapaths: metapaths}
+      payload: {metapaths: metapaths,
+                nextBatchAvailable: nextBatchAvailable,
+                maxPath: maxPath,
+                minPath: minPath}
     });
   },
 
@@ -39,12 +55,12 @@ const ExploreActions = {
     })
     },
 
-  sendRatedMetaPaths(ratedMetaPaths){
+  sendRatedMetaPaths(ratedMetaPaths, minPath, maxPath){
     ExploreDispatcher.dispatch({
         type: ExploreActionTypes.SEND_RATED_METAPATHS,
         payload: {ratedMetaPaths: ratedMetaPaths}
     });
-    MetaPathAPI.sendRatedMetaPaths(ratedMetaPaths);
+    MetaPathAPI.sendRatedMetaPaths(ratedMetaPaths, minPath, maxPath);
   }
 
 };

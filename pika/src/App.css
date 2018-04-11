@@ -36,6 +36,8 @@ input[type="range"][multiple]#slider1::-moz-range-thumb {
 	pointer-events: all;
 }
 
+/* slider colors */
+
 .slider0::-moz-range-thumb, button.slider0 {
 	background: #ceff29;
 }
@@ -112,11 +114,25 @@ input[type="range"][multiple]:focus::-moz-range-thumb {
 	border: 1px solid #398bff;
 }
 
-/*table tbody .slider0{
-	background: #ff35c3;
-}*/
+input[type="range"][multiple].maxSlider::-moz-range-thumb {
+	border: none;
+	height: 30px;
+	width: 5px;
+	background: #da180a;
+	margin-top: -4px;
+	cursor: pointer;
+	pointer-events: all;
+}
 
-
+input[type="range"][multiple].minSlider::-moz-range-thumb {
+	border: none;
+	height: 30px;
+	width: 5px;
+	background: #0cdad4;
+	margin-top: -4px;
+	cursor: pointer;
+	pointer-events: all;
+}
 
 
 input[type="range"][multiple] + input[type="range"][multiple] {

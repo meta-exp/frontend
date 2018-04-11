@@ -22,7 +22,9 @@ class MetaPathDisplay extends Component {
             batchSize: 5,
             nextBatchAvailable: true,
             timesClicked: 0,
-            rangeInterface: true
+            rangeInterface: true,
+            maxPath: null,
+            minPath: null
         };
     }
 
@@ -44,14 +46,23 @@ class MetaPathDisplay extends Component {
             ratedPaths: ExploreStore.getRatedMetaPaths(),
             batchSize: ExploreStore.getBatchSize(),
             loading: false,
+            maxPath: ExploreStore.getMaxPath(),
+            minPath: ExploreStore.getMinPath(),
             rangeInterface: ExploreStore.getInterfaceState()
         });
 
     }
 
     handleRatingChange(event, id) {
-
         ExploreActions.changeRating(id, event.target.value);
+    }
+
+    handleMaxPathRatingChange(event) {
+        ExploreActions.changeMaxPathRating(event.target.value);
+    }
+
+    handleMinPathRatingChange(event) {
+        ExploreActions.changeMinPathRating(event.target.value);
     }
 
     handleBatchSizeChange(event) {
@@ -60,7 +71,8 @@ class MetaPathDisplay extends Component {
 
 
     nextRatingIteration() {
-        ExploreActions.sendRatedMetaPaths(this.state.metapaths);
+        this.setState({loading: true});
+        ExploreActions.sendRatedMetaPaths(this.state.metapaths, this.state.minPath, this.state.maxPath);
         ExploreActions.fetchMetaPaths(this.state.batchSize);
     }
 
@@ -73,20 +85,48 @@ class MetaPathDisplay extends Component {
     handleInterfaceChange(e) {
         ExploreActions.toggleInterface();
     }
-
     /*
         Methods for rendering the html
     */
 
     combinedRatingInterface() {
+
+        let minSlider = <div></div>;
+        let maxSlider = <div></div>;
+        let referencePathDisplay= <div></div>;
+
+        if('rating' in this.state.minPath && 'metapath' in this.state.minPath){
+            console.log(this.state.maxPath.metapath);
+            minSlider = <input type="range" multiple min="0" step="0.01" max="1" className="minSlider"
+                   value={this.state.minPath.rating}
+                   onChange={(event) => this.handleMinPathRatingChange(event)}/>;
+            maxSlider = <input type="range" multiple min="0" step="0.01" max="1" className="maxSlider"
+            value={this.state.maxPath.rating}
+            onChange={(event) => this.handleMaxPathRatingChange(event)}/>;
+            referencePathDisplay = <Card>
+                <Card.Content>
+                    <Card.Header>Reference Meta-Paths</Card.Header>
+                    The reference paths summarize the previously rated paths by showing the paths with the maximum and minimum ratings.
+                    These can be integrated into the rating of the current batch to 'correct' the ratings from the previous batches.
+                    Maximal Meta-Path: <MetaPath path={this.state.maxPath.metapath}/>
+                    Minimal Meta-Path: <MetaPath path={this.state.minPath.metapath}/>
+                </Card.Content>
+            </Card>;
+        }
+
+
         return (
             <div>
+                {referencePathDisplay}
                 {this.state.metapaths.map((path, index) =>
                     <input type="range" multiple min="0" step="0.01" max="1" className={"slider" + index}
-                           defaultValue={path.rating}
+                           value={path.rating}
                            key={index}
-                           onClick={(event) => this.handleRatingChange(event, path.id)}/>)
+                           onChange={(event) => this.handleRatingChange(event, path.id)}/>)
                 }
+                {minSlider}
+                {maxSlider}
+
                 <Table celled>
                 <Table.Header>
                     <Table.Row>
@@ -175,6 +215,7 @@ class MetaPathDisplay extends Component {
                                                                           onChange={this.handleBatchSizeChange.bind(this)}/> 6
                     </Card.Content>
                 </Card>
+
 
                 <h3 align='left' className="font-weight-bold"> Found Meta Paths </h3>
                 {ratingInterface}

@@ -64,11 +64,13 @@ const Actions = {
       },
       credentials: "include"
     }).then((response) => {return response.json();}).then( (json) => {
-      ExploreActions.receiveMetaPaths(json.meta_paths);
+        console.log(json.max_path);
+      ExploreActions.receiveMetaPaths(json.meta_paths,json.next_batch_available,json.min_path,json.max_path);
     }).catch((error) => {
       console.error(error);
     });
-  },
+  }
+    ,
   fetchNodeTypes(){
     fetch(process.env.REACT_APP_API_HOST + '/get-node-types', {
         method: 'GET',
@@ -106,14 +108,18 @@ const Actions = {
         console.error(error);
     });
   },
-    sendRatedMetaPaths(ratedMetaPaths){
+    sendRatedMetaPaths(ratedMetaPaths, minPath, maxPath){
         fetch(process.env.REACT_APP_API_HOST + 'rate-meta-paths', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(ratedMetaPaths),
+            body: JSON.stringify({
+                meta_paths: ratedMetaPaths,
+                min_path: minPath,
+                max_path: maxPath
+            }),
             credentials: "include"
         }).then((response) => {
             if (!(response.status === 200)) {
