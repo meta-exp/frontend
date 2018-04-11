@@ -43,16 +43,15 @@ class App extends Component {
 		
 	}
 
-handleLogin(loginInfo){
-	console.log("Logged in.");
-	this.setState({logged_in: true, userName: loginInfo.userName, dataset: loginInfo.dataset, similarityType: loginInfo.similarityType});
-}
+	handleLogin(loginInfo){
+		console.log("Logged in.");
+		this.setState({logged_in: true, userName: loginInfo.userName, dataset: loginInfo.dataset, similarityType: loginInfo.similarityType});
+	}
 
-handleLogout(){
-	console.log("Logged out.");
-	this.setState({logged_in: false, prevActive: false, nextActive: true, activePage: 'Setup', prevHref: '#', nextHref: 'config.html'});
-}
-
+	handleLogout(){
+		console.log("Logged out.");
+		this.setState({logged_in: false, prevActive: false, nextActive: true, activePage: 'Setup', prevHref: '#', nextHref: 'config.html'});
+	}
 
 	render() {
 		let body;
@@ -86,10 +85,10 @@ handleLogout(){
 						{body}
 					</div>
 					<div className="container-fluid">
-						<Footer />
+						{this.state.logged_in ? (<Footer />) : (<div></div>)}
 					</div>
 					<div align="center">
-					<LogoutButton onLogout={this.handleLogout.bind(this)}/>
+						{this.state.logged_in ? (<LogoutButton onLogout={this.handleLogout.bind(this)}/>) : (<div></div>)}
 					</div>
 				</div>
 			</div>
