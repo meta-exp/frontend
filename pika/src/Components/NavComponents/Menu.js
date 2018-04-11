@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 
 import { Menu } from 'semantic-ui-react';
-import AccountDropDown from './AccountDropDown';
 import Imprint from '../ImprintComponents/Imprint';
 
 import AppStore from '../../stores/AppStore';
 import AppActions from '../../actions/AppActions';
+import AccountStore from '../../stores/AccountStore';
 
 export default class TopMenuBar extends Component {
 
@@ -13,6 +13,8 @@ export default class TopMenuBar extends Component {
 		super();
 
 		this.getActivePage = this.getActivePage.bind(this);
+		this.getLoggedIn = this.getLoggedIn.bind(this);
+		this.handleItemClick = this.handleItemClick.bind(this);
 
 		this.menuPoints = [
 			{
@@ -37,39 +39,37 @@ export default class TopMenuBar extends Component {
 			}
 		];
 
-		this.state = {activeItem: AppStore.getActivePage()};
+		this.state = {
+			activeItem: '',
+			loggedIn: false
+		};
 	}
 
 	componentWillMount(){
 		AppStore.on("change", this.getActivePage);
+		AccountStore.on("change", this.getLoggedIn);
 	}
 
 	componentWillUnmount(){
 		AppStore.removeListener("change", this.getActivePage);
+		AccountStore.removeListener("change", this.getLoggedIn);
 	}
 
 	getActivePage(){
 		this.setState({ activeItem: AppStore.getActivePage() });
 	}
 
-	getAccountActionItem() {
-		if(this.props.loggedIn){
-			return(
-				<AccountDropDown />
-			);
-		}
-		else{
-			return(
-				<Menu.Item name='Login' active={this.state.activeItem === 'Login'} />
-			);
-		}
+	getLoggedIn(){
+		this.setState({ loggedIn: AccountStore.getLoggedIn() });
 	}
 
-	handleItemClick = (e, { name }) => {
+	handleItemClick(e, data){
 		e.preventDefault();
 		e.stopPropagation();
 		
-		AppActions.changePage(name);
+		if(this.state.loggedIn){
+			AppActions.changePage(data.name);
+		}
 	}
 
 	render() {
@@ -81,7 +81,7 @@ export default class TopMenuBar extends Component {
         if(this.menuPoints){
             menuItems = this.menuPoints.map((item, index) => {
                 return (
-                    <Menu.Item key={index} name={item.title} active={activeItem === item.title} onClick={this.handleItemClick} />
+                    <Menu.Item key={index} name={item.title} active={activeItem === item.title} onClick={(e, data) => this.handleItemClick(e, data)} />
                 );
             });
         }
@@ -92,9 +92,6 @@ export default class TopMenuBar extends Component {
 					<Menu.Menu position='left'>
 						{menuItems}
 						<Imprint />
-					</Menu.Menu>
-					<Menu.Menu position='right'>
-						{this.getAccountActionItem()}
 					</Menu.Menu>
 				</Menu>
 			</div>
