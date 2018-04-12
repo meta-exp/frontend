@@ -14,7 +14,7 @@ COPY pika/package*.json ./
 RUN yarn install --only=production
 
 RUN yarn add graph-app-kit --registry https://neo.jfrog.io/neo/api/npm/npm
-
+RUN yarn add https://github.com/KDD-OpenSource/neo4j-graph-renderer.git#feature/add-neo4j-nodeids
 
 # Bundle app source
 COPY pika/ .

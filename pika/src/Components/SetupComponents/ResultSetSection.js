@@ -42,8 +42,8 @@ class ResultSetSection extends Component {
 						<span style={{marginLeft: 10 + 'px'}}>Reset all Nodes</span>
 					</Button>
 				</h3>
-				<Neo4jGraphRenderer url="http://localhost:7494" user="neo4j"
-				password="neo4j" query={this.props.cypherQuery} />
+				<Neo4jGraphRenderer url="http://172.20.14.22:7484" user="neo4j"
+				password="neo4j" query={this.props.cypherQuery} onClickHandler={(node)=>console.log(node)}/>
 			</div>
 		);
 	}

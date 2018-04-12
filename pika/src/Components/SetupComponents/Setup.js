@@ -16,7 +16,7 @@ class Setup extends Component {
 		this.getCyperQuery = this.getCyperQuery.bind(this);
 
 		this.state = {
-			cypherQuery: 'RETURN 1'
+			cypherQuery: 'match (n) return n limit 10'
 		};
 	}
 
@@ -39,8 +39,8 @@ class Setup extends Component {
 				<div style={{margin: 20 + 'px ' + 0 + 'px'}}> 
 					<SearchNodesSection /> 
 				</div> 
-				<div style={{margin: 20 + 'px ' + 0 + 'px'}}> 
-					
+				<div style={{margin: 20 + 'px ' + 0 + 'px'}}>
+                    <ResultSetSection cypherQuery={this.state.cypherQuery}/>
 				</div> 
 				<div style={{margin: 20 + 'px ' + 0 + 'px'}}> 
 					 
