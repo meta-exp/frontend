@@ -65,6 +65,13 @@ const Actions = {
     });
   },
 
+  updateNewDatasetName(name){
+    AccountDispatcher.dispatch({
+      type: AccountActionTypes.UPDATE_NEW_DATASET_NAME,
+      payload: {name: name}
+    });
+  },
+
   updateNewDatasetUsername(username){
     AccountDispatcher.dispatch({
       type: AccountActionTypes.UPDATE_NEW_DATASET_USERNAME,
@@ -79,11 +86,11 @@ const Actions = {
     });
   },
 
-  saveNewDataset(url, username, password){
+  saveNewDataset(url, name, username, password){
     AccountDispatcher.dispatch({
       type: AccountActionTypes.SAVE_NEW_DATASET
     });
-    MetaPathAPI.saveNewDataset(url, username, password);
+    MetaPathAPI.saveNewDataset(url, name, username, password);
   }
 
 };

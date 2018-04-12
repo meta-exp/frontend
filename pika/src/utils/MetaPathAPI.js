@@ -122,8 +122,8 @@ const Actions = {
         console.error(error);
     });
   },
-  saveNewDataset(url, username, password){
-    alert("URL: " + url + "\nUsername: " + username + "\nPassword: " + password);
+  saveNewDataset(url, name, username, password){
+    alert("URL: " + url + "\nName: " + name + "\nUsername: " + username + "\nPassword: " + password);
     fetch(process.env.REACT_APP_API_HOST + 'save-new-dataset', {
       method: 'POST',
       headers: {
@@ -132,6 +132,7 @@ const Actions = {
       },
       body: JSON.stringify({
         url: url,
+        name: name,
         username: username,
         password: password
       }),

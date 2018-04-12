@@ -13,6 +13,7 @@ class AccountStore extends EventEmitter {
     this.availableDatasets = [];
     this.isLoading = true;
     this.newDatasetUrl = '';
+    this.newDatasetName = '';
     this.newDatasetUsername = '';
     this.newDatasetPassword = '';
   }
@@ -25,6 +26,10 @@ class AccountStore extends EventEmitter {
     return this.newDatasetUrl;
   }
 
+  getNewDatasetName(){
+    return this.newDatasetName;
+  }
+
   getNewDatasetUsername(){
     return this.newDatasetUsername;
   }
@@ -33,8 +38,13 @@ class AccountStore extends EventEmitter {
     return this.newDatasetPassword;
   }
 
-  setNewDatasetUrl(dataset_url){
-    this.newDatasetUrl = dataset_url;
+  setNewDatasetUrl(url){
+    this.newDatasetUrl = url;
+    this.emit("change");
+  }
+
+  setNewDatasetName(name){
+    this.newDatasetName = name;
     this.emit("change");
   }
 
@@ -117,6 +127,10 @@ class AccountStore extends EventEmitter {
       case AccountActionTypes.UPDATE_NEW_DATASET_URL:{
         this.setNewDatasetUrl(action.payload.url);
         return this.newDatasetUrl;
+      };
+      case AccountActionTypes.UPDATE_NEW_DATASET_NAME:{
+        this.setNewDatasetName(action.payload.name);
+        return this.newDatasetName;
       };
       case AccountActionTypes.UPDATE_NEW_DATASET_USERNAME:{
         this.setNewDatasetUsername(action.payload.username);

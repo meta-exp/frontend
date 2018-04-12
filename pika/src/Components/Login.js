@@ -20,6 +20,7 @@ class Login extends Component {
       this.toggleDatasetField = this.toggleDatasetField.bind(this);
       this.saveDataset = this.saveDataset.bind(this);
       this.changeNewDatasetUrl = this.changeNewDatasetUrl.bind(this);
+      this.changeNewDatasetName = this.changeNewDatasetName.bind(this);
       this.changeNewDatasetUsername = this.changeNewDatasetUsername.bind(this);
       this.changeNewDatasetPassword = this.changeNewDatasetPassword.bind(this);
       this.getNewDatasetProperties = this.getNewDatasetProperties.bind(this);
@@ -35,6 +36,7 @@ class Login extends Component {
         dataset_btn_text: 'Add Dataset',
         submit_btn_margin: '20px',
         new_dataset_url: '',
+        new_dataset_name: '',
         new_dataset_username: '',
         new_dataset_password: ''
       };
@@ -56,6 +58,7 @@ class Login extends Component {
   getNewDatasetProperties(){
     this.setState({
       new_dataset_url: AccountStore.getNewDatasetUrl(),
+      new_dataset_name: AccountStore.getNewDatasetName(),
       new_dataset_username: AccountStore.getNewDatasetUsername(),
       new_dataset_password: AccountStore.getNewDatasetPassword()
     });
@@ -83,6 +86,10 @@ class Login extends Component {
 
   changeNewDatasetUrl(data){
     AccountActions.updateNewDatasetUrl(data.value);
+  }
+
+  changeNewDatasetName(data){
+    AccountActions.updateNewDatasetName(data.value);
   }
 
   changeNewDatasetUsername(data){
@@ -117,12 +124,13 @@ class Login extends Component {
     e.stopPropagation();
 
     var url = this.state.new_dataset_url;
+    var name = this.state.new_dataset_name;
     var username = this.state.new_dataset_username;
     var password = this.state.new_dataset_password;
 
     this.toggleDatasetField();
 
-    AccountActions.saveNewDataset(url, username, password);
+    AccountActions.saveNewDataset(url, name, username, password);
   }
 
   submitNaming(e) {
@@ -163,6 +171,7 @@ class Login extends Component {
               <div className="col-10">
                 <Form.Group widths='equal'>
                   <Form.Input onChange={(e, data) => this.changeNewDatasetUrl(data)} fluid label='URL' placeholder='URL to Database' value={this.state.new_dataset_url} />
+                  <Form.Input onChange={(e, data) => this.changeNewDatasetName(data)} fluid label='Dataset-Name' placeholder='Name of Dataset' value={this.state.new_dataset_name} />
                   <Form.Input onChange={(e, data) => this.changeNewDatasetUsername(data)} fluid label='Username' placeholder='Username of Database' value={this.state.new_dataset_username} />
                   <Form.Input onChange={(e, data) => this.changeNewDatasetPassword(data)} fluid label='Password' placeholder='Password of Database' type='password' value={this.state.new_dataset_password} />
                 </Form.Group>
