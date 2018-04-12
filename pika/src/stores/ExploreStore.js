@@ -12,7 +12,12 @@ class ExploreStore extends EventEmitter {
         this.interfaceState=true;
         this.minPath={};
         this.maxPath={};
+        this.stepsize=0.01;
 	}
+
+	getStepsize(){
+	    return this.stepsize;
+    }
 
 	getMetaPaths(){
 		return this.metapaths;
@@ -41,7 +46,6 @@ class ExploreStore extends EventEmitter {
 	receiveMetaPaths(metapaths, next_batch_available, minPath, maxPath){
 		this.ratedMetapaths = this.ratedMetapaths.concat(this.metapaths);
 		this.metapaths = metapaths;
-		console.log(maxPath);
         if(minPath !== undefined){
             this.minPath = minPath;
             this.maxPath = maxPath;
@@ -79,12 +83,12 @@ class ExploreStore extends EventEmitter {
 				return action.payload.rating;
 			}
 			case ExploreActionTypes.CHANGE_MAXPATH_RATING:{
-				this.maxPath.rating = Math.max(action.payload.rating,this.minPath.rating);
+				this.maxPath.rating = Math.max(action.payload.rating,this.minPath.rating+ this.stepsize);
 				this.emit("change");
 				return this.maxPath.rating;
 			}
 			case ExploreActionTypes.CHANGE_MINPATH_RATING:{
-				this.minPath.rating = Math.min(this.maxPath.rating, action.payload.rating);
+				this.minPath.rating = Math.min(this.maxPath.rating - this.stepsize, action.payload.rating);
 				this.emit("change");
 				return this.minPath.rating;
 			}

@@ -55,7 +55,6 @@ const Actions = {
     ;
   },
   fetchMetaPaths(batchSize){
-      console.log(batchSize);
     fetch(process.env.REACT_APP_API_HOST + 'next-meta-paths/' + batchSize.toString(), {
       method: 'GET',
       headers: {
@@ -64,7 +63,6 @@ const Actions = {
       },
       credentials: "include"
     }).then((response) => {return response.json();}).then( (json) => {
-        console.log(json.max_path);
       ExploreActions.receiveMetaPaths(json.meta_paths,json.next_batch_available,json.min_path,json.max_path);
     }).catch((error) => {
       console.error(error);

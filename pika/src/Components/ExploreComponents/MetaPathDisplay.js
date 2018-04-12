@@ -24,7 +24,8 @@ class MetaPathDisplay extends Component {
             timesClicked: 0,
             rangeInterface: true,
             maxPath: null,
-            minPath: null
+            minPath: null,
+            stepsize: null
         };
     }
 
@@ -48,7 +49,8 @@ class MetaPathDisplay extends Component {
             loading: false,
             maxPath: ExploreStore.getMaxPath(),
             minPath: ExploreStore.getMinPath(),
-            rangeInterface: ExploreStore.getInterfaceState()
+            rangeInterface: ExploreStore.getInterfaceState(),
+            stepsize: ExploreStore.getStepsize()
         });
 
     }
@@ -96,11 +98,10 @@ class MetaPathDisplay extends Component {
         let referencePathDisplay= <div></div>;
 
         if('rating' in this.state.minPath && 'metapath' in this.state.minPath){
-            console.log(this.state.maxPath.metapath);
-            minSlider = <input type="range" multiple min="0" step="0.01" max="1" className="minSlider"
+            minSlider = <input type="range" multiple min="0" step={this.state.stepsize} max="1" className="minSlider"
                    value={this.state.minPath.rating}
                    onChange={(event) => this.handleMinPathRatingChange(event)}/>;
-            maxSlider = <input type="range" multiple min="0" step="0.01" max="1" className="maxSlider"
+            maxSlider = <input type="range" multiple min="0" step={this.state.stepsize} max="1" className="maxSlider"
             value={this.state.maxPath.rating}
             onChange={(event) => this.handleMaxPathRatingChange(event)}/>;
             referencePathDisplay = <Card>
@@ -126,7 +127,6 @@ class MetaPathDisplay extends Component {
                 }
                 {minSlider}
                 {maxSlider}
-
                 <Table celled>
                 <Table.Header>
                     <Table.Row>
@@ -211,7 +211,7 @@ class MetaPathDisplay extends Component {
                     Relative <Checkbox toggle defaultChecked={this.state.rangeInterface}
                                        onClick={(e) => this.handleInterfaceChange(e)}/> Individual
                     <br/>
-                    <label htmlFor="batchSize">Batchsize</label> 1 <input type="range" name="batchSize" min={1} max={6} value={this.state.batchSize}
+                    <label htmlFor="batchSize">Batchsize</label> 2 <input type="range" name="batchSize" min={2} max={6} value={this.state.batchSize}
                                                                           onChange={this.handleBatchSizeChange.bind(this)}/> 6
                     </Card.Content>
                 </Card>
