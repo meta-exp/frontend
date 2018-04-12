@@ -32,10 +32,10 @@ const Actions = {
     MetaPathAPI.getAvailableDatasets();
   },
 
-  selectDataset(dataset){
+  selectDataset(dataset_id){
     AccountDispatcher.dispatch({
       type: AccountActionTypes.DATASET_SELECTION,
-      payload: {dataset: dataset}
+      payload: {dataset_id: dataset_id}
     })
   },
   

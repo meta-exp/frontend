@@ -44,8 +44,8 @@ class AccountStore extends EventEmitter {
     this.emit("change");
   }
 
-  setDataset(dataset){
-    this.dataset = dataset;
+  setDataset(dataset_id){
+    this.dataset = this.availableDatasets[dataset_id];
     this.emit("change");
   }
 
@@ -73,7 +73,7 @@ class AccountStore extends EventEmitter {
         return this.loggedIn;
       };
       case AccountActionTypes.DATASET_SELECTION:{
-        this.setDataset(action.payload.dataset);
+        this.setDataset(action.payload.dataset_id);
         return this.dataset;
       };
       case AccountActionTypes.LOAD_DATASETS_RESPONSE:{
