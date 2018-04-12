@@ -115,8 +115,11 @@ class Login extends Component {
     }
   }
 
-  saveDataset(){
-    alert('Dataset saved!');
+  saveDataset(e){
+    e.preventDefault();
+    e.stopPropagation();
+
+    AccountActions.saveNewDataset(this.state.new_dataset_url, this.state.new_dataset_username, this.state.new_dataset_password);
   }
 
   submitNaming(e) {
@@ -130,7 +133,7 @@ class Login extends Component {
     let available_datasets = this.state.available_datasets.map((dataset, index) => {
       return { key: index, value: index, text: dataset.name };
     });
-    //alert("URL: " + this.state.new_dataset_url + "\n" + "User: " + this.state.new_dataset_username + "\n" + "Password: " + this.state.new_dataset_password);
+
     return (
       <Form>
         <Form.Field>

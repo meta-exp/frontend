@@ -77,6 +77,13 @@ const Actions = {
       type: AccountActionTypes.UPDATE_NEW_DATASET_PASSWORD,
       payload: {password: password}
     });
+  },
+
+  saveNewDataset(url, username, password){
+    AccountDispatcher.dispatch({
+      type: AccountActionTypes.SAVE_NEW_DATASET
+    });
+    MetaPathAPI.saveNewDataset(url, username, password);
   }
 
 };

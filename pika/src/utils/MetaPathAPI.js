@@ -121,6 +121,30 @@ const Actions = {
     }).catch((error) => {
         console.error(error);
     });
+  },
+  saveNewDataset(url, username, password){
+    fetch(process.env.REACT_APP_API_HOST + 'save-new-dataset', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: {
+        url: url,
+        username: username,
+        password: password
+      },
+      credentials: 'include'
+    }).then((response) => { return response.json(); }).then((json) => {
+      if (!(json.status === 200)){
+        alert('Could not save new dataset');
+      }
+      else {
+        AccountActions.loadDatasets();
+      }
+    }).catch((error) => {
+        console.error(error);
+    });
   }
 }
 
