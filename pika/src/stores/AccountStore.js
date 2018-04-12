@@ -9,7 +9,7 @@ class AccountStore extends EventEmitter {
 
     this.loggedIn = false;
     this.userName = '';
-    this.dataset = '';
+    this.dataset = {};
     this.availableDatasets = [];
     this.isLoading = true;
   }
