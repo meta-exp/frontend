@@ -12,10 +12,40 @@ class AccountStore extends EventEmitter {
     this.dataset = '';
     this.availableDatasets = [];
     this.isLoading = true;
+    this.newDatasetUrl = '';
+    this.newDatasetUsername = '';
+    this.newDatasetPassword = '';
   }
 
   loading(){
     return this.isLoading;
+  }
+
+  getNewDatasetUrl(){
+    return this.newDatasetUrl;
+  }
+
+  getNewDatasetUsername(){
+    return this.newDatasetUsername;
+  }
+
+  getNewDatasetPassword(){
+    return this.newDatasetPassword;
+  }
+
+  setNewDatasetUrl(dataset_url){
+    this.newDatasetUrl = dataset_url;
+    this.emit("change");
+  }
+
+  setNewDatasetUsername(username){
+    this.newDatasetUsername = username;
+    this.emit("change");
+  }
+
+  setNewDatasetPassword(password){
+    this.newDatasetPassword = password;
+    this.emit("change");
   }
 
   getAvailableDatasets(){
@@ -83,6 +113,18 @@ class AccountStore extends EventEmitter {
       case AccountActionTypes.UPDATE_USERNAME: {
         this.setUsername(action.payload.userName);
         return this.userName;
+      };
+      case AccountActionTypes.UPDATE_NEW_DATASET_URL:{
+        this.setNewDatasetUrl(action.payload.url);
+        return this.newDatasetUrl;
+      };
+      case AccountActionTypes.UPDATE_NEW_DATASET_USERNAME:{
+        this.setNewDatasetUsername(action.payload.username);
+        return this.newDatasetUrl;
+      };
+      case AccountActionTypes.UPDATE_NEW_DATASET_PASSWORD:{
+        this.setNewDatasetPassword(action.payload.password);
+        return this.newDatasetUrl;
       };
       default:{
         return this.state;

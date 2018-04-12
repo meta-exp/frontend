@@ -56,6 +56,27 @@ const Actions = {
       type: AccountActionTypes.LOAD_DATASETS_RESPONSE,
       payload: {datasets: datasets}
     });
+  },
+
+  updateNewDatasetUrl(url){
+    AccountDispatcher.dispatch({
+      type: AccountActionTypes.UPDATE_NEW_DATASET_URL,
+      payload: {url: url}
+    });
+  },
+
+  updateNewDatasetUsername(username){
+    AccountDispatcher.dispatch({
+      type: AccountActionTypes.UPDATE_NEW_DATASET_USERNAME,
+      payload: {username: username}
+    });
+  },
+
+  updateNewDatasetPassword(password){
+    AccountDispatcher.dispatch({
+      type: AccountActionTypes.UPDATE_NEW_DATASET_PASSWORD,
+      payload: {password: password}
+    });
   }
 
 };

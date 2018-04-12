@@ -19,6 +19,10 @@ class Login extends Component {
       this.renderNaming = this.renderNaming.bind(this);
       this.toggleDatasetField = this.toggleDatasetField.bind(this);
       this.saveDataset = this.saveDataset.bind(this);
+      this.changeNewDatasetUrl = this.changeNewDatasetUrl.bind(this);
+      this.changeNewDatasetUsername = this.changeNewDatasetUsername.bind(this);
+      this.changeNewDatasetPassword = this.changeNewDatasetPassword.bind(this);
+      this.getNewDatasetProperties = this.getNewDatasetProperties.bind(this);
 
       this.state = {
         is_loading: true,
@@ -29,7 +33,10 @@ class Login extends Component {
         show_dataset_form: false,
         dataset_btn_icon: 'add',
         dataset_btn_text: 'Add Dataset',
-        submit_btn_margin: '20px'
+        submit_btn_margin: '20px',
+        new_dataset_url: '',
+        new_dataset_username: '',
+        new_dataset_password: ''
       };
   }
 
@@ -37,11 +44,21 @@ class Login extends Component {
     MetaPathAPI.getAvailableDatasets();
     AccountStore.on("change", this.getDatasets);
     AccountStore.on("change", this.getUserName);
+    AccountStore.on("change", this.getNewDatasetProperties);
   }
 
   componentWillUnmount(){
     AccountStore.removeListener("change", this.getDatasets);
     AccountStore.removeListener("change", this.getUserName);
+    AccountStore.removeListener("change", this.getNewDatasetProperties);
+  }
+
+  getNewDatasetProperties(){
+    this.setState({
+      new_dataset_url: AccountStore.getNewDatasetUrl(),
+      new_dataset_username: AccountStore.getNewDatasetUsername(),
+      new_dataset_password: AccountStore.getNewDatasetPassword()
+    });
   }
 
   getDatasets(){
@@ -62,6 +79,18 @@ class Login extends Component {
 
   handleUsernameChange(data){
     AccountActions.updateUsername(data.value);
+  }
+
+  changeNewDatasetUrl(data){
+    AccountActions.updateNewDatasetUrl(data.value);
+  }
+
+  changeNewDatasetUsername(data){
+    AccountActions.updateNewDatasetUsername(data.value);
+  }
+
+  changeNewDatasetPassword(data){
+    AccountActions.updateNewDatasetPassword(data.value);
   }
 
   toggleDatasetField(e){
@@ -101,7 +130,7 @@ class Login extends Component {
     let available_datasets = this.state.available_datasets.map((dataset, index) => {
       return { key: index, value: index, text: dataset.name };
     });
-
+    //alert("URL: " + this.state.new_dataset_url + "\n" + "User: " + this.state.new_dataset_username + "\n" + "Password: " + this.state.new_dataset_password);
     return (
       <Form>
         <Form.Field>
@@ -127,9 +156,9 @@ class Login extends Component {
             <div className="row" style={{marginTop: 20 + 'px'}}>
               <div className="col-10">
                 <Form.Group widths='equal'>
-                  <Form.Input fluid label='URL' placeholder='URL to Database' />
-                  <Form.Input fluid label='Username' placeholder='Username of Database' />
-                  <Form.Input fluid label='Password' placeholder='Password of Database' type='password' />
+                  <Form.Input onChange={(e, data) => this.changeNewDatasetUrl(data)} fluid label='URL' placeholder='URL to Database' value={this.state.new_dataset_url} />
+                  <Form.Input onChange={(e, data) => this.changeNewDatasetUsername(data)} fluid label='Username' placeholder='Username of Database' value={this.state.new_dataset_username} />
+                  <Form.Input onChange={(e, data) => this.changeNewDatasetPassword(data)} fluid label='Password' placeholder='Password of Database' type='password' value={this.state.new_dataset_password} />
                 </Form.Group>
               </div>
               <div className="col-2">
