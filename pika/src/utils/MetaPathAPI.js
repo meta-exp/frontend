@@ -55,8 +55,8 @@ const Actions = {
     })
     ;
   },
-  fetchMetaPaths(){
-    fetch(process.env.REACT_APP_API_HOST + '/next-meta-paths/5', {
+  fetchMetaPaths(batchSize){
+    fetch(process.env.REACT_APP_API_HOST + 'next-meta-paths/' + batchSize.toString(), {
       method: 'GET',
       headers: {
           'Accept': 'application/json',
@@ -64,11 +64,12 @@ const Actions = {
       },
       credentials: "include"
     }).then((response) => {return response.json();}).then( (json) => {
-      ExploreActions.receiveMetaPaths(json.meta_paths);
+      ExploreActions.receiveMetaPaths(json.meta_paths,json.next_batch_available,json.min_path,json.max_path);
     }).catch((error) => {
       console.error(error);
     });
-  },
+  }
+    ,
   fetchNodeTypes(){
     fetch(process.env.REACT_APP_API_HOST + '/get-node-types', {
         method: 'GET',
@@ -106,6 +107,27 @@ const Actions = {
         console.error(error);
     });
   },
+    sendRatedMetaPaths(ratedMetaPaths, minPath, maxPath){
+        fetch(process.env.REACT_APP_API_HOST + 'rate-meta-paths', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                meta_paths: ratedMetaPaths,
+                min_path: minPath,
+                max_path: maxPath
+            }),
+            credentials: "include"
+        }).then((response) => {
+            if (!(response.status === 200)) {
+                alert('Could not send node types to server.');
+            }
+        }).catch((error) => {
+            console.error(error);
+        });
+    },
   sendEdgeTypes(edgeTypes){
     fetch(process.env.REACT_APP_API_HOST + 'set-edge-types', {
       method: 'POST',
