@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import MetaPath from './MetaPath';
 import MetaPathID from './MetaPathID';
 import MetaPathRater from './MetaPathRater';
-import { Table } from 'semantic-ui-react';
-
+import {Table, Checkbox, Card} from 'semantic-ui-react';
 import ExploreStore from '../../stores/ExploreStore';
 import ExploreActions from '../../actions/ExploreActions';
+import Explore from "./Explore";
 
 
 class MetaPathDisplay extends Component {
@@ -13,228 +13,232 @@ class MetaPathDisplay extends Component {
     constructor(props) {
         super();
 
-        this.getMetapaths = this.getMetapaths.bind(this);
+        this.getNewState = this.getNewState.bind(this);
 
         this.state = {
+            loading: true,
             metapaths: [],
             ratedPaths: [],
+            batchSize: 5,
             nextBatchAvailable: true,
-            timesClicked: 0
+            timesClicked: 0,
+            rangeInterface: true,
+            maxPath: null,
+            minPath: null,
+            stepsize: null
         };
     }
 
-    componentWillMount(){
-        ExploreActions.fetchMetaPaths();
+    componentWillMount() {
+        ExploreActions.fetchMetaPaths(this.state.batchSize);
     }
 
-    componentDidMount(){
-        ExploreStore.on("change", this.getMetapaths);
+    componentDidMount() {
+        ExploreStore.on("change", this.getNewState);
     }
 
-    componentWillUnmount(){
-        ExploreStore.removeListener("change", this.getMetapaths);
+    componentWillUnmount() {
+        ExploreStore.removeListener("change", this.getNewState);
     }
 
-    getMetapaths(){
-        this.setState({ metapaths: ExploreStore.getMetaPaths() });
+    getNewState() {
+        this.setState({
+            metapaths: ExploreStore.getMetaPaths(),
+            ratedPaths: ExploreStore.getRatedMetaPaths(),
+            batchSize: ExploreStore.getBatchSize(),
+            loading: false,
+            maxPath: ExploreStore.getMaxPath(),
+            minPath: ExploreStore.getMinPath(),
+            rangeInterface: ExploreStore.getInterfaceState(),
+            stepsize: ExploreStore.getStepsize()
+        });
+
     }
 
     handleRatingChange(event, id) {
-        const metapaths = this.state.metapaths.slice();
-        let index = this.state.metapaths.findIndex(x => x.id === id);
-        metapaths[index].rating =  parseFloat(event.target.value);
-        this.setState({metapaths: metapaths});
+        ExploreActions.changeRating(id, event.target.value);
     }
 
-    //TODO on mount make first request
-
-    /*
-        Backend Interaction
-    */
-
-    getNextMetaPathBatch() {
-        this.getJsonFromBackend('next-meta-paths/5', this.addNewMetaPathsToDisplay.bind(this));
+    handleMaxPathRatingChange(event) {
+        ExploreActions.changeMaxPathRating(event.target.value);
     }
 
-    addNewMetaPathsToDisplay(jsonResponse) {
-      this.setState({nextBatchAvailable: jsonResponse.next_batch_available});
-      let metapaths = jsonResponse.meta_paths;
-      let oldMetaPaths = this.state.metapaths.slice();
-      oldMetaPaths = oldMetaPaths.concat(metapaths);
-      this.setState({metapaths: oldMetaPaths});
+    handleMinPathRatingChange(event) {
+        ExploreActions.changeMinPathRating(event.target.value);
     }
 
-    getJsonFromBackend(endpoint, callback) {
-        fetch('http://localhost:8000/' + endpoint, {
-            method: 'GET',
-            credentials: "include"
-        }).then((response) => {
-          console.log(response);
-          return response.json();
-        }
-        ).then(callback).catch((error) => {
-            console.error(error);
-        })
-        ;
+    handleBatchSizeChange(event) {
+        ExploreActions.changeBatchSize(event.target.value);
     }
 
-    postJsonToBackend(endpoint, data, callback) {
-        fetch('http://localhost:8000/' + endpoint, {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data),
-            credentials: "include"
-        }).then((response) => {
-            if (!(response.status === 200)
-            ) {
-                console.log(response);
-                console.log(response.json());
-                alert('Could not send data to server.');
-            } else {
-              callback();
-            }
-        }).catch((error) => {
-            console.error(error);
-        })
-        ;
-    }
 
     nextRatingIteration() {
-        ExploreActions.fetchMetapaths();
-        let newRatedPaths = this.state.metapaths.map(path => path);
-        let ratedPaths = this.state.ratedPaths.slice();
-        ratedPaths = ratedPaths.concat(newRatedPaths);
-        this.setState({ratedPaths: ratedPaths, metapaths: []});
-        this.getNextMetaPathBatch();
-        this.postJsonToBackend('rate-meta-paths', newRatedPaths);
+        this.setState({loading: true});
+        ExploreActions.sendRatedMetaPaths(this.state.metapaths, this.state.minPath, this.state.maxPath);
+        ExploreActions.fetchMetaPaths(this.state.batchSize);
     }
 
-    addClickCount(){
-      let clicks = this.state.timesClicked + 1;
-      this.setState({timesClicked: clicks});
-      this.nextRatingIteration();
+    addClickCount() {
+        let clicks = this.state.timesClicked + 1;
+        this.setState({timesClicked: clicks});
+        this.nextRatingIteration();
     }
 
+    handleInterfaceChange(e) {
+        ExploreActions.toggleInterface();
+    }
     /*
         Methods for rendering the html
     */
 
-    render() {
-        let metaPaths = this.state.metapaths.map((path, index) => this.renderMetaPathRatingRow(path, index));
-        let ratedPaths = this.state.ratedPaths.map((path, index) => this.renderRatedMetaPathRow(path, index));
+    combinedRatingInterface() {
 
-        let ratingButton = <button className="btn btn-primary mx-auto"
-                id="show-more-meta-paths-btn"
-                onClick={this.nextRatingIteration.bind(this)}>
-            <span> Confirm Current Rating & Get Next </span>
-        </button>;
-        if(!this.state.nextBatchAvailable){
-          ratingButton = <button className="btn btn-primary mx-auto"
-                  id="show-more-meta-paths-btn"
-                  onClick={this.addClickCount.bind(this)}>
-              <span> Confirm Current Rating </span>
-          </button>;
-          if(this.state.timesClicked > 0){
-            ratingButton = <div />;
-          }
+        let minSlider = <div></div>;
+        let maxSlider = <div></div>;
+        let referencePathDisplay= <div></div>;
+
+        if('rating' in this.state.minPath && 'metapath' in this.state.minPath){
+            minSlider = <input type="range" multiple min="0" step={this.state.stepsize} max="1" className="minSlider"
+                   value={this.state.minPath.rating}
+                   onChange={(event) => this.handleMinPathRatingChange(event)}/>;
+            maxSlider = <input type="range" multiple min="0" step={this.state.stepsize} max="1" className="maxSlider"
+            value={this.state.maxPath.rating}
+            onChange={(event) => this.handleMaxPathRatingChange(event)}/>;
+            referencePathDisplay = <Card>
+                <Card.Content>
+                    <Card.Header>Reference Meta-Paths</Card.Header>
+                    The reference paths summarize the previously rated paths by showing the paths with the maximum and minimum ratings.
+                    These can be integrated into the rating of the current batch to 'correct' the ratings from the previous batches.
+                    Maximal Meta-Path: <MetaPath path={this.state.maxPath.metapath}/>
+                    Minimal Meta-Path: <MetaPath path={this.state.minPath.metapath}/>
+                </Card.Content>
+            </Card>;
         }
-        
+
+
         return (
             <div>
+                {referencePathDisplay}
+                {this.state.metapaths.map((path, index) =>
+                    <input type="range" multiple min="0" step="0.01" max="1" className={"slider" + index}
+                           value={path.rating}
+                           key={index}
+                           onChange={(event) => this.handleRatingChange(event, path.id)}/>)
+                }
+                {minSlider}
+                {maxSlider}
+                <Table celled>
+                <Table.Header>
+                    <Table.Row>
+                        <Table.HeaderCell>ID</Table.HeaderCell>
+                        <Table.HeaderCell>Meta Paths</Table.HeaderCell>
+                    </Table.Row>
+                </Table.Header>
+
+                <Table.Body>
+                    {this.state.metapaths.map((path, index) =>
+                        <Table.Row key={index} className={"slider"+index}>
+
+                            <Table.Cell>
+                                <button className={"btn btn-circle text-light slider" + index}>[{path.id}]</button>
+                            </Table.Cell>
+                            <Table.Cell><MetaPath path={path.metapath}/></Table.Cell>
+                        </Table.Row>)}
+                </Table.Body>
+            </Table></div>);
+    }
+
+    individualRatingInterface() {
+        return (<div>
+            <Table celled>
+                <Table.Header>
+                    <Table.Row>
+                        <Table.HeaderCell>ID</Table.HeaderCell>
+                        <Table.HeaderCell>Meta Path</Table.HeaderCell>
+                        <Table.HeaderCell>Rating</Table.HeaderCell>
+                    </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                    {this.state.metapaths.map((path, index) =>
+                        <Table.Row key={index}>
+                            <Table.Cell><MetaPathID id={path.id}/></Table.Cell>
+                            <Table.Cell><MetaPath path={path.metapath}/></Table.Cell>
+                            <Table.Cell><MetaPathRater id={path.id} defaultRating={path.rating} rating={path.rating}
+                                                       onChange={this.handleRatingChange.bind(this)}/></Table.Cell>
+                        </Table.Row>)}
+                </Table.Body>
+            </Table></div>);
+    }
+
+    render() {
+        // Show only text when loading
+        if (this.state.loading) {
+            return (<div>Fetching new meta-paths...</div>);
+        }
+
+        // determine which type of interface should be shown
+        let ratingInterface;
+        if (this.state.rangeInterface) {
+            ratingInterface = this.individualRatingInterface()
+        } else {
+            ratingInterface = this.combinedRatingInterface()
+        }
+
+        // set the button for getting next
+        let ratingButton =
+            (<button className="btn btn-primary mx-auto"
+                                   id="show-more-meta-paths-btn"
+                                   onClick={this.nextRatingIteration.bind(this)}>
+                <span> Confirm Current Rating & Get Next </span>
+            </button>);
+        if (!this.state.nextBatchAvailable) {
+            ratingButton = <button className="btn btn-primary mx-auto"
+                                   id="show-more-meta-paths-btn"
+                                   onClick={this.addClickCount.bind(this)}>
+                <span> Confirm Current Rating </span>
+            </button>;
+            if (this.state.timesClicked > 0) {
+                ratingButton = <div/>;
+            }
+        }
+
+        return (
+            <div>
+                <Card>
+                    <Card.Content>
+                    <Card.Header>Algorithm Settings</Card.Header>
+                    <label>Rating Method </label>
+                    Relative <Checkbox toggle defaultChecked={this.state.rangeInterface}
+                                       onClick={(e) => this.handleInterfaceChange(e)}/> Individual
+                    <br/>
+                    <label htmlFor="batchSize">Batchsize</label> 2 <input type="range" name="batchSize" min={2} max={6} value={this.state.batchSize}
+                                                                          onChange={this.handleBatchSizeChange.bind(this)}/> 6
+                    </Card.Content>
+                </Card>
+
+
+                <h3 align='left' className="font-weight-bold"> Found Meta Paths </h3>
+                {ratingInterface}
+                {ratingButton}
+                <h3 align='left' className="font-weight-bold"> Rated MetaPaths </h3>
                 <Table celled>
                     <Table.Header>
                         <Table.Row>
                             <Table.HeaderCell>ID</Table.HeaderCell>
-                            <Table.HeaderCell>Meta Paths</Table.HeaderCell>
+                            <Table.HeaderCell>Rating</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
-
                     <Table.Body>
-                        {this.state.metapaths.map((path, index) =>
-                        <Table.Row key={index}>
-                            <Table.Cell><MetaPathID id={path.id}/></Table.Cell>
-                            <Table.Cell><MetaPath path={path.metapath}/></Table.Cell>
-                        </Table.Row>)}
+                        {this.state.ratedPaths.map((path, index) =>
+                            <Table.Row key={index}>
+                                <Table.Cell><MetaPathID id={path.id}/></Table.Cell>
+                                <Table.Cell>{path.rating}</Table.Cell>
+                            </Table.Row>)}
                     </Table.Body>
                 </Table>
-                <h3 align='center' className="font-weight-bold"> Found Meta Paths </h3>
-                <table align="center">
-                    <thead>
-                    <tr>
-                        <td> Paths</td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        {metaPaths}
-                    </tbody>
-                </table>
-                <h3 align='center' className="font-weight-bold"> Rated Meta Paths </h3>
-                    <table align="center">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Rating</th>
-                            </tr>
-                        </thead>
-                    <tbody>
-                        {ratedPaths}
-                    </tbody>
-                </table>
             </div>
         )
             ;
-    }
-
-    renderNaming() {
-        let available_datasets = this.state.available_datasets.map((dataset, index) => (<option key={index} value={dataset.name}>{dataset.name}</option>));
-
-        return (<div>
-            <label htmlFor="uname"> Your Name: </label>
-            <input type="text"
-                   id="uname"
-                   name="userName"
-                   value={this.props.userName}
-                   onChange={this.handleInputChange.bind(this)}/>
-            <br/>
-            <label htmlFor="simtype"> Describe the type of similarity: </label>
-            <input type="text"
-                   id="simtype"
-                   name="similarityType"
-                   value={this.props.similarityType}
-                   onChange={this.handleInputChange.bind(this)}/>
-            <br />
-              <label htmlFor="dataset">Choose a dataset: </label>
-            <select value={this.props.dataset} name='dataset' onChange={this.handleInputChange.bind(this)}>
-                {available_datasets}
-            </select>
-            <div>
-                <button onClick={this.submitNaming.bind(this)}>Submit</button>
-            </div>
-        </div>);
-    }
-
-
-    renderMetaPathRatingRow(metaPath, index) {
-        return (
-            <tr key={index}>
-                <td><MetaPathID id={metaPath.id}/></td>
-                <td><MetaPath path={metaPath.metapath}/></td>
-                <td><MetaPathRater id={metaPath.id} defaultRating={metaPath.rating} rating={metaPath.rating}
-                                    onChange={this.handleRatingChange.bind(this)}/></td>
-            </tr>
-        );
-    }
-
-    renderRatedMetaPathRow(metaPath, index) {
-        return (
-            <tr key={index}>
-                <td><MetaPathID id={metaPath.id}/></td>
-                <td>{metaPath.rating}</td>
-            </tr>
-        );
     }
 
 }
