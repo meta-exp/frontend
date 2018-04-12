@@ -24,6 +24,12 @@
 	font-size: 1.75rem;
 }
 
+.content-wrapper h4{
+	font-weight: normal;
+	color: #646464;
+	font-family: 'Roboto', sans-serif;
+	font-size: 1.5rem;
+}
 
 /* All the same stuff for Firefox */
 input[type="range"][multiple]#slider1::-moz-range-thumb {
@@ -174,4 +180,3 @@ input[type="range"][multiple]::-ms-thumb {
 	cursor: pointer;
 	pointer-events: all;
 }
-

@@ -1,6 +1,7 @@
 import AccountActions from '../actions/AccountActions';
 import ExploreActions from '../actions/ExploreActions';
 import ConfigActions from '../actions/ConfigActions';
+import ResultActions from '../actions/ResultActions';
 
 const Actions = {
 
@@ -142,6 +143,66 @@ const Actions = {
       }
     }).catch((error) => {
         console.error(error);
+    });
+  },
+  fetchSimilarityScore(){
+    fetch(process.env.REACT_APP_API_HOST + 'get-similarity-score', {
+        method: 'GET',
+        credentials: "include"
+    }).then((response) => {return response.json();}).then((json) => {
+      ResultActions.receiveSimilarityScore(json.similarity_score);
+    }).catch((error) => {
+      console.error(error);
+    });
+  },
+  fetchFirstNodeSetQuery(){
+    fetch(process.env.REACT_APP_API_HOST + 'first-node -set-query', {
+        method: 'GET',
+        credentials: "include"
+    }).then((response) => {return response.json();}).then((json) => {
+      ResultActions.receiveFirstNodeSetQuery(json.node_set_query);
+    }).catch((error) => {
+      console.error(error);
+    });
+  },
+  fetchSecondNodeSetQuery(){
+    fetch(process.env.REACT_APP_API_HOST + 'second-node-set-query', {
+        method: 'GET',
+        credentials: "include"
+    }).then((response) => {return response.json();}).then((json) => {
+      ResultActions.receiveSecondNodeSetQuery(json.node_set_query);
+    }).catch((error) => {
+      console.error(error);
+    });
+  },
+  fetchContributingMetaPaths(){
+    fetch(process.env.REACT_APP_API_HOST + 'contributing-meta-paths', {
+        method: 'GET',
+        credentials: "include"
+    }).then((response) => {return response.json();}).then((json) => {
+      ResultActions.receiveContributingMetaPaths(json.contributing_meta_paths);
+    }).catch((error) => {
+      console.error(error);
+    });
+  },
+  fetchMetaPathDetails(metaPathId){
+    fetch(process.env.REACT_APP_API_HOST + 'contributing-meta-path/' + metaPathId, {
+        method: 'GET',
+        credentials: "include"
+    }).then((response) => {return response.json();}).then((json) => {
+      ResultActions.receiveMetaPathDetails(json.meta_path);
+    }).catch((error) => {
+      console.error(error);
+    });
+  },
+  fetchSimilarNodes(){
+    fetch(process.env.REACT_APP_API_HOST + 'similar-nodes', {
+        method: 'GET',
+        credentials: "include"
+    }).then((response) => {return response.json();}).then((json) => {
+      ResultActions.receiveSimilarNodes(json.similar_nodes);
+    }).catch((error) => {
+      console.error(error);
     });
   }
 }
