@@ -93,10 +93,7 @@ class Login extends Component {
     AccountActions.updateNewDatasetPassword(data.value);
   }
 
-  toggleDatasetField(e){
-    e.preventDefault();
-    e.stopPropagation();
-
+  toggleDatasetField(){
     if(!this.state.show_dataset_form){
       this.setState({
         show_dataset_form: true,
@@ -119,7 +116,13 @@ class Login extends Component {
     e.preventDefault();
     e.stopPropagation();
 
-    AccountActions.saveNewDataset(this.state.new_dataset_url, this.state.new_dataset_username, this.state.new_dataset_password);
+    var url = this.state.new_dataset_url;
+    var username = this.state.new_dataset_username;
+    var password = this.state.new_dataset_password;
+
+    this.toggleDatasetField();
+
+    AccountActions.saveNewDataset(url, username, password);
   }
 
   submitNaming(e) {
@@ -148,7 +151,7 @@ class Login extends Component {
             </Form.Field>
           </div>
           <div className="col-2">
-            <Form.Button floated='right' onClick={(e) => this.toggleDatasetField(e)} icon primary={false} style={{marginTop: 23 + 'px'}}>
+            <Form.Button floated='right' onClick={(e) => this.toggleDatasetField()} icon primary={false} style={{marginTop: 23 + 'px'}}>
               <Icon name={this.state.dataset_btn_icon} />
               <span style={{marginLeft: 10 + 'px'}}>{this.state.dataset_btn_text}</span>
             </Form.Button>
