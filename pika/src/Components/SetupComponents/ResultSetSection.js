@@ -50,14 +50,14 @@ class ResultSetSection extends Component {
 		e.preventDefault();
 		e.stopPropagation();
 
-		SetupActions.updateNodeSetA(this.state.node_set_candidates_A);
+		SetupActions.addToNodeSetA(this.state.node_set_candidates_A);
 	}
 
 	addToNodeSetB(e){
 		e.preventDefault();
 		e.stopPropagation();
 
-		SetupActions.updateNodeSetB(this.state.node_set_candidates_B);
+		SetupActions.addToNodeSetB(this.state.node_set_candidates_B);
 	}
 
 	handleMarkAllNodesClick(e){

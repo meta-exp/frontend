@@ -39,18 +39,28 @@ class SetupStore extends EventEmitter {
 		this.emit("change");
 	}
 
+	addToNodeSetA(nodes){
+		this.nodeSetA = this.nodeSetA.concat(nodes);
+		this.emit("change");
+	}
+
+	addToNodeSetB(nodes){
+		this.nodeSetB = this.nodeSetB.concat(nodes);
+		this.emit("change");
+	}
+
 	handleActions(action){
 		switch(action.type){
 			case SetupActionTypes.EXECUTE_CYPHER_QUERY: {
 				this.setCyperQuery(action.payload.query);
 				return this.cyperQuery;
 			};
-			case SetupActionTypes.UPDATE_NODE_SET_A: {
-				this.setNodeSetA(action.payload.nodeSet);
+			case SetupActionTypes.ADD_NODES_TO_NODE_SET_A: {
+				this.addToNodeSetA(action.payload.nodeSet);
 				return this.nodeSetA;
 			};
-			case SetupActionTypes.UPDATE_NODE_SET_A: {
-				this.setNodeSetB(action.payload.nodeSet);
+			case SetupActionTypes.ADD_NODES_TO_NODE_SET_B: {
+				this.addToNodeSetB(action.payload.nodeSet);
 				return this.nodeSetB;
 			};
 			default: {

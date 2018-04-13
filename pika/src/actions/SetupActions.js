@@ -9,17 +9,17 @@ const SetupActions = {
 		});
 	},
 
-	updateNodeSetA(nodeSet){
+	addToNodeSetA(nodes){
 		SetupDispatcher.dispatch({
-			type: SetupActionTypes.UPDATE_NODE_SET_A,
-			payload: {nodeSet: nodeSet}
+			type: SetupActionTypes.ADD_NODES_TO_NODE_SET_A,
+			payload: {nodes: nodes}
 		});
 	},
 
-	updateNodeSetB(nodeSet){
+	addToNodeSetB(nodes){
 		SetupDispatcher.dispatch({
-			type: SetupActionTypes.UPDATE_NODE_SET_B,
-			payload: {nodeSet: nodeSet}
+			type: SetupActionTypes.ADD_NODES_TO_NODE_SET_B,
+			payload: {nodes: nodes}
 		});
 	}
 
