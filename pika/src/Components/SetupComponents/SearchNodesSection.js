@@ -26,7 +26,7 @@ class SearchNodesSection extends Component {
 	    this.getCyperQuery = this.getCyperQuery.bind(this);
 	 
 	    this.state = { 
-      		cypherQuery: 'MATCH(n)\nRETURN n LIMIT 10'
+      		cypherQuery: 'MATCH (n)\nRETURN n\nLIMIT 10'
 	    }; 
 	}
 

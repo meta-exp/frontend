@@ -18,12 +18,12 @@ class ResultSetSection extends Component {
 		this.getDataset = this.getDataset.bind(this);
 		this.addToNodeSetA = this.addToNodeSetA.bind(this);
 		this.addToNodeSetB = this.addToNodeSetB.bind(this);
+		this.addToNodeSetCandidates = this.addToNodeSetCandidates.bind(this);
 
 		this.state = {
 			cypherQuery: 'RETURN 1',
 			dataset: {},
-			node_set_candidates_A: [],
-			node_set_candidates_B: []
+			nodeSetCandidates: []
 		};
 	}
 
@@ -50,14 +50,24 @@ class ResultSetSection extends Component {
 		e.preventDefault();
 		e.stopPropagation();
 
-		SetupActions.addToNodeSetA(this.state.node_set_candidates_A);
+		SetupActions.addToNodeSetA(this.state.nodeSetCandidates);
 	}
 
 	addToNodeSetB(e){
 		e.preventDefault();
 		e.stopPropagation();
 
-		SetupActions.addToNodeSetB(this.state.node_set_candidates_B);
+		SetupActions.addToNodeSetB(this.state.nodeSetCandidates);
+	}
+
+	addToNodeSetCandidates(node){
+		if(!this.state.nodeSetCandidates.includes(node.id)){
+			this.state.nodeSetCandidates.push(node.id);
+		}
+		else{
+			var candidate_index = this.state.nodeSetCandidates.indexOf(node.id);
+			this.state.nodeSetCandidates.splice(candidate_index, 1);
+		}
 	}
 
 	handleMarkAllNodesClick(e){
@@ -95,16 +105,16 @@ class ResultSetSection extends Component {
 						<Icon name='add' />
 						<span style={{marginLeft: 10 + 'px'}}>Add to Node Set B</span>
 					</Button>
-					<Button floated='right' onClick={(e) => this.handleResetAllNodesClick(e)} style={{marginLeft: 20 + 'px'}} icon secondary>
+					<Button floated='right' onClick={(e) => this.handleResetAllNodesClick(e)} style={{marginLeft: 20 + 'px'}} icon primary={false}>
 						<Icon name='remove' />
 						<span style={{marginLeft: 10 + 'px'}}>Reset all Nodes</span>
 					</Button>
-					<Button floated='right' onClick={(e) => this.handleMarkAllNodesClick(e)} style={{marginLeft: 20 + 'px'}} icon secondary>
+					<Button floated='right' onClick={(e) => this.handleMarkAllNodesClick(e)} style={{marginLeft: 20 + 'px'}} icon primary={false}>
 						<Icon name='checkmark' />
 						<span style={{marginLeft: 10 + 'px'}}>Mark all Nodes</span>
 					</Button>
 				</h3>
-				<Neo4jGraphRenderer onClick={(node) => console.log(node)} url={this.state.dataset.url} user={this.state.dataset.username} password={this.state.dataset.password} query={this.state.cypherQuery} />
+				<Neo4jGraphRenderer onClick={(node) => this.addToNodeSetCandidates(node)} url={this.state.dataset.url} user={this.state.dataset.username} password={this.state.dataset.password} query={this.state.cypherQuery} />
 			</div>
 		);
 	}

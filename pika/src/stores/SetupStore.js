@@ -10,6 +10,16 @@ class SetupStore extends EventEmitter {
 		this.cyperQuery = 'RETURN 1';
 		this.nodeSetA = [];
 		this.nodeSetB = [];
+		this.nodeSetQueryA = 'RETRUN 1';
+		this.nodeSetQueryB = 'RETRUN 1';
+	}
+
+	getNodeSetQueryA(){
+		return this.nodeSetQueryA;
+	}
+
+	getNodeSetQueryB(){
+		return this.nodeSetQueryB;
 	}
 
 	getNodeSetA(){

@@ -1,5 +1,6 @@
 import SetupActionTypes from './SetupActionTypes';
 import SetupDispatcher from '../dispatchers/SetupDispatcher';
+import MetaPathAPI from '../utils/MetaPathAPI';
 
 const SetupActions = {
 	executeQuery(query){
@@ -21,6 +22,13 @@ const SetupActions = {
 			type: SetupActionTypes.ADD_NODES_TO_NODE_SET_B,
 			payload: {nodes: nodes}
 		});
+	},
+
+	sendNodeSets(nodeSetA, nodeSetB){
+		SetupDispatcher.dispatch({
+			type: SetupActionTypes.SAVE_NODE_SETS
+		});
+		MetaPathAPI.sendNodeSets(nodeSetA, nodeSetB);
 	}
 
 }
