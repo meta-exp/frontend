@@ -5,6 +5,7 @@ import ResultSetSection from './ResultSetSection';
 import NodeSetsSection from './NodeSetsSection';
 
 import SetupStore from '../../stores/SetupStore';
+import AccountStore from '../../stores/AccountStore';
 
 import './css/setup.css';
 
@@ -12,24 +13,6 @@ class Setup extends Component {
 
 	constructor(){
 		super();
-
-		this.getCyperQuery = this.getCyperQuery.bind(this);
-
-		this.state = {
-			cypherQuery: 'RETURN 1'
-		};
-	}
-
-	componentWillMount(){
-		SetupStore.on("change", this.getCyperQuery);
-	}
-
-	componentWillUnmount(){
-		SetupStore.removeListener("change", this.getCyperQuery);
-	}
-
-	getCyperQuery(){
-		this.setState({ cypherQuery: SetupStore.getCyperQuery() });
 	}
 
 	render() {
@@ -40,7 +23,7 @@ class Setup extends Component {
 					<SearchNodesSection /> 
 				</div> 
 				<div style={{margin: 20 + 'px ' + 0 + 'px'}}> 
-					
+					<ResultSetSection />
 				</div> 
 				<div style={{margin: 20 + 'px ' + 0 + 'px'}}> 
 					 
@@ -53,5 +36,5 @@ class Setup extends Component {
 
 export default Setup;
 
-//<ResultSetSection cypherQuery={this.state.cypherQuery} /> 
+// 
 //<NodeSetsSection />

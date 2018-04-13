@@ -6,7 +6,8 @@ class SetupStore extends EventEmitter {
 
 	constructor(){
 		super();
-		this.cyperQuery = 'MATCH(n)\nRETURN n';
+
+		this.cyperQuery = 'RETURN 1';
 	}
 
 	getCyperQuery(){
@@ -23,7 +24,7 @@ class SetupStore extends EventEmitter {
 			case SetupActionTypes.EXECUTE_CYPHER_QUERY: {
 				this.setCyperQuery(action.payload.query);
 				return this.cyperQuery;
-			}
+			};
 		}
 	}
 
