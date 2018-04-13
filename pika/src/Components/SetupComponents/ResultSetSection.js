@@ -104,7 +104,7 @@ class ResultSetSection extends Component {
 						<span style={{marginLeft: 10 + 'px'}}>Mark all Nodes</span>
 					</Button>
 				</h3>
-				<Neo4jGraphRenderer url={this.state.dataset.url} user={this.state.dataset.username} password={this.state.dataset.password} query={this.state.cypherQuery} />
+				<Neo4jGraphRenderer onClick={(node) => console.log(node)} url={this.state.dataset.url} user={this.state.dataset.username} password={this.state.dataset.password} query={this.state.cypherQuery} />
 			</div>
 		);
 	}
