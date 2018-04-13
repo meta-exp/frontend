@@ -5,6 +5,7 @@ import { Neo4jGraphRenderer } from 'neo4j-graph-renderer';
 
 import AccountStore from '../../stores/AccountStore';
 import SetupStore from '../../stores/SetupStore';
+import SetupActions from '../../actions/SetupActions';
 
 class ResultSetSection extends Component {
 
@@ -15,10 +16,14 @@ class ResultSetSection extends Component {
 		this.handleResetAllNodesClick = this.handleResetAllNodesClick.bind(this);
 		this.getCyperQuery = this.getCyperQuery.bind(this);
 		this.getDataset = this.getDataset.bind(this);
+		this.addToNodeSetA = this.addToNodeSetA.bind(this);
+		this.addToNodeSetB = this.addToNodeSetB.bind(this);
 
 		this.state = {
 			cypherQuery: 'RETURN 1',
-			dataset: {}
+			dataset: {},
+			node_set_candidates_A: [],
+			node_set_candidates_B: []
 		};
 	}
 
@@ -39,6 +44,20 @@ class ResultSetSection extends Component {
 
 	getCyperQuery(){
 		this.setState({ cypherQuery: SetupStore.getCyperQuery() });
+	}
+
+	addToNodeSetA(e){
+		e.preventDefault();
+		e.stopPropagation();
+
+		SetupActions.updateNodeSetA(this.state.node_set_candidates_A);
+	}
+
+	addToNodeSetB(e){
+		e.preventDefault();
+		e.stopPropagation();
+
+		SetupActions.updateNodeSetB(this.state.node_set_candidates_B);
 	}
 
 	handleMarkAllNodesClick(e){
@@ -68,13 +87,21 @@ class ResultSetSection extends Component {
 			<div>
 				<h3>
 					Query Result Set
-					<Button onClick={(e) => this.handleMarkAllNodesClick(e)} style={{marginLeft: 20 + 'px'}} icon primary>
+					<Button onClick={(e) => this.addToNodeSetA(e)} style={{marginLeft: 20 + 'px'}} icon primary>
+						<Icon name='add' />
+						<span style={{marginLeft: 10 + 'px'}}>Add to Node Set A</span>
+					</Button>
+					<Button onClick={(e) => this.addToNodeSetB(e)} style={{marginLeft: 20 + 'px'}} icon primary>
+						<Icon name='add' />
+						<span style={{marginLeft: 10 + 'px'}}>Add to Node Set B</span>
+					</Button>
+					<Button floated='right' onClick={(e) => this.handleResetAllNodesClick(e)} style={{marginLeft: 20 + 'px'}} icon secondary>
+						<Icon name='remove' />
+						<span style={{marginLeft: 10 + 'px'}}>Reset all Nodes</span>
+					</Button>
+					<Button floated='right' onClick={(e) => this.handleMarkAllNodesClick(e)} style={{marginLeft: 20 + 'px'}} icon secondary>
 						<Icon name='checkmark' />
 						<span style={{marginLeft: 10 + 'px'}}>Mark all Nodes</span>
-					</Button>
-					<Button onClick={(e) => this.handleResetAllNodesClick(e)} style={{marginLeft: 20 + 'px'}} icon primary>
-						<Icon name='checkmark' />
-						<span style={{marginLeft: 10 + 'px'}}>Reset all Nodes</span>
 					</Button>
 				</h3>
 				<Neo4jGraphRenderer url={this.state.dataset.url} user={this.state.dataset.username} password={this.state.dataset.password} query={this.state.cypherQuery} />
@@ -86,4 +113,4 @@ class ResultSetSection extends Component {
 
 export default ResultSetSection;
 
-//MATCH (n)-[r]->(m) RETURN n,r,m
+// MATCH (n)-[r]->(m) RETURN n,r,m
