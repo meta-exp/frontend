@@ -20,7 +20,7 @@ class ResultSetSection extends Component {
 
 		this.handleMarkAllNodesClick = this.handleMarkAllNodesClick.bind(this);
 		this.handleResetAllNodesClick = this.handleResetAllNodesClick.bind(this);
-		this.getCyperQuery = this.getCyperQuery.bind(this);
+		this.getCypherQuery = this.getCypherQuery.bind(this);
 		this.getDataset = this.getDataset.bind(this);
 		this.addToNodeSetA = this.addToNodeSetA.bind(this);
 		this.addToNodeSetB = this.addToNodeSetB.bind(this);
@@ -37,12 +37,12 @@ class ResultSetSection extends Component {
 
 	componentDidMount(){
 		this.getDataset();
-		SetupStore.on("change", this.getCyperQuery);
+		SetupStore.on("change", this.getCypherQuery);
 		AccountStore.on("change", this.getDataset);
 	}
 
 	componentWillUnmount(){
-		SetupStore.removeListener("change", this.getCyperQuery);
+		SetupStore.removeListener("change", this.getCypherQuery);
 		AccountStore.removeListener("change", this.getDataset);
 	}
 
@@ -50,8 +50,8 @@ class ResultSetSection extends Component {
 		this.setState({ dataset: AccountStore.getDataset() });
 	}
 
-	getCyperQuery(){
-		this.setState({ cypherQuery: SetupStore.getCyperQuery() });
+	getCypherQuery(){
+		this.setState({ cypherQuery: SetupStore.getCypherQuery() });
 	}
 
 	addToNodeSetA(e){

@@ -7,7 +7,7 @@ class SetupStore extends EventEmitter {
 	constructor(){
 		super();
 
-		this.cyperQuery = 'RETURN 1';
+		this.cypherQuery = 'RETURN 1';
 		this.nodeSetA = [];
 		this.nodeSetB = [];
 		this.nodeSetQueryA = 'match (n) return n limit 10';
@@ -30,12 +30,12 @@ class SetupStore extends EventEmitter {
 		return this.nodeSetB;
 	}
 
-	getCyperQuery(){
-		return this.cyperQuery;
+	getCypherQuery(){
+		return this.cypherQuery;
 	}
 
-	setCyperQuery(query){
-		this.cyperQuery = query;
+	setCypherQuery(query){
+		this.cypherQuery = query;
 		this.emit("change");
 	}
 
@@ -74,8 +74,8 @@ class SetupStore extends EventEmitter {
 	handleActions(action){
 		switch(action.type){
 			case SetupActionTypes.EXECUTE_CYPHER_QUERY: {
-				this.setCyperQuery(action.payload.query);
-				return this.cyperQuery;
+				this.setCypherQuery(action.payload.query);
+				return this.cypherQuery;
 			};
 			case SetupActionTypes.ADD_NODES_TO_NODE_SET_A: {
 				this.addToNodeSetA(action.payload.nodes);

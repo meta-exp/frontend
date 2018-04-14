@@ -23,7 +23,7 @@ class SearchNodesSection extends Component {
 
 	    this.handleQueryChange = this.handleQueryChange.bind(this);
 	    this.handleQueryExecution = this.handleQueryExecution.bind(this);
-	    this.getCyperQuery = this.getCyperQuery.bind(this);
+	    this.getCypherQuery = this.getCypherQuery.bind(this);
 	 
 	    this.state = { 
       		cypherQuery: 'MATCH (n) RETURN n LIMIT 10'
@@ -31,15 +31,15 @@ class SearchNodesSection extends Component {
 	}
 
 	componentWillMount(){
-		SetupStore.on("change", this.getCyperQuery);
+		SetupStore.on("change", this.getCypherQuery);
 	}
 
 	componentWillUnmount(){
-		SetupStore.removeListener("change", this.getCyperQuery);
+		SetupStore.removeListener("change", this.getCypherQuery);
 	}
 
-	getCyperQuery(){
-		this.setState({ cypherQuery: SetupStore.getCyperQuery() });
+	getCypherQuery(){
+		this.setState({ cypherQuery: SetupStore.getCypherQuery() });
 	}
 
 	handleQueryExecution(e){
