@@ -2,6 +2,7 @@ import AccountActions from '../actions/AccountActions';
 import ExploreActions from '../actions/ExploreActions';
 import ConfigActions from '../actions/ConfigActions';
 import ResultActions from '../actions/ResultActions';
+import SetupActions from '../actions/SetupActions';
 
 const Actions = {
 
@@ -204,7 +205,30 @@ const Actions = {
     }).catch((error) => {
       console.error(error);
     });
+  },
+  sendNodeSets(nodeSetA, nodeSetB){
+    fetch(process.env.REACT_APP_API_HOST + 'node-sets', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        node_set_A: nodeSetA,
+        node_set_B: nodeSetB
+      }),
+      credentials: "include"
+    }).then((response) => { return response.json() }).then((json) => {
+      if (!(json.status === 200)) {
+        alert('Could not send node sets to server.');
+      }
+      else{
+        alert("A: " + nodeSetA + "\nB:" + nodeSetB);
+      }
+    }).catch((error) => {
+        console.error(error);
+    });
   }
-}
+};
 
 export default Actions;
