@@ -50,12 +50,22 @@ class SetupStore extends EventEmitter {
 	}
 
 	addToNodeSetA(nodes){
-		this.nodeSetA = this.nodeSetA.concat(nodes);
+		var that = this;
+		nodes.forEach(function(node){
+			if(!that.nodeSetA.includes(node)){
+				that.nodeSetA.push(node);
+			}
+		});
 		this.emit("change");
 	}
 
 	addToNodeSetB(nodes){
-		this.nodeSetB = this.nodeSetB.concat(nodes);
+		var that = this;
+		nodes.forEach(function(node){
+			if(!that.nodeSetB.includes(node)){
+				that.nodeSetB.push(node);
+			}
+		});
 		this.emit("change");
 	}
 
@@ -66,11 +76,11 @@ class SetupStore extends EventEmitter {
 				return this.cyperQuery;
 			};
 			case SetupActionTypes.ADD_NODES_TO_NODE_SET_A: {
-				this.addToNodeSetA(action.payload.nodeSet);
+				this.addToNodeSetA(action.payload.nodes);
 				return this.nodeSetA;
 			};
 			case SetupActionTypes.ADD_NODES_TO_NODE_SET_B: {
-				this.addToNodeSetB(action.payload.nodeSet);
+				this.addToNodeSetB(action.payload.nodes);
 				return this.nodeSetB;
 			};
 			default: {

@@ -11,7 +11,7 @@ class ResultSetSection extends Component {
 
 	constructor(){
 		super();
-
+		
 		this.handleMarkAllNodesClick = this.handleMarkAllNodesClick.bind(this);
 		this.handleResetAllNodesClick = this.handleResetAllNodesClick.bind(this);
 		this.getCyperQuery = this.getCyperQuery.bind(this);
@@ -19,11 +19,13 @@ class ResultSetSection extends Component {
 		this.addToNodeSetA = this.addToNodeSetA.bind(this);
 		this.addToNodeSetB = this.addToNodeSetB.bind(this);
 		this.addToNodeSetCandidates = this.addToNodeSetCandidates.bind(this);
+		this.resetNodeCandidates = this.resetNodeCandidates.bind(this);
+
+		this.nodeSetCandidates = [];
 
 		this.state = {
 			cypherQuery: 'RETURN 1',
-			dataset: {},
-			nodeSetCandidates: []
+			dataset: {}
 		};
 	}
 
@@ -49,24 +51,24 @@ class ResultSetSection extends Component {
 	addToNodeSetA(e){
 		e.preventDefault();
 		e.stopPropagation();
-
-		SetupActions.addToNodeSetA(this.state.nodeSetCandidates);
+		
+		SetupActions.addToNodeSetA(this.nodeSetCandidates);
 	}
 
 	addToNodeSetB(e){
 		e.preventDefault();
 		e.stopPropagation();
 
-		SetupActions.addToNodeSetB(this.state.nodeSetCandidates);
+		SetupActions.addToNodeSetB(this.nodeSetCandidates);
 	}
 
 	addToNodeSetCandidates(node){
-		if(!this.state.nodeSetCandidates.includes(node.id)){
-			this.state.nodeSetCandidates.push(node.id);
+		if(!this.nodeSetCandidates.includes(node.id)){
+			this.nodeSetCandidates.push(node.id);
 		}
 		else{
-			var candidate_index = this.state.nodeSetCandidates.indexOf(node.id);
-			this.state.nodeSetCandidates.splice(candidate_index, 1);
+			var candidate_index = this.nodeSetCandidates.indexOf(node.id);
+			this.nodeSetCandidates.splice(candidate_index, 1);
 		}
 	}
 
@@ -92,7 +94,13 @@ class ResultSetSection extends Component {
     	}
 	}
 
+	resetNodeCandidates(){
+		this.nodeSetCandidates = [];
+	}
+
 	render() {
+		this.resetNodeCandidates();
+
 		return (
 			<div>
 				<h3>

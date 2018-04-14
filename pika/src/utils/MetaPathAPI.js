@@ -207,6 +207,7 @@ const Actions = {
     });
   },
   sendNodeSets(nodeSetA, nodeSetB){
+    alert("A: " + nodeSetA + "\nB:" + nodeSetB);
     fetch(process.env.REACT_APP_API_HOST + 'node-sets', {
       method: 'POST',
       headers: {

@@ -29,12 +29,13 @@ class NodeSetsSection extends Component {
 	componentDidMount(){
 		this.getDataset();
 		SetupStore.on("change", this.getNodeSetQuerys);
+		SetupStore.on("change", this.getNodeSets);
 		AccountStore.on("change", this.getDataset);
 	}
 
 	componentWillUnmount(){
 		SetupStore.removeListener("change", this.getNodeSetQuerys);
-
+		SetupStore.removeListener("change", this.getNodeSets);
 		AccountStore.removeListener("change", this.getDataset);
 	}
 
@@ -59,7 +60,7 @@ class NodeSetsSection extends Component {
 	saveNodeSets(e){
 		e.preventDefault();
 		e.stopPropagation();
-		alert("A: " + this.state.nodeSetA + "\nB:" + this.state.nodeSetB);
+		
 		SetupActions.sendNodeSets(this.state.nodeSetA, this.state.nodeSetB);
 	}
 
