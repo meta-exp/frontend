@@ -29,6 +29,20 @@ const SetupActions = {
 			type: SetupActionTypes.SAVE_NODE_SETS
 		});
 		MetaPathAPI.sendNodeSets(nodeSetA, nodeSetB);
+	},
+
+	removeNodeFromNodeSetA(node){
+		SetupDispatcher.dispatch({
+			type: SetupActionTypes.REMOVE_NODE_FROM_NODE_SET_A,
+			payload: {node: node}
+		});
+	},
+
+	removeNodeFromNodeSetB(node){
+		SetupDispatcher.dispatch({
+			type: SetupActionTypes.REMOVE_NODE_FROM_NODE_SET_B,
+			payload: {node: node}
+		});
 	}
 
 }

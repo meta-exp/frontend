@@ -16,6 +16,8 @@ class NodeSetsSection extends Component {
 		this.getNodeSetQuerys = this.getNodeSetQuerys.bind(this);
 		this.getNodeSets = this.getNodeSets.bind(this);
 		this.saveNodeSets = this.saveNodeSets.bind(this);
+		this.removeNodeFromNodeSetA = this.removeNodeFromNodeSetA.bind(this);
+		this.removeNodeFromNodeSetB = this.removeNodeFromNodeSetB.bind(this);
 
 		this.state = {
 			dataset: {},
@@ -63,6 +65,14 @@ class NodeSetsSection extends Component {
 		SetupActions.sendNodeSets(this.state.nodeSetA, this.state.nodeSetB);
 	}
 
+	removeNodeFromNodeSetA(node){
+		SetupActions.removeNodeFromNodeSetA(node.id);
+	}
+
+	removeNodeFromNodeSetB(node){
+		SetupActions.removeNodeFromNodeSetB(node.id);
+	}
+
 	render() {
 		return (
 			<div>
@@ -70,18 +80,18 @@ class NodeSetsSection extends Component {
 					<div className="col">
 						<div>
 							<h3>Node Set A</h3>
-							<Neo4jGraphRenderer divId="2" onClick={(node) => console.log(node)} url={this.state.dataset.url} user={this.state.dataset.username} password={this.state.dataset.password} query={this.state.nodeSetQueryA} />
+							<Neo4jGraphRenderer divId="2" onClick={(event, node) => this.removeNodeFromNodeSetA(node)} url={this.state.dataset.url} user={this.state.dataset.username} password={this.state.dataset.password} query={this.state.nodeSetQueryA} />
 						</div>
 					</div>
 					<div className="col">
 						<div>
 							<h3>Node Set B
-							<Button floated='right' onClick={(e) => this.saveNodeSets(e)} style={{marginLeft: 20 + 'px'}} icon primary>
+							<Button floated='right'  onClick={(e) => this.saveNodeSets(e)} style={{marginLeft: 20 + 'px'}} icon primary>
 								<Icon name='save' />
 								<span style={{marginLeft: 10 + 'px'}}>Save Node Sets</span>
 							</Button>
 							</h3>
-							<Neo4jGraphRenderer divId="3" onClick={(node) => console.log(node)} url={this.state.dataset.url} user={this.state.dataset.username} password={this.state.dataset.password} query={this.state.nodeSetQueryB} />
+							<Neo4jGraphRenderer divId="3" onClick={(event, node) => this.removeNodeFromNodeSetB(node)} url={this.state.dataset.url} user={this.state.dataset.username} password={this.state.dataset.password} query={this.state.nodeSetQueryB} />
 						</div>
 					</div>
 				</div>
