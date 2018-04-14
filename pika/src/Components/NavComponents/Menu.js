@@ -22,7 +22,7 @@ export default class TopMenuBar extends Component {
 				href: '#'
 			},
 			{
-				title: 'Setup',
+				title: 'Search',
 				href: 'home.html'
 			},
 			{
