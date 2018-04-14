@@ -4,31 +4,44 @@ import { Button, Icon } from 'semantic-ui-react';
 
 import { Neo4jGraphRenderer } from 'neo4j-graph-renderer';
 
+import NodeProperties from './NodeProperties';
+
+import NodePropertyActions from '../../actions/NodePropertyActions';
+
+
 class ResultSetSection extends Component {
+
 
 	handleMarkAllNodesClick = e => {
 		e.preventDefault();
 		e.stopPropagation();
 
-		var elements = document.getElementsByClassName("node");
+		let elements = document.getElementsByClassName("node");
     	
     	for (let i=0; i < elements.length; i++) {
     		elements[i].classList.add("marked");
     	}
-	}
+	};
 
 	handleResetAllNodesClick = e => {
 		e.preventDefault();
 		e.stopPropagation();
 
-		var elements = document.getElementsByClassName("node");
+		let elements = document.getElementsByClassName("node");
     	
     	for (let i=0; i < elements.length; i++) {
     		elements[i].classList.remove("marked");
     	}
-	}
+	};
+
+    storeProps = (event, nodeProperties) => {
+        NodePropertyActions.updateNodeProperties(nodeProperties);
+        event.preventDefault();
+        event.stopPropagation();
+    };
 
 	render() {
+        window.scrollBy(100, 200);
 		return (
 			<div>
 				<h3>
@@ -42,8 +55,9 @@ class ResultSetSection extends Component {
 						<span style={{marginLeft: 10 + 'px'}}>Reset all Nodes</span>
 					</Button>
 				</h3>
-				<Neo4jGraphRenderer url="http://172.20.14.22:7484" user="neo4j"
-				password="neo4j" query={this.props.cypherQuery} onClickHandler={(node)=>console.log(node)}/>
+				<Neo4jGraphRenderer url="http://localhost:7474" user="neo4j"
+				password="neo4j1" query={this.props.cypherQuery} onClick={(event, node) => this.storeProps(event, node)}/>
+    			<NodeProperties/>
 			</div>
 		);
 	}
@@ -51,5 +65,3 @@ class ResultSetSection extends Component {
 }
 
 export default ResultSetSection;
-
-//MATCH (n)-[r]->(m) RETURN n,r,m

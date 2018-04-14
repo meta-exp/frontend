@@ -12,9 +12,7 @@ class Setup extends Component {
 
 	constructor(){
 		super();
-
 		this.getCyperQuery = this.getCyperQuery.bind(this);
-
 		this.state = {
 			cypherQuery: 'match (n) return n limit 10'
 		};
