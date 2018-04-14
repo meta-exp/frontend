@@ -1,6 +1,8 @@
 import AccountActions from '../actions/AccountActions';
 import ExploreActions from '../actions/ExploreActions';
 import ConfigActions from '../actions/ConfigActions';
+import ResultActions from '../actions/ResultActions';
+import SetupActions from '../actions/SetupActions';
 
 const Actions = {
 
@@ -54,8 +56,8 @@ const Actions = {
     })
     ;
   },
-  fetchMetaPaths(){
-    fetch(process.env.REACT_APP_API_HOST + '/next-meta-paths/5', {
+  fetchMetaPaths(batchSize){
+    fetch(process.env.REACT_APP_API_HOST + 'next-meta-paths/' + batchSize.toString(), {
       method: 'GET',
       headers: {
           'Accept': 'application/json',
@@ -63,11 +65,12 @@ const Actions = {
       },
       credentials: "include"
     }).then((response) => {return response.json();}).then( (json) => {
-      ExploreActions.receiveMetaPaths(json.meta_paths);
+      ExploreActions.receiveMetaPaths(json.meta_paths,json.next_batch_available,json.min_path,json.max_path);
     }).catch((error) => {
       console.error(error);
     });
-  },
+  }
+    ,
   fetchNodeTypes(){
     fetch(process.env.REACT_APP_API_HOST + '/get-node-types', {
         method: 'GET',
@@ -105,6 +108,27 @@ const Actions = {
         console.error(error);
     });
   },
+    sendRatedMetaPaths(ratedMetaPaths, minPath, maxPath){
+        fetch(process.env.REACT_APP_API_HOST + 'rate-meta-paths', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                meta_paths: ratedMetaPaths,
+                min_path: minPath,
+                max_path: maxPath
+            }),
+            credentials: "include"
+        }).then((response) => {
+            if (!(response.status === 200)) {
+                alert('Could not send node types to server.');
+            }
+        }).catch((error) => {
+            console.error(error);
+        });
+    },
   sendEdgeTypes(edgeTypes){
     fetch(process.env.REACT_APP_API_HOST + 'set-edge-types', {
       method: 'POST',
@@ -121,7 +145,90 @@ const Actions = {
     }).catch((error) => {
         console.error(error);
     });
+  },
+  fetchSimilarityScore(){
+    fetch(process.env.REACT_APP_API_HOST + 'get-similarity-score', {
+        method: 'GET',
+        credentials: "include"
+    }).then((response) => {return response.json();}).then((json) => {
+      ResultActions.receiveSimilarityScore(json.similarity_score);
+    }).catch((error) => {
+      console.error(error);
+    });
+  },
+  fetchFirstNodeSetQuery(){
+    fetch(process.env.REACT_APP_API_HOST + 'first-node -set-query', {
+        method: 'GET',
+        credentials: "include"
+    }).then((response) => {return response.json();}).then((json) => {
+      ResultActions.receiveFirstNodeSetQuery(json.node_set_query);
+    }).catch((error) => {
+      console.error(error);
+    });
+  },
+  fetchSecondNodeSetQuery(){
+    fetch(process.env.REACT_APP_API_HOST + 'second-node-set-query', {
+        method: 'GET',
+        credentials: "include"
+    }).then((response) => {return response.json();}).then((json) => {
+      ResultActions.receiveSecondNodeSetQuery(json.node_set_query);
+    }).catch((error) => {
+      console.error(error);
+    });
+  },
+  fetchContributingMetaPaths(){
+    fetch(process.env.REACT_APP_API_HOST + 'contributing-meta-paths', {
+        method: 'GET',
+        credentials: "include"
+    }).then((response) => {return response.json();}).then((json) => {
+      ResultActions.receiveContributingMetaPaths(json.contributing_meta_paths);
+    }).catch((error) => {
+      console.error(error);
+    });
+  },
+  fetchMetaPathDetails(metaPathId){
+    fetch(process.env.REACT_APP_API_HOST + 'contributing-meta-path/' + metaPathId, {
+        method: 'GET',
+        credentials: "include"
+    }).then((response) => {return response.json();}).then((json) => {
+      ResultActions.receiveMetaPathDetails(json.meta_path);
+    }).catch((error) => {
+      console.error(error);
+    });
+  },
+  fetchSimilarNodes(){
+    fetch(process.env.REACT_APP_API_HOST + 'similar-nodes', {
+        method: 'GET',
+        credentials: "include"
+    }).then((response) => {return response.json();}).then((json) => {
+      ResultActions.receiveSimilarNodes(json.similar_nodes);
+    }).catch((error) => {
+      console.error(error);
+    });
+  },
+  sendNodeSets(nodeSetA, nodeSetB){
+    fetch(process.env.REACT_APP_API_HOST + 'node-sets', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        node_set_A: nodeSetA,
+        node_set_B: nodeSetB
+      }),
+      credentials: "include"
+    }).then((response) => { return response.json() }).then((json) => {
+      if (!(json.status === 200)) {
+        alert('Could not send node sets to server.');
+      }
+      else{
+        alert("A: " + nodeSetA + "\nB:" + nodeSetB);
+      }
+    }).catch((error) => {
+        console.error(error);
+    });
   }
-}
+};
 
 export default Actions;

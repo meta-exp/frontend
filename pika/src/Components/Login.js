@@ -51,7 +51,7 @@ class Login extends Component {
   }
 
   handleDatasetChange(data){
-    AccountActions.selectDataset(data.value);
+    AccountActions.selectDataset(this.state.available_datasets[data.value]);
   }
 
   handleUsernameChange(data){
@@ -59,12 +59,12 @@ class Login extends Component {
   }
 
   submitNaming() {
-    AccountActions.login(this.state.user_name, this.state.dataset);
+    AccountActions.login(this.state.user_name, this.state.dataset.name);
   }
 
   renderNaming() {
     let available_datasets = this.state.available_datasets.map((dataset, index) => {
-      return { key: index, value: dataset.name, text: dataset.name };
+      return { key: index, value: index, text: dataset.name };
     });
 
     return (

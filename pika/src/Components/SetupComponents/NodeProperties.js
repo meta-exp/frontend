@@ -24,7 +24,6 @@ class NodeProperties extends Component {
     }
 
     formPropString(propObject){
-        console.log(propObject);
         let propText = "";
         for (let key in propObject) {
             if(propObject.hasOwnProperty(key)) {
@@ -38,7 +37,7 @@ class NodeProperties extends Component {
         if (!this.state.currentProperties) {
             return null;
         }
-        let propText = this.formPropString(this.state.currentProperties.propertyMap);
+        let propText = this.formPropString(this.state.currentProperties);
         return (<div id="node-properties">
             <Segment> <b>Properties:</b> {propText} </Segment>
         </div>)
@@ -46,13 +45,3 @@ class NodeProperties extends Component {
 }
 
 export default NodeProperties;
-
-/*            <Table celled>
-                <Table.Body>
-                    {Object.keys(data).map((key, index) => (
-                        <Table.Row key={index}>
-                            <Table.Cell>{key}</Table.Cell>
-                            <Table.Cell>{data[key]}</Table.Cell>
-                        </Table.Row>))}
-                </Table.Body>
-            </Table>*/

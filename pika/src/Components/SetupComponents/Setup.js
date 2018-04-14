@@ -4,30 +4,12 @@ import SearchNodesSection from './SearchNodesSection';
 import ResultSetSection from './ResultSetSection';
 import NodeSetsSection from './NodeSetsSection';
 
-import SetupStore from '../../stores/SetupStore';
-
 import './css/setup.css';
 
 class Setup extends Component {
 
 	constructor(){
 		super();
-		this.getCyperQuery = this.getCyperQuery.bind(this);
-		this.state = {
-			cypherQuery: 'match (n) return n limit 10'
-		};
-	}
-
-	componentWillMount(){
-		SetupStore.on("change", this.getCyperQuery);
-	}
-
-	componentWillUnmount(){
-		SetupStore.removeListener("change", this.getCyperQuery);
-	}
-
-	getCyperQuery(){
-		this.setState({ cypherQuery: SetupStore.getCyperQuery() });
 	}
 
 	render() {
@@ -38,10 +20,10 @@ class Setup extends Component {
 					<SearchNodesSection /> 
 				</div> 
 				<div style={{margin: 20 + 'px ' + 0 + 'px'}}>
-                    <ResultSetSection cypherQuery={this.state.cypherQuery}/>
+					<ResultSetSection />
 				</div> 
 				<div style={{margin: 20 + 'px ' + 0 + 'px'}}> 
-					 
+					<NodeSetsSection />
 				</div>
 			</div>
 		);
@@ -50,6 +32,3 @@ class Setup extends Component {
 }
 
 export default Setup;
-
-//<ResultSetSection cypherQuery={this.state.cypherQuery} /> 
-//<NodeSetsSection />
