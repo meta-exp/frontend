@@ -75,6 +75,20 @@ class SetupStore extends EventEmitter {
 		this.emit("change");
 	}
 
+	removeNodeFromNodeSetA(node){
+		let node_index = this.nodeSetA.indexOf(node);
+		this.nodeSetA.splice(node_index, 1);
+		this.nodeSetQueryA = SetupStore.constructCypherQuery(this.nodeSetA);
+		this.emit("change");
+	}
+
+	removeNodeFromNodeSetB(node){
+		let node_index = this.nodeSetB.indexOf(node);
+		this.nodeSetB.splice(node_index, 1);
+		this.nodeSetQueryB = SetupStore.constructCypherQuery(this.nodeSetB);
+		this.emit("change");
+	}
+
 	handleActions(action){
 		switch(action.type){
 			case SetupActionTypes.EXECUTE_CYPHER_QUERY: {
@@ -88,6 +102,14 @@ class SetupStore extends EventEmitter {
 			case SetupActionTypes.ADD_NODES_TO_NODE_SET_B: {
 				this.addToNodeSetB(action.payload.nodes);
 				return this.nodeSetB;
+			};
+			case SetupActionTypes.REMOVE_NODE_FROM_NODE_SET_A: {
+				this.removeNodeFromNodeSetA(action.payload.node);
+				return this.nodeSetA;
+			};
+			case SetupActionTypes.REMOVE_NODE_FROM_NODE_SET_B: {
+				this.removeNodeFromNodeSetB(action.payload.node);
+				return this.nodeSetA;
 			};
 			default: {
 				return this.state;
