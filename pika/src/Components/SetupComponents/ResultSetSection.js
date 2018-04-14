@@ -139,7 +139,7 @@ class ResultSetSection extends Component {
 				</h3>
 				<Neo4jGraphRenderer url={this.state.dataset.url} user={this.state.dataset.username} divId="1"
 				password={this.state.dataset.password} query={this.state.cypherQuery} onClick={(event, node) => this.handleNodeClickEvent(event, node.propertyMap)}/>
-    			<NodeProperties/>
+    			<NodeProperties />
 			</div>
 		);
 	}

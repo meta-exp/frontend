@@ -166,7 +166,7 @@ class Results extends Component {
 				<div className="row" style={{marginTop: 20 + 'px'}}>
 					<div className="col">
 						<h3 style={{marginBottom: 20 + 'px'}}>Similar Nodes</h3>
-						<SimilarNodes itemsPerRow={3} similarNodes={this.state.similar_nodes} />
+						<SimilarNodes itemsPerRow={2} similarNodes={this.state.similar_nodes} />
 					</div>
 				</div>
 			</div>

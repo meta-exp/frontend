@@ -31,6 +31,13 @@
 	font-size: 1.5rem;
 }
 
+.content-wrapper h5{
+	font-weight: normal;
+	color: #646464;
+	font-family: 'Roboto', sans-serif;
+	font-size: 1.25rem;
+}
+
 /* All the same stuff for Firefox */
 input[type="range"][multiple]#slider1::-moz-range-thumb {
 	box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
