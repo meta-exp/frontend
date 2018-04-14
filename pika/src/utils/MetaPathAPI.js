@@ -207,7 +207,6 @@ const Actions = {
     });
   },
   sendNodeSets(nodeSetA, nodeSetB){
-    alert("A: " + nodeSetA + "\nB:" + nodeSetB);
     fetch(process.env.REACT_APP_API_HOST + 'node-sets', {
       method: 'POST',
       headers: {
@@ -222,6 +221,9 @@ const Actions = {
     }).then((response) => { return response.json() }).then((json) => {
       if (!(json.status === 200)) {
         alert('Could not send node sets to server.');
+      }
+      else{
+        alert("A: " + nodeSetA + "\nB:" + nodeSetB);
       }
     }).catch((error) => {
         console.error(error);
