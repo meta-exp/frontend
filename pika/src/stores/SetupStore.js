@@ -10,8 +10,8 @@ class SetupStore extends EventEmitter {
 		this.cypherQuery = 'RETURN 1';
 		this.nodeSetA = [];
 		this.nodeSetB = [];
-		this.nodeSetQueryA = 'match (n) return n limit 10';
-		this.nodeSetQueryB = 'match (n) return n limit 5';
+		this.nodeSetQueryA = 'RETURN 1';
+		this.nodeSetQueryB = 'RETURN 1';
 	}
 
 	getNodeSetQueryA(){
@@ -49,6 +49,10 @@ class SetupStore extends EventEmitter {
 		this.emit("change");
 	}
 
+    static constructCypherQuery(nodeList){
+		return "Match (n) where ID(n) in [" + nodeList + "] return n";
+	}
+
 	addToNodeSetA(nodes){
 		let that = this;
 		nodes.forEach(function(node){
@@ -56,7 +60,7 @@ class SetupStore extends EventEmitter {
 				that.nodeSetA.push(node);
 			}
 		});
-        console.log(this.nodeSetA);
+		this.nodeSetQueryA = SetupStore.constructCypherQuery(this.nodeSetA);
 		this.emit("change");
 	}
 
@@ -67,7 +71,7 @@ class SetupStore extends EventEmitter {
 				that.nodeSetB.push(node);
 			}
 		});
-		console.log(this.nodeSetB);
+		this.nodeSetQueryB = SetupStore.constructCypherQuery(this.nodeSetB);
 		this.emit("change");
 	}
 

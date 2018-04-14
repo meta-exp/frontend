@@ -60,7 +60,6 @@ class NodeSetsSection extends Component {
 	saveNodeSets(e){
 		e.preventDefault();
 		e.stopPropagation();
-		console.log(this.state.nodeSetA, this.state.nodeSetB);
 		SetupActions.sendNodeSets(this.state.nodeSetA, this.state.nodeSetB);
 	}
 
