@@ -82,7 +82,7 @@ class MetaPathDetails extends Component {
 						</Button>
 						<Transition visible={this.state.show_instances} animation='slide down' duration={300}>
 							<div style={{marginTop: 10 + 'px'}} className="row">
-								<Neo4jGraphRenderer divId='01' url={this.state.dataset.url} user={this.state.dataset.username} password={this.state.dataset.password} query={this.props.details.instance_query} />
+								<Neo4jGraphRenderer divId='03' url={this.state.dataset.url} user={this.state.dataset.username} password={this.state.dataset.password} query={this.props.details.instance_query} />
 							</div>
 						</Transition>
 					</div>

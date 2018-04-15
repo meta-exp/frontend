@@ -30,6 +30,7 @@ class NodeSetsSection extends Component {
 
 	componentDidMount(){
 		this.getDataset();
+		this.getNodeSetQuerys();
 		SetupStore.on("change", this.getNodeSetQuerys);
 		SetupStore.on("change", this.getNodeSets);
 		AccountStore.on("change", this.getDataset);

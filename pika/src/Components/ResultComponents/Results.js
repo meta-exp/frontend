@@ -87,16 +87,9 @@ class Results extends Component {
 			<div>
 				<h1>Results</h1>
 				<div className="row">
-					<div className="col" style={{marginRight: 10 + 'px'}}> 
-						
-					</div> 
-					<div className="col" style={{marginLeft: 10 + 'px', textAlign: 'right'}}> 
-						 
-					</div>
-				</div>
-				<div className="row" style={{marginTop: 20 + 'px'}}>
 					<div className="col">
-						<h3>Similarity Score: {this.state.similarity_score}</h3>
+						<h3>Similarity Score</h3>
+						<SimilarityScore />
 					</div>
 				</div>
 				<div className="row" style={{marginTop: 20 + 'px'}}>

@@ -55,7 +55,6 @@ const ResultActions = {
   },
 
   receiveSimilarNodes(similarNodes){
-    console.log(JSON.stringify(similarNodes));
     ResultDispatcher.dispatch({
       type: ResultActionTypes.RECEIVE_SIMILAR_NODES,
       payload: {similarNodes: similarNodes}
