@@ -7,8 +7,8 @@ class NodeSet extends Component {
 		return (
 			<div>
 				<h3>{this.props.title}</h3>
-				<Neo4jGraphRenderer url="http://localhost:7494" user="neo4j"
-				password="neo4j" query={this.props.cypherQuery} />
+				<Neo4jGraphRenderer divId={this.props.graphId} url={this.props.dataset.url} user={this.props.dataset.username}
+				password={this.props.dataset.password} query={this.props.cypherQuery} />
 			</div>
 		);
 	}

@@ -1,19 +1,37 @@
 import React, { Component } from 'react';
 
 import { Button, Icon, Progress, Transition } from 'semantic-ui-react';
+import { Neo4jGraphRenderer } from 'neo4j-graph-renderer';
+
+import AccountStore from '../../stores/AccountStore';
 
 class MetaPathDetails extends Component {
 
-	constructor(){
-		super();
+	constructor(props){
+		super(props);
 
 		this.toggleInstances = this.toggleInstances.bind(this);
+		this.getDataset = this.getDataset.bind(this);
 
 		this.state = {
 			arrow_incon: 'arrow down',
 			button_text: 'Show Instances',
-			show_instances: false
+			show_instances: false,
+			dataset: {}
 		};
+	}
+
+	componentDidMount(){
+		this.getDataset();
+		AccountStore.on("change", this.getDataset);
+	}
+
+	componentWillUnmount(){
+		AccountStore.removeListener("change", this.getDataset);
+	}
+
+	getDataset(){
+		this.setState({ dataset: AccountStore.getDataset() });
 	}
 
 	toggleInstances(){
@@ -34,14 +52,6 @@ class MetaPathDetails extends Component {
 	}
 
 	render(){
-		let metaPathInstances = this.props.details.instance_queries.map((query, index) => {
-			return(
-				<li key={index}>
-					<b>{index+1}. Instance Query:</b> {query}
-				</li>
-			);
-		});
-
 		return(
 			<div>
 				<div className="row">
@@ -72,9 +82,7 @@ class MetaPathDetails extends Component {
 						</Button>
 						<Transition visible={this.state.show_instances} animation='slide down' duration={300}>
 							<div style={{marginTop: 10 + 'px'}} className="row">
-								<ul>
-									{metaPathInstances}
-								</ul>
+								<Neo4jGraphRenderer divId='03' url={this.state.dataset.url} user={this.state.dataset.username} password={this.state.dataset.password} query={this.props.details.instance_query} />
 							</div>
 						</Transition>
 					</div>

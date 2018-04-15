@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+
 import SimilarNode from './SimilarNode';
 import { Grid } from 'semantic-ui-react';
+
+import AccountStore from '../../stores/AccountStore';
 
 class SimilarNodes extends Component {
 
@@ -10,6 +13,24 @@ class SimilarNodes extends Component {
 		this.renderRow = this.renderRow.bind(this);
 		this.renderRows = this.renderRows.bind(this);
 		this.renderRowCells = this.renderRowCells.bind(this);
+		this.getDataset = this.getDataset.bind(this);
+
+		this.state = {
+			dataset: {}
+		};
+	}
+
+	componentDidMount(){
+		this.getDataset();
+		AccountStore.on("change", this.getDataset);
+	}
+
+	componentWillUnmount(){
+		AccountStore.removeListener("change", this.getDataset);
+	}
+
+	getDataset(){
+		this.setState({ dataset: AccountStore.getDataset() });
 	}
 
 	renderRow(rowIndex, numberOfCells){
@@ -29,7 +50,7 @@ class SimilarNodes extends Component {
 		for(var i=0; i<numberOfCells; i++){
 			cells.push(
 				<Grid.Column key={i}>
-					<SimilarNode similarNode={this.props.similarNodes[startNodeIndex + i]}/>
+					<SimilarNode rowId={rowIndex} colId={i} dataset={this.state.dataset} similarNode={this.props.similarNodes[startNodeIndex + i]}/>
 				</Grid.Column>
 			);
 		}
