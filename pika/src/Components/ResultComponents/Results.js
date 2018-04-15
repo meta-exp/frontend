@@ -89,7 +89,7 @@ class Results extends Component {
 				<div className="row">
 					<div className="col">
 						<h3>Similarity Score</h3>
-						<SimilarityScore />
+						<SimilarityScore similarityScore={this.state.similarity_score}/>
 					</div>
 				</div>
 				<div className="row" style={{marginTop: 20 + 'px'}}>

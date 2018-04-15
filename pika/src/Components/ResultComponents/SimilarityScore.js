@@ -7,8 +7,8 @@ import NodeSet from './NodeSet';
 
 class SimilarityScore extends Component {
 
-	constructor(){
-		super();
+	constructor(props){
+		super(props);
 
 		this.getDataset = this.getDataset.bind(this);
 		this.getNodeSetQuerys = this.getNodeSetQuerys.bind(this);
@@ -45,12 +45,15 @@ class SimilarityScore extends Component {
 
 	render() {
 		return (
-			<div className="row">
+			<div className="row" id="result-page-node-set-section">
 				<div className="col" style={{marginRight: 10 + 'px'}}>
 					<NodeSet title='Node Set A' dataset={this.state.dataset} graphId='01' cypherQuery={this.state.nodeSetQueryA} />
 				</div>
 				<div className="col" style={{marginLeft: 10 + 'px'}}>
 					<NodeSet title='Node Set B' dataset={this.state.dataset} graphId='02' cypherQuery={this.state.nodeSetQueryB} />
+				</div>
+				<div id="similarity-score-display">
+					<div>{this.props.similarityScore}</div>
 				</div>
 			</div>
 		);

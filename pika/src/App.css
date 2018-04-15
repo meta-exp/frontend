@@ -187,3 +187,30 @@ input[type="range"][multiple]::-ms-thumb {
 	cursor: pointer;
 	pointer-events: all;
 }
+
+#result-page-node-set-section{
+	position: relative;
+}
+
+#similarity-score-display{
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -100px;
+	margin-top: -100px;
+	width: 200px;
+	height: 200px;
+	border-radius: 100px;
+	background: black;
+	box-shadow: 0px 0px 8px 2px #a8a8a8;
+	z-index: 2;
+}
+
+#similarity-score-display div{
+	color: white;
+	font-size: 45px;
+	text-align: center;
+    margin-top: 60px;
+    text-shadow: 1px 1px darkgray;
+    font-family: 'Roboto', sans-serif;
+}
