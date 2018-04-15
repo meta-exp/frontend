@@ -5,7 +5,7 @@
     "yarn": "1.5.1"
   },
   "scripts": {
-    "heroku-postbuild": "yarn install --prefix pika --only=production && cd pika && yarn add graph-app-kit --registry https://neo.jfrog.io/neo/api/npm/npm && npm run build"
+    "heroku-postbuild": "yarn install --prefix pika --only=production && cd pika && yarn add graph-app-kit --registry https://neo.jfrog.io/neo/api/npm/npm && yarn add https://github.com/KDD-OpenSource/neo4j-graph-renderer.git#feature/make-div-id-customizable && npm run build"
   },
   "dependencies": {
     "yarn": "^1.5.1"
