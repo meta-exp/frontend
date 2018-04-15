@@ -4,6 +4,7 @@ import NodeSet from './NodeSet';
 import ContributingMetaPaths from './ContributingMetaPaths';
 import MetaPathDetails from './MetaPathDetails';
 import SimilarNodes from './SimilarNodes';
+import SimilarityScore from './SimilarityScore';
 
 import { Tab } from 'semantic-ui-react';
 
@@ -16,7 +17,6 @@ class Results extends Component {
 		super();
 
 		this.getSimilarityScore = this.getSimilarityScore.bind(this);
-		this.getNodeSetQueries = this.getNodeSetQueries.bind(this);
 		this.getContributingMetaPaths = this.getContributingMetaPaths.bind(this);
 		this.getMetaPathDetails = this.getMetaPathDetails.bind(this);
 		this.getSimilarNodes = this.getSimilarNodes.bind(this);
@@ -24,59 +24,14 @@ class Results extends Component {
 
 		this.state = {
 			similarity_score: 0.0,
-			first_node_set_query: 'MATCH (n) RETURN n',
-			second_node_set_query: 'MATCH (n) RETURN n',
 			contributing_meta_paths: [],
-			meta_path_details: {
-				"id": 0,
-				"name": "Meta-Path 0",
-				"structural_value": 0,
-				"contribution_ranking": 0,
-				"contribution_value": 0,
-				"meta_path": "---",
-				"instance_queries": [
-					"MATCH (n)-[r]->(m) RETURN n,r,m",
-					"MATCH (n)-[r]->(m) RETURN n,r,m",
-					"MATCH (n)-[r]->(m) RETURN n,r,m"
-				]
-			},
-			similar_nodes: [
-				{
-					"cypher_query": "MATCH (n) RETURN n LIMIT 1",
-					"properties": {
-						"name": "Node AA",
-						"label": "Node Type A"
-					}
-				},
-				{
-					"cypher_query": "MATCH (n) RETURN n LIMIT 1",
-					"properties": {
-						"name": "Node BB",
-						"label": "Node Type B"
-					}
-				},
-				{
-					"cypher_query": "MATCH (n) RETURN n LIMIT 1",
-					"properties": {
-						"name": "Node CC",
-						"label": "Node Type A"
-					}
-				},
-				{
-					"cypher_query": "MATCH (n) RETURN n LIMIT 1",
-					"properties": {
-						"name": "Node DD",
-						"label": "Node Type B"
-					}
-				}
-			]
+			meta_path_details: {},
+			similar_nodes: []
 		};
 	}
 
 	componentWillMount(){
 		ResultActions.fetchSimilarityScore();
-		ResultActions.fetchFirstNodeSetQuery();
-		ResultActions.fetchSecondNodeSetQuery();
 		ResultActions.fetchContributingMetaPaths();
 		ResultActions.fetchMetaPathDetails(1);
 		ResultActions.fetchSimilarNodes();
@@ -84,7 +39,6 @@ class Results extends Component {
 
 	componentDidMount(){
 		ResultStore.on("change", this.getSimilarityScore);
-		ResultStore.on("change", this.getNodeSetQueries);
 		ResultStore.on("change", this.getContributingMetaPaths);
 		ResultStore.on("change", this.getMetaPathDetails);
 		ResultStore.on("change", this.getSimilarNodes);
@@ -92,7 +46,6 @@ class Results extends Component {
 
 	componentWillUnmount(){
 		ResultStore.removeListener("change", this.getSimilarityScore);
-		ResultStore.removeListener("change", this.getNodeSetQueries);
 		ResultStore.removeListener("change", this.getContributingMetaPaths);
 		ResultStore.removeListener("change", this.getMetaPathDetails);
 		ResultStore.removeListener("change", this.getSimilarNodes);
@@ -104,14 +57,6 @@ class Results extends Component {
 
 	getSimilarityScore(){
 		this.setState({ similarity_score: ResultStore.getSimilarityScore() });
-	}
-
-	getNodeSetQueries(){
-		this.setState({
-			first_node_set_query: ResultStore.getFirstNodeSetQuery(),
-			second_node_set_query: ResultStore.getSecondNodeSetQuery(),
-			contributing_meta_paths: ResultStore.getContributingMetaPaths()
-		});
 	}
 
 	getContributingMetaPaths(){

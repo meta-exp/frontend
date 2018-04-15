@@ -7,52 +7,9 @@ class ResultStore extends EventEmitter {
 	constructor(){
 		super();
 		this.similarityScore = 0.0;
-		this.firstNodeSetQuery = 'MATCH (n) RETURN n';
-		this.secondNodeSetQuery = 'MATCH (n) RETURN n';
 		this.contributingMetaPaths = [];
-		this.metaPathDetails = {
-			"id": 0,
-			"name": "Meta-Path 0",
-			"structural_value": 0,
-			"contribution_ranking": 0,
-			"contribution_value": 0,
-			"meta_path": "---",
-			"instance_queries": [
-				"MATCH (n)-[r]->(m) RETURN n,r,m",
-				"MATCH (n)-[r]->(m) RETURN n,r,m",
-				"MATCH (n)-[r]->(m) RETURN n,r,m"
-			]
-		};
-		this.similarNodes = [
-			{
-				"cypher_query": "MATCH (n) RETURN n LIMIT 1",
-				"properties": {
-					"name": "Node AAA",
-					"label": "Node Type A"
-				}
-			},
-			{
-				"cypher_query": "MATCH (n) RETURN n LIMIT 1",
-				"properties": {
-					"name": "Node BBB",
-					"label": "Node Type B"
-				}
-			},
-			{
-				"cypher_query": "MATCH (n) RETURN n LIMIT 1",
-				"properties": {
-					"name": "Node CCC",
-					"label": "Node Type A"
-				}
-			},
-			{
-				"cypher_query": "MATCH (n) RETURN n LIMIT 1",
-				"properties": {
-					"name": "Node DDD",
-					"label": "Node Type B"
-				}
-			}
-		];
+		this.metaPathDetails = {};
+		this.similarNodes = [];
 	}
 
 	getSimilarNodes(){
@@ -69,24 +26,6 @@ class ResultStore extends EventEmitter {
 
 	receiveSimilarityScore(similarityScore){
 		this.similarityScore = similarityScore;
-		this.emit("change");
-	}
-
-	getFirstNodeSetQuery(){
-		return this.firstNodeSetQuery;
-	}
-
-	getSecondNodeSetQuery(){
-		return this.secondNodeSetQuery;
-	}
-
-	receiveFirstNodeSetQuery(nodeSetQuery){
-		this.firstNodeSetQuery = nodeSetQuery;
-		this.emit("change");
-	}
-
-	receiveSecondNodeSetQuery(nodeSetQuery){
-		this.secondNodeSetQuery = nodeSetQuery;
 		this.emit("change");
 	}
 
@@ -114,14 +53,6 @@ class ResultStore extends EventEmitter {
 			case ResultActionTypes.RECEIVE_SIMILARITY_SCORE: {
 				this.receiveSimilarityScore(action.payload.similarityScore);
 				return this.similarityScore;
-			};
-			case ResultActionTypes.RECEIVE_FIRST_NODE_SET_QUERY: {
-				this.receiveFirstNodeSetQuery(action.payload.nodeSetQuery);
-				return this.firstNodeSetQuery;
-			};
-			case ResultActionTypes.RECEIVE_SECOND_NODE_SET_QUERY: {
-				this.receiveSecondNodeSetQuery(action.payload.nodeSetQuery);
-				return this.secondNodeSetQuery;
 			};
 			case ResultActionTypes.RECEIVE_CONTRIBUTING_META_PATHS: {
 				this.receiveContributingMetaPaths(action.payload.metaPaths);

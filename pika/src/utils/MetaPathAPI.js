@@ -156,26 +156,6 @@ const Actions = {
       console.error(error);
     });
   },
-  fetchFirstNodeSetQuery(){
-    fetch(process.env.REACT_APP_API_HOST + 'first-node -set-query', {
-        method: 'GET',
-        credentials: "include"
-    }).then((response) => {return response.json();}).then((json) => {
-      ResultActions.receiveFirstNodeSetQuery(json.node_set_query);
-    }).catch((error) => {
-      console.error(error);
-    });
-  },
-  fetchSecondNodeSetQuery(){
-    fetch(process.env.REACT_APP_API_HOST + 'second-node-set-query', {
-        method: 'GET',
-        credentials: "include"
-    }).then((response) => {return response.json();}).then((json) => {
-      ResultActions.receiveSecondNodeSetQuery(json.node_set_query);
-    }).catch((error) => {
-      console.error(error);
-    });
-  },
   fetchContributingMetaPaths(){
     fetch(process.env.REACT_APP_API_HOST + 'contributing-meta-paths', {
         method: 'GET',
