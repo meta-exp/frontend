@@ -86,7 +86,7 @@ class ResultSetSection extends Component {
 		if(!this.nodeSetCandidates.includes(node)){
 			if(this.nodeIsOfSameType(node)){
 				this.nodeSetCandidates.push(node);
-				e.path[1].classList.add("marked");
+				e.target.parentNode.classList.add("marked");
 			}
 			else{
 				alert("Error: You can only select nodes of same type!");
@@ -95,7 +95,7 @@ class ResultSetSection extends Component {
 		else{
 			let candidate_index = this.nodeSetCandidates.indexOf(node);
 			this.nodeSetCandidates.splice(candidate_index, 1);
-			e.path[1].classList.remove("marked");
+			e.target.parentNode.classList.remove("marked");
 		}
 	}
 
