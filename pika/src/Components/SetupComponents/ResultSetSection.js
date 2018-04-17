@@ -58,30 +58,48 @@ class ResultSetSection extends Component {
 		e.preventDefault();
 		e.stopPropagation();
 
-		SetupActions.addToNodeSetA(this.nodeSetCandidates);
+		if(!SetupActions.addToNodeSetA(this.nodeSetCandidates)){
+			this.resetNodeCandidates();
+			this.handleResetAllNodesClick();
+		}
 	}
 
 	addToNodeSetB(e){
 		e.preventDefault();
 		e.stopPropagation();
 
-		SetupActions.addToNodeSetB(this.nodeSetCandidates);
+		if(!SetupActions.addToNodeSetB(this.nodeSetCandidates)){
+			this.resetNodeCandidates();
+			this.handleResetAllNodesClick();
+		}
 	}
 
-	addToNodeSetCandidates(node){
-		if(!this.nodeSetCandidates.includes(node.id)){
-			this.nodeSetCandidates.push(node.id);
+	nodeIsOfSameType(node){
+		if(this.nodeSetCandidates.length == 0){
+			return true;
+		}
+
+		return node.labels[0] == this.nodeSetCandidates[0].labels[0];
+	}
+
+	addToNodeSetCandidates(e, node){
+		if(!this.nodeSetCandidates.includes(node)){
+			if(this.nodeIsOfSameType(node)){
+				this.nodeSetCandidates.push(node);
+				e.path[1].classList.add("marked");
+			}
+			else{
+				alert("Error: You can only select nodes of same type!");
+			}
 		}
 		else{
-			let candidate_index = this.nodeSetCandidates.indexOf(node.id);
+			let candidate_index = this.nodeSetCandidates.indexOf(node);
 			this.nodeSetCandidates.splice(candidate_index, 1);
+			e.path[1].classList.remove("marked");
 		}
 	}
 
-	handleMarkAllNodesClick = e => {
-		e.preventDefault();
-		e.stopPropagation();
-
+	handleMarkAllNodesClick(){
 		let elements = document.getElementsByClassName("node");
     	
     	for (let i=0; i < elements.length; i++) {
@@ -89,10 +107,7 @@ class ResultSetSection extends Component {
     	}
 	};
 
-	handleResetAllNodesClick = e => {
-		e.preventDefault();
-		e.stopPropagation();
-
+	handleResetAllNodesClick(){
 		let elements = document.getElementsByClassName("node");
     	
     	for (let i=0; i < elements.length; i++) {
@@ -104,9 +119,9 @@ class ResultSetSection extends Component {
         NodePropertyActions.updateNodeProperties(nodeProperties);
     };
 
-    handleNodeClickEvent = (event, nodeProperties) => {
-		this.storeProps(nodeProperties);
-		this.addToNodeSetCandidates(nodeProperties);
+    handleNodeClickEvent = (event, node) => {
+		this.storeProps(node.propertyMap);
+		this.addToNodeSetCandidates(event, node);
 	};
 
 	resetNodeCandidates(){
@@ -128,17 +143,17 @@ class ResultSetSection extends Component {
 						<Icon name='add' />
 						<span style={{marginLeft: 10 + 'px'}}>Add to Node Set B</span>
 					</Button>
-					<Button floated='right' onClick={(e) => this.handleResetAllNodesClick(e)} style={{marginLeft: 20 + 'px'}} icon primary={false}>
+					<Button floated='right' onClick={(e) => this.handleResetAllNodesClick()} style={{marginLeft: 20 + 'px'}} icon primary={false}>
 						<Icon name='remove' />
 						<span style={{marginLeft: 10 + 'px'}}>Reset all Nodes</span>
 					</Button>
-					<Button floated='right' onClick={(e) => this.handleMarkAllNodesClick(e)} style={{marginLeft: 20 + 'px'}} icon primary={false}>
+					<Button floated='right' onClick={(e) => this.handleMarkAllNodesClick()} style={{marginLeft: 20 + 'px'}} icon primary={false}>
 						<Icon name='checkmark' />
 						<span style={{marginLeft: 10 + 'px'}}>Mark all Nodes</span>
 					</Button>
 				</h3>
 				<Neo4jGraphRenderer url={this.state.dataset.url} user={this.state.dataset.username} divId="1"
-				password={this.state.dataset.password} query={this.state.cypherQuery} onClick={(event, node) => this.handleNodeClickEvent(event, node.propertyMap)}/>
+				password={this.state.dataset.password} query={this.state.cypherQuery} onClick={(event, node) => this.handleNodeClickEvent(event, node)}/>
     			<NodeProperties />
 			</div>
 		);

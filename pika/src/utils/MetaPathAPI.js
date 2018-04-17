@@ -72,11 +72,12 @@ const Actions = {
   }
     ,
   fetchNodeTypes(){
-    fetch(process.env.REACT_APP_API_HOST + '/get-node-types', {
+    fetch(process.env.REACT_APP_API_HOST + 'get-node-types', {
         method: 'GET',
         credentials: "include"
     }).then((response) => {return response.json();}).then((json) => {
       ConfigActions.receiveNodeTypes(json);
+      SetupActions.updateInitialCypherQuery(json);
     }).catch((error) => {
       console.error(error);
     });

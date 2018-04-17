@@ -16,6 +16,8 @@ import { Button, Icon } from 'semantic-ui-react';
 import SetupStore from '../../stores/SetupStore';
 import SetupActions from '../../actions/SetupActions';
 
+import MetaPathAPI from '../../utils/MetaPathAPI';
+
 class SearchNodesSection extends Component {
 
 	constructor(){ 
@@ -23,23 +25,31 @@ class SearchNodesSection extends Component {
 
 	    this.handleQueryChange = this.handleQueryChange.bind(this);
 	    this.handleQueryExecution = this.handleQueryExecution.bind(this);
-	    this.getCypherQuery = this.getCypherQuery.bind(this);
+	    this.getCypherQueries = this.getCypherQueries.bind(this);
 	 
-	    this.state = { 
-      		cypherQuery: 'MATCH (n) RETURN n LIMIT 10'
+	    this.state = {
+	    	initialCypherQuery: null,
+      		cypherQuery: 'RETURN 1'
 	    }; 
 	}
 
 	componentWillMount(){
-		SetupStore.on("change", this.getCypherQuery);
+		MetaPathAPI.fetchNodeTypes();
+	}
+
+	componentDidMount(){
+		SetupStore.on("change", this.getCypherQueries);
 	}
 
 	componentWillUnmount(){
-		SetupStore.removeListener("change", this.getCypherQuery);
+		SetupStore.removeListener("change", this.getCypherQueries);
 	}
 
-	getCypherQuery(){
-		this.setState({ cypherQuery: SetupStore.getCypherQuery() });
+	getCypherQueries(){
+		this.setState({ 
+			cypherQuery: SetupStore.getInitialCypherQuery(),
+			initialCypherQuery: SetupStore.getInitialCypherQuery()
+		});
 	}
 
 	handleQueryExecution(e){
@@ -55,7 +65,7 @@ class SearchNodesSection extends Component {
 	 
 	render() { 
 	    return ( 
-			<div> 
+			<div>
 				<h2> 
 					<span style={{marginRight: 20 + 'px'}}> 
 						Search for Nodes 
@@ -64,16 +74,20 @@ class SearchNodesSection extends Component {
 						<Icon name='search' /> 
 						<span style={{marginLeft: 10 + 'px'}}>Search</span> 
 					</Button> 
-				</h2> 
-				<CypherEditor id="search-query-editor" 
+				</h2>
+				{this.state.initialCypherQuery != null ? (
+					<CypherEditor 
 					onValueChange={(value, change) => this.handleQueryChange(value, change)} 
-					value={this.state.cypherQuery} 
+					value={this.state.initialCypherQuery} 
 					options={{ 
 						mode: "cypher", 
 						theme: "cypher",
 						lineNumberFormatter: line => line
 					}} 
 				/> 
+				) : (
+					<div>Load Cypher Editor ...</div>
+				)}
 			</div> 
 	    ); 
 	  } 

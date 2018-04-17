@@ -43,6 +43,13 @@ const SetupActions = {
 			type: SetupActionTypes.REMOVE_NODE_FROM_NODE_SET_B,
 			payload: {node: node}
 		});
+	},
+
+	updateInitialCypherQuery(nodeTypes){
+		SetupDispatcher.dispatch({
+			type: SetupActionTypes.UPDATE_INITIAL_CYPHER_QUERY,
+			payload: {nodeTypes: nodeTypes}
+		});
 	}
 
 }
