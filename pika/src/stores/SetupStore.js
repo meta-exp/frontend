@@ -62,6 +62,10 @@ class SetupStore extends EventEmitter {
 		return nodeSet.map((node) => { return node.propertyMap.id; });
 	}
 
+	extractTypeOfNodeSet(nodeSet){
+		return nodeSet[0].labels[0];
+	}
+
 	static nodesAreOfSameTypeAsSet(nodes, nodeSet){
 		if(nodeSet.length == 0 || nodes.length == 0){
 			return true;

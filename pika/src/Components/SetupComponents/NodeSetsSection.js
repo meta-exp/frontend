@@ -63,7 +63,7 @@ class NodeSetsSection extends Component {
 	saveNodeSets(e){
 		e.preventDefault();
 		e.stopPropagation();
-		SetupActions.sendNodeSets(SetupStore.extractIdList(this.state.nodeSetA), SetupStore.extractIdList(this.state.nodeSetB));
+		SetupActions.sendNodeSets(SetupStore.extractIdList(this.state.nodeSetA), SetupStore.extractIdList(this.state.nodeSetB), SetupStore.extractTypeOfNodeSet(this.state.nodeSetA), SetupStore.extractTypeOfNodeSet(this.state.nodeSetB));
 	}
 
 	removeNodeFromNodeSetA(node){

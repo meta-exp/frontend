@@ -24,11 +24,12 @@ const SetupActions = {
 		});
 	},
 
-	sendNodeSets(nodeSetA, nodeSetB){
+	sendNodeSets(nodeSetA, nodeSetB, nodeSetTypeA, nodeSetTypeB){
 		SetupDispatcher.dispatch({
 			type: SetupActionTypes.SAVE_NODE_SETS
 		});
 		MetaPathAPI.sendNodeSets(nodeSetA, nodeSetB);
+		MetaPathAPI.sendNodeSetTypes(nodeSetTypeA, nodeSetTypeB);
 	},
 
 	removeNodeFromNodeSetA(node){
