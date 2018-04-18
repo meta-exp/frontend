@@ -28,8 +28,7 @@ const SetupActions = {
 		SetupDispatcher.dispatch({
 			type: SetupActionTypes.SAVE_NODE_SETS
 		});
-		MetaPathAPI.sendNodeSets(nodeSetA, nodeSetB);
-		MetaPathAPI.sendNodeSetTypes(nodeSetTypeA, nodeSetTypeB);
+		MetaPathAPI.sendNodeSetTypes(nodeSetTypeA, nodeSetTypeB, nodeSetA, nodeSetB);
 	},
 
 	removeNodeFromNodeSetA(node){

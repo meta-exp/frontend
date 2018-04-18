@@ -210,7 +210,7 @@ const Actions = {
         console.error(error);
     });
   },
-  sendNodeSetTypes(nodeSetTypeA, nodeSetTypeB){
+  sendNodeSetTypes(nodeSetTypeA, nodeSetTypeB, nodeSetA, nodeSetB){
     fetch(process.env.REACT_APP_API_HOST + 'node-types', {
       method: 'POST',
       headers: {
@@ -219,7 +219,9 @@ const Actions = {
       },
       body: JSON.stringify({
         start_label: nodeSetTypeA,
-        end_label: nodeSetTypeB
+        end_label: nodeSetTypeB,
+        start_node_ids: nodeSetA,
+        end_node_ids: nodeSetB
       }),
       credentials: "include"
     }).then((response) => { return response.json() }).then((json) => {
@@ -227,7 +229,7 @@ const Actions = {
         alert('Could not send node set types to server.');
       }
       else{
-        alert("Type A: " + nodeSetTypeA + "\nType B:" + nodeSetTypeB);
+        alert("Type A: " + nodeSetTypeA + "\nType B: " + nodeSetTypeB + "\nSet A: " + nodeSetA + "\nSet B: " + nodeSetB);
       }
     }).catch((error) => {
         console.error(error);
