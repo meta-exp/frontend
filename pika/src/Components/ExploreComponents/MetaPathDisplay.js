@@ -75,7 +75,6 @@ class MetaPathDisplay extends Component {
     nextRatingIteration() {
         this.setState({loading: true});
         ExploreActions.sendRatedMetaPaths(this.state.metapaths, this.state.minPath, this.state.maxPath);
-        ExploreActions.fetchMetaPaths(this.state.batchSize);
     }
 
     addClickCount() {

@@ -1,5 +1,6 @@
 import AccountActions from '../actions/AccountActions';
 import ExploreActions from '../actions/ExploreActions';
+import ExploreStore from '../stores/ExploreStore';
 import ConfigActions from '../actions/ConfigActions';
 import ResultActions from '../actions/ResultActions';
 import SetupActions from '../actions/SetupActions';
@@ -125,6 +126,9 @@ const Actions = {
         }).then((response) => {
             if (!(response.status === 200)) {
                 alert('Could not send node types to server.');
+            }
+            else{
+                Actions.fetchMetaPaths(ExploreStore.getBatchSize());
             }
         }).catch((error) => {
             console.error(error);
