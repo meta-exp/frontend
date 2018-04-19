@@ -167,6 +167,7 @@ const Actions = {
         credentials: "include"
     }).then((response) => {return response.json();}).then((json) => {
       ResultActions.receiveContributingMetaPaths(json.contributing_meta_paths);
+      Actions.fetchMetaPathDetails(json.contributing_meta_paths[0].id);
     }).catch((error) => {
       console.error(error);
     });
@@ -238,7 +239,22 @@ const Actions = {
     }).catch((error) => {
         console.error(error);
     });
-  }
+  },
+  stopRating(){
+    fetch(process.env.REACT_APP_API_HOST + 'stop-rating', {
+        method: 'GET',
+        credentials: "include"
+    }).then((response) => {return response.json();}).then((json) => {
+      if (!(json.status === 200)) {
+        alert('Could not start similarity computation!');
+      }
+      else{
+        alert('Started similarity computation! This could take a few minutes!');
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
+  },
 };
 
 export default Actions;

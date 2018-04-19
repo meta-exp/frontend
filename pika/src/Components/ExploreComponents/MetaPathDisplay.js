@@ -6,7 +6,8 @@ import {Table, Checkbox, Card} from 'semantic-ui-react';
 import ExploreStore from '../../stores/ExploreStore';
 import ExploreActions from '../../actions/ExploreActions';
 import Explore from "./Explore";
-
+import { Button, Icon } from 'semantic-ui-react';
+import MetaPathAPI from '../../utils/MetaPathAPI';
 
 class MetaPathDisplay extends Component {
 
@@ -14,6 +15,7 @@ class MetaPathDisplay extends Component {
         super();
 
         this.getNewState = this.getNewState.bind(this);
+        this.stopRating = this.stopRating.bind(this);
 
         this.state = {
             loading: true,
@@ -169,6 +171,13 @@ class MetaPathDisplay extends Component {
             </Table></div>);
     }
 
+    stopRating(e){
+        e.preventDefault();
+        e.stopPropagation();
+
+        MetaPathAPI.stopRating();
+    }
+
     render() {
         // Show only text when loading
         if (this.state.loading) {
@@ -214,11 +223,13 @@ class MetaPathDisplay extends Component {
                                                                           onChange={this.handleBatchSizeChange.bind(this)}/> 6
                     </Card.Content>
                 </Card>
-
-
                 <h3 align='left' className="font-weight-bold"> Found Meta Paths </h3>
                 {ratingInterface}
                 {ratingButton}
+                <Button floated='right' icon primary={true} onClick={(e) => this.stopRating(e)}>
+                    <Icon name='stop' />
+                    <span style={{marginLeft: 10 + 'px'}}>Stop Rating</span>
+                </Button>
                 <h3 align='left' className="font-weight-bold"> Rated MetaPaths </h3>
                 <Table celled>
                     <Table.Header>

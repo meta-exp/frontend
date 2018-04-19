@@ -33,7 +33,6 @@ class Results extends Component {
 	componentWillMount(){
 		ResultActions.fetchSimilarityScore();
 		ResultActions.fetchContributingMetaPaths();
-		ResultActions.fetchMetaPathDetails(1);
 		ResultActions.fetchSimilarNodes();
 	}
 
