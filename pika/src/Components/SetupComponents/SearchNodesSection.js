@@ -66,7 +66,7 @@ class SearchNodesSection extends Component {
 	render() { 
 	    return ( 
 			<div>
-				<h2> 
+				<h3> 
 					<span style={{marginRight: 20 + 'px'}}> 
 						Search for Nodes 
 					</span> 
@@ -74,7 +74,7 @@ class SearchNodesSection extends Component {
 						<Icon name='search' /> 
 						<span style={{marginLeft: 10 + 'px'}}>Search</span> 
 					</Button> 
-				</h2>
+				</h3>
 				{this.state.initialCypherQuery != null ? (
 					<CypherEditor 
 					onValueChange={(value, change) => this.handleQueryChange(value, change)} 
