@@ -66,8 +66,9 @@ class SearchNodesSection extends Component {
 	render() { 
 	    return ( 
 			<div>
-				<h3> 
-					<span style={{marginRight: 20 + 'px'}}> 
+				<h3>
+					<Icon name='search' />
+					<span style={{marginRight: 20 + 'px', marginLeft: 10 + 'px'}}>
 						Search for Nodes 
 					</span> 
 					<Button onClick={(e) => this.handleQueryExecution(e)} icon primary> 

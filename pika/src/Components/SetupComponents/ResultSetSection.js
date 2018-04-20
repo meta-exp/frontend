@@ -134,7 +134,10 @@ class ResultSetSection extends Component {
 		return (
 			<div>
 				<h3>
-					Query Result Set
+					<Icon name='hand pointer' />
+					<span style={{marginLeft: 10 + 'px'}}>
+						Query Result Set
+					</span>
 					<Button onClick={(e) => this.addToNodeSetA(e)} style={{marginLeft: 20 + 'px'}} icon primary>
 						<Icon name='add' />
 						<span style={{marginLeft: 10 + 'px'}}>Add to Node Set A</span>

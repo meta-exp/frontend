@@ -80,7 +80,12 @@ class NodeSetsSection extends Component {
 				<div className="row" style={{marginTop: 20 + 'px'}}>
 					<div className="col">
 						<div>
-							<h3>Node Set A</h3>
+							<h3>
+								<Icon name='share' />
+								<span style={{marginLeft: 10 + 'px'}}>
+									Node Set A
+								</span>
+							</h3>
 							<Neo4jGraphRenderer divId="2" onClick={(event, node) => this.removeNodeFromNodeSetA(node)} url={this.state.dataset.url} user={this.state.dataset.username} password={this.state.dataset.password} query={this.state.nodeSetQueryA} />
 						</div>
 					</div>
