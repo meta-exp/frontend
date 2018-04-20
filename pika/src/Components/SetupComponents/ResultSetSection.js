@@ -24,6 +24,7 @@ class ResultSetSection extends Component {
 		this.addToNodeSetB = this.addToNodeSetB.bind(this);
 		this.addToNodeSetCandidates = this.addToNodeSetCandidates.bind(this);
 		this.resetNodeCandidates = this.resetNodeCandidates.bind(this);
+		this.handleResetAllNodesClick = this.handleResetAllNodesClick.bind(this);
 
 		this.nodeSetCandidates = [];
 
@@ -105,6 +106,14 @@ class ResultSetSection extends Component {
 		this.storeProps(node.propertyMap);
 		this.addToNodeSetCandidates(event, node);
 	};
+
+	handleResetAllNodesClick(){ 
+		let elements = document.getElementsByClassName("node"); 
+
+		for (let i=0; i < elements.length; i++) { 
+			elements[i].classList.remove("marked"); 
+		} 
+	}; 
 
 	resetNodeCandidates(){
 		this.nodeSetCandidates = [];
