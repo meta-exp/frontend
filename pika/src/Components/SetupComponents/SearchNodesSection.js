@@ -11,7 +11,7 @@ import "../../../node_modules/codemirror/addon/lint/lint.css";
 import "../../../node_modules/codemirror/addon/hint/show-hint.css"; 
 import "../../../node_modules/cypher-codemirror/dist/cypher-codemirror-syntax.css"; 
 
-import { Button, Icon } from 'semantic-ui-react';
+import { Button, Icon, Dimmer, Loader } from 'semantic-ui-react';
 
 import SetupStore from '../../stores/SetupStore';
 import SetupActions from '../../actions/SetupActions';
@@ -66,15 +66,16 @@ class SearchNodesSection extends Component {
 	render() { 
 	    return ( 
 			<div>
-				<h2> 
-					<span style={{marginRight: 20 + 'px'}}> 
+				<h3>
+					<Icon name='search' />
+					<span style={{marginRight: 20 + 'px', marginLeft: 10 + 'px'}}>
 						Search for Nodes 
 					</span> 
 					<Button onClick={(e) => this.handleQueryExecution(e)} icon primary> 
 						<Icon name='search' /> 
 						<span style={{marginLeft: 10 + 'px'}}>Search</span> 
 					</Button> 
-				</h2>
+				</h3>
 				{this.state.initialCypherQuery != null ? (
 					<CypherEditor 
 					onValueChange={(value, change) => this.handleQueryChange(value, change)} 
@@ -86,7 +87,9 @@ class SearchNodesSection extends Component {
 					}} 
 				/> 
 				) : (
-					<div>Load Cypher Editor ...</div>
+					<Dimmer active inverted>
+						<Loader inverted>Load Cypher Editor</Loader>
+					</Dimmer>
 				)}
 			</div> 
 	    ); 

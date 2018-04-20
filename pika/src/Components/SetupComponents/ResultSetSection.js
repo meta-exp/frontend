@@ -18,8 +18,6 @@ class ResultSetSection extends Component {
 	constructor(){
 		super();
 
-		this.handleMarkAllNodesClick = this.handleMarkAllNodesClick.bind(this);
-		this.handleResetAllNodesClick = this.handleResetAllNodesClick.bind(this);
 		this.getCypherQuery = this.getCypherQuery.bind(this);
 		this.getDataset = this.getDataset.bind(this);
 		this.addToNodeSetA = this.addToNodeSetA.bind(this);
@@ -99,27 +97,11 @@ class ResultSetSection extends Component {
 		}
 	}
 
-	handleMarkAllNodesClick(){
-		let elements = document.getElementsByClassName("node");
-    	
-    	for (let i=0; i < elements.length; i++) {
-    		elements[i].classList.add("marked");
-    	}
+	storeProps = nodeProperties => {
+		NodePropertyActions.updateNodeProperties(nodeProperties);
 	};
 
-	handleResetAllNodesClick(){
-		let elements = document.getElementsByClassName("node");
-    	
-    	for (let i=0; i < elements.length; i++) {
-    		elements[i].classList.remove("marked");
-    	}
-	};
-
-    storeProps = nodeProperties => {
-        NodePropertyActions.updateNodeProperties(nodeProperties);
-    };
-
-    handleNodeClickEvent = (event, node) => {
+	handleNodeClickEvent = (event, node) => {
 		this.storeProps(node.propertyMap);
 		this.addToNodeSetCandidates(event, node);
 	};
@@ -134,7 +116,10 @@ class ResultSetSection extends Component {
 		return (
 			<div>
 				<h3>
-					Query Result Set
+					<Icon name='hand pointer' />
+					<span style={{marginLeft: 10 + 'px'}}>
+						Query Result Set
+					</span>
 					<Button onClick={(e) => this.addToNodeSetA(e)} style={{marginLeft: 20 + 'px'}} icon primary>
 						<Icon name='add' />
 						<span style={{marginLeft: 10 + 'px'}}>Add to Node Set A</span>
@@ -142,14 +127,6 @@ class ResultSetSection extends Component {
 					<Button onClick={(e) => this.addToNodeSetB(e)} style={{marginLeft: 20 + 'px'}} icon primary>
 						<Icon name='add' />
 						<span style={{marginLeft: 10 + 'px'}}>Add to Node Set B</span>
-					</Button>
-					<Button floated='right' onClick={(e) => this.handleResetAllNodesClick()} style={{marginLeft: 20 + 'px'}} icon primary={false}>
-						<Icon name='remove' />
-						<span style={{marginLeft: 10 + 'px'}}>Reset all Nodes</span>
-					</Button>
-					<Button floated='right' onClick={(e) => this.handleMarkAllNodesClick()} style={{marginLeft: 20 + 'px'}} icon primary={false}>
-						<Icon name='checkmark' />
-						<span style={{marginLeft: 10 + 'px'}}>Mark all Nodes</span>
 					</Button>
 				</h3>
 				<Neo4jGraphRenderer url={this.state.dataset.url} user={this.state.dataset.username} divId="1"

@@ -50,6 +50,13 @@ const SetupActions = {
 			type: SetupActionTypes.UPDATE_INITIAL_CYPHER_QUERY,
 			payload: {nodeTypes: nodeTypes}
 		});
+	},
+
+	updateComputingMetaPaths(computing){
+		SetupDispatcher.dispatch({
+			type: SetupActionTypes.UPDATE_COMPUTING_META_PATHS,
+			payload: {computing: computing}
+		});
 	}
 
 }

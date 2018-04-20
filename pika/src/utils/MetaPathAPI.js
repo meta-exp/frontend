@@ -234,7 +234,8 @@ const Actions = {
         alert('Could not send node set types to server.');
       }
       else{
-        alert("Type A: " + nodeSetTypeA + "\nType B: " + nodeSetTypeB + "\nSet A: " + nodeSetA + "\nSet B: " + nodeSetB);
+        SetupActions.updateComputingMetaPaths(false);
+        alert('Saved Node Sets and computed meta-paths between them.\nOn the next page, you can include or exclude node and edge types \nin order to shrink relevant meta-paths.');
       }
     }).catch((error) => {
         console.error(error);
