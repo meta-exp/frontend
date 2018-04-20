@@ -70,8 +70,16 @@ class NodeSetsSection extends Component {
 	saveNodeSets(e){
 		e.preventDefault();
 		e.stopPropagation();
-		SetupActions.updateComputingMetaPaths(true);
-		SetupActions.sendNodeSets(SetupStore.extractIdList(this.state.nodeSetA), SetupStore.extractIdList(this.state.nodeSetB), SetupStore.extractTypeOfNodeSet(this.state.nodeSetA), SetupStore.extractTypeOfNodeSet(this.state.nodeSetB));
+
+		if(this.state.nodeSetA.length == 0 || this.state.nodeSetB.length == 0){
+			alert("Error: Both Node Sets cannot be empty. Please select some Entities.");
+		}
+		else{
+			SetupActions.updateComputingMetaPaths(true);
+			SetupActions.sendNodeSets(SetupStore.extractIdList(this.state.nodeSetA), SetupStore.extractIdList(this.state.nodeSetB),
+									  SetupStore.extractTypeOfNodeSet(this.state.nodeSetA), SetupStore.extractTypeOfNodeSet(this.state.nodeSetB));
+		}
+		
 	}
 
 	removeNodeFromNodeSetA(node){
