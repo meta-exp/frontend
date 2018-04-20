@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 import { Button, Icon } from 'semantic-ui-react';
-
 import AccountActions from '../actions/AccountActions';
+import MetaPathAPI from '../utils/MetaPathAPI';
 
 class LogoutButton extends Component {
 

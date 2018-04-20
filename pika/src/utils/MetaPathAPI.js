@@ -37,11 +37,12 @@ const Actions = {
     fetch(process.env.REACT_APP_API_HOST + 'logout', {
         method: 'GET',
         credentials: "include"
-    }).then((response) => {
-      AccountActions.receiveLogout();
+    }).then((response) => { 
+      //AccountActions.receiveLogout();
+      window.location.reload();
     }).catch((error) => {
         console.error(error);
-        alert("Could not save this session.")
+        alert("Could not save this session.");
     })
     ;
   },
