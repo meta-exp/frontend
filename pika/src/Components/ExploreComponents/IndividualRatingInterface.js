@@ -16,7 +16,7 @@ class IndividualRatingInterface extends Component{
                 <Table.Row key={index}>
                     <Table.Cell>
                         <Button icon primary={true}>
-                            [index]
+                            [{index}]
                         </Button>
                     </Table.Cell>
                     <Table.Cell>

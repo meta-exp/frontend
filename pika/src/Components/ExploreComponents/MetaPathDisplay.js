@@ -10,6 +10,7 @@ import MetaPathAPI from '../../utils/MetaPathAPI';
 import ReferencePathCard from './ReferencePathCard';
 import AlgorithmSettingsCard from './AlgorithmSettingsCard';
 import IndividualRatingInterface from './IndividualRatingInterface';
+import RatingButton from './RatingButton';
 
 class MetaPathDisplay extends Component {
 
@@ -18,6 +19,8 @@ class MetaPathDisplay extends Component {
 
         this.getNewState = this.getNewState.bind(this);
         this.stopRating = this.stopRating.bind(this);
+        this.nextRatingIteration = this.nextRatingIteration.bind(this);
+        this.setRatingCompleted = this.setRatingCompleted.bind(this);
 
         this.state = {
             loading: true,
@@ -54,7 +57,9 @@ class MetaPathDisplay extends Component {
             minPath: ExploreStore.getMinPath(),
             relativeRatingInterface: ExploreStore.getInterfaceState(),
             stepsize: ExploreStore.getStepsize(),
-            computeSimilarity: ExploreStore.isComputingSimilarity()
+            computeSimilarity: ExploreStore.isComputingSimilarity(),
+            nextBatchAvailable: ExploreStore.getNextBatchAvailable(),
+            ratingCompleted: false
         });
 
     }
@@ -73,18 +78,6 @@ class MetaPathDisplay extends Component {
 
     handleBatchSizeChange(event) {
         ExploreActions.changeBatchSize(event.target.value);
-    }
-
-
-    nextRatingIteration() {
-        this.setState({loading: true});
-        ExploreActions.sendRatedMetaPaths(this.state.metapaths, this.state.minPath, this.state.maxPath);
-    }
-
-    addClickCount() {
-        let clicks = this.state.timesClicked + 1;
-        this.setState({timesClicked: clicks});
-        this.nextRatingIteration();
     }
 
     handleInterfaceChange(e) {
@@ -150,6 +143,55 @@ class MetaPathDisplay extends Component {
         MetaPathAPI.stopRating();
     }
 
+    getRatingInterface(){
+        let ratingInterface = null;
+        if (!this.state.relativeRatingInterface) {
+            ratingInterface = this.individualRatingInterface();
+        } else {
+            ratingInterface = this.combinedRatingInterface();
+        }
+
+        return ratingInterface;
+    }
+
+    getRatingButton(){
+        if(this.state.ratingCompleted){
+            return(
+                <div></div>
+            );
+        }
+
+        if(this.state.nextBatchAvailable){
+            return(
+                <RatingButton onClick={(e) => this.nextRatingIteration()} icon='arrow right' btnText='Confirm Rating & Get Next' />
+            );
+        }
+        else{
+            return(
+                <RatingButton onClick={(e) => this.setRatingCompleted()} icon='save' btnText='Confirm Rating & Finish' />
+            );
+        }
+    }
+
+    nextRatingIteration() {
+        this.setState({loading: true});
+        ExploreActions.sendRatedMetaPaths(this.state.metapaths, this.state.minPath, this.state.maxPath);
+    }
+    
+    setRatingCompleted(){
+        this.setState({ ratingCompleted: true });
+        this.nextRatingIteration();
+    }
+
+    getReferencePathDisplay(){
+        let referencePathDisplay = <div></div>;
+        if('rating' in this.state.minPath && 'metapath' in this.state.minPath && this.state.relativeRatingInterface){
+            referencePathDisplay = <ReferencePathCard maxPath={this.state.maxPath} minPath={this.state.minPath} /> 
+        }
+
+        return referencePathDisplay;
+    }
+
     render() {
         if (this.state.loading) {
             return (
@@ -159,37 +201,9 @@ class MetaPathDisplay extends Component {
             );
         }
 
-        let ratingInterface;
-        if (!this.state.relativeRatingInterface) {
-            ratingInterface = this.individualRatingInterface();
-        } else {
-            ratingInterface = this.combinedRatingInterface();
-        }
-
-        let ratingButton =
-            (<Button icon primary={true} onClick={this.nextRatingIteration.bind(this)}>
-                <Icon name='arrow right' />
-                <span style={{marginLeft: 10 + 'px'}}>Confirm Rating & Get Next</span>
-            </Button>);
-        if (!this.state.nextBatchAvailable) {
-            ratingButton = 
-                (<Button icon primary={true} onClick={this.addClickCount.bind(this)}>
-                    <Icon name='save' />
-                    <span style={{marginLeft: 10 + 'px'}}>Confirm Rating & Finish</span>
-                </Button>);
-            if (this.state.timesClicked > 0) {
-                ratingButton = <div></div>;
-            }
-        }
-
-        let minSlider = <div></div>;
-        let maxSlider = <div></div>;
-        let referencePathDisplay= <div></div>;
-
-        if('rating' in this.state.minPath && 'metapath' in this.state.minPath){
-            referencePathDisplay = <ReferencePathCard maxPath={this.state.maxPath} minPath={this.state.minPath} />
-            
-        }
+        let ratingInterface = this.getRatingInterface();
+        let ratingButton = this.getRatingButton();
+        let referencePathDisplay= this.getReferencePathDisplay();
 
         return (
             <div>
