@@ -11,6 +11,7 @@ import ReferencePathCard from './ReferencePathCard';
 import AlgorithmSettingsCard from './AlgorithmSettingsCard';
 import IndividualRatingInterface from './IndividualRatingInterface';
 import RatingButton from './RatingButton';
+import CombinedRatingMetaPathTable from './CombinedRatingMetaPathTable';
 
 class MetaPathDisplay extends Component {
 
@@ -107,24 +108,7 @@ class MetaPathDisplay extends Component {
                 }
                 {minSlider}
                 {maxSlider}
-                <Table celled>
-                    <Table.Header>
-                        <Table.Row>
-                            <Table.HeaderCell>ID</Table.HeaderCell>
-                            <Table.HeaderCell>Meta Paths</Table.HeaderCell>
-                        </Table.Row>
-                    </Table.Header>
-
-                    <Table.Body>
-                        {this.state.metapaths.map((path, index) =>
-                            <Table.Row key={index} className={"slider"+index}>
-                                <Table.Cell>
-                                    <button className={"btn btn-circle text-light slider" + index}>[{path.id}]</button>
-                                </Table.Cell>
-                                <Table.Cell><MetaPath path={path.metapath}/></Table.Cell>
-                            </Table.Row>)}
-                    </Table.Body>
-                </Table>
+                <CombinedRatingMetaPathTable metapaths={this.state.metapaths} />
             </div>
         );
     }
