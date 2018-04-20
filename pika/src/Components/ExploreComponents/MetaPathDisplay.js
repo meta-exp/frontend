@@ -6,7 +6,7 @@ import {Table, Checkbox, Card} from 'semantic-ui-react';
 import ExploreStore from '../../stores/ExploreStore';
 import ExploreActions from '../../actions/ExploreActions';
 import Explore from "./Explore";
-import { Button, Icon } from 'semantic-ui-react';
+import { Button, Icon, Dimmer, Loader } from 'semantic-ui-react';
 import MetaPathAPI from '../../utils/MetaPathAPI';
 import ReferencePathCard from './ReferencePathCard';
 import AlgorithmSettingsCard from './AlgorithmSettingsCard';
@@ -28,7 +28,8 @@ class MetaPathDisplay extends Component {
             relativeRatingInterface: true,
             maxPath: null,
             minPath: null,
-            stepsize: null
+            stepsize: null,
+            computeSimilarity: false
         };
     }
 
@@ -52,7 +53,8 @@ class MetaPathDisplay extends Component {
             maxPath: ExploreStore.getMaxPath(),
             minPath: ExploreStore.getMinPath(),
             relativeRatingInterface: ExploreStore.getInterfaceState(),
-            stepsize: ExploreStore.getStepsize()
+            stepsize: ExploreStore.getStepsize(),
+            computeSimilarity: ExploreStore.isComputingSimilarity()
         });
 
     }
@@ -113,24 +115,25 @@ class MetaPathDisplay extends Component {
                 {minSlider}
                 {maxSlider}
                 <Table celled>
-                <Table.Header>
-                    <Table.Row>
-                        <Table.HeaderCell>ID</Table.HeaderCell>
-                        <Table.HeaderCell>Meta Paths</Table.HeaderCell>
-                    </Table.Row>
-                </Table.Header>
+                    <Table.Header>
+                        <Table.Row>
+                            <Table.HeaderCell>ID</Table.HeaderCell>
+                            <Table.HeaderCell>Meta Paths</Table.HeaderCell>
+                        </Table.Row>
+                    </Table.Header>
 
-                <Table.Body>
-                    {this.state.metapaths.map((path, index) =>
-                        <Table.Row key={index} className={"slider"+index}>
+                    <Table.Body>
+                        {this.state.metapaths.map((path, index) =>
+                            <Table.Row key={index} className={"slider"+index}>
 
-                            <Table.Cell>
-                                <button className={"btn btn-circle text-light slider" + index}>[{path.id}]</button>
-                            </Table.Cell>
-                            <Table.Cell><MetaPath path={path.metapath}/></Table.Cell>
-                        </Table.Row>)}
-                </Table.Body>
-            </Table></div>
+                                <Table.Cell>
+                                    <button className={"btn btn-circle text-light slider" + index}>[{path.id}]</button>
+                                </Table.Cell>
+                                <Table.Cell><MetaPath path={path.metapath}/></Table.Cell>
+                            </Table.Row>)}
+                    </Table.Body>
+                </Table>
+            </div>
         );
     }
 
@@ -160,12 +163,17 @@ class MetaPathDisplay extends Component {
         e.preventDefault();
         e.stopPropagation();
 
+        ExploreActions.updateComputeSimilarity(true);
         MetaPathAPI.stopRating();
     }
 
     render() {
         if (this.state.loading) {
-            return (<div>Fetching new meta-paths...</div>);
+            return (
+                <Dimmer active inverted>
+                    <Loader inverted content='Fetching new meta-paths...' />
+                </Dimmer>
+            );
         }
 
         let ratingInterface;
@@ -211,8 +219,11 @@ class MetaPathDisplay extends Component {
                     </div>
                 </div>
                 <div className="row" className="row" style={{marginTop: 20 + 'px'}}>
+                    <Dimmer active={this.state.computeSimilarity} inverted>
+                        <Loader inverted content='Started computing similarity indicators. This could take a few minutes...' />
+                    </Dimmer>
                     <div className="col">
-                        <h3 align='left' className="font-weight-bold"> Found Meta Paths </h3>
+                        <h3 style={{marginBottom: 20 + 'px'}}>Found Meta-Paths</h3>
                         {ratingInterface}
                         <div className="row" style={{marginTop: 20 + 'px'}}>
                             <div className="col">

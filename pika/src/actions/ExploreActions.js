@@ -61,6 +61,13 @@ const ExploreActions = {
         payload: {ratedMetaPaths: ratedMetaPaths}
     });
     MetaPathAPI.sendRatedMetaPaths(ratedMetaPaths, minPath, maxPath);
+  },
+
+  updateComputeSimilarity(computing){
+    ExploreDispatcher.dispatch({
+        type: ExploreActionTypes.UPDATE_COMPUTE_SIMILARITY,
+        payload: {computing: computing}
+    });
   }
 
 };

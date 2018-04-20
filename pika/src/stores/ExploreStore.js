@@ -12,6 +12,16 @@ class ExploreStore extends EventEmitter {
         this.minPath = {};
         this.maxPath = {};
         this.stepsize = 0.01;
+        this.computeSimilarity = false;
+	}
+
+	isComputingSimilarity(){
+		return this.computeSimilarity;
+	}
+
+	setComputeSimilarity(computing){
+		this.computeSimilarity = computing;
+		this.emit("change");
 	}
 
 	getStepsize(){
@@ -85,7 +95,11 @@ class ExploreStore extends EventEmitter {
 				this.minPath.rating = Math.min(this.maxPath.rating - this.stepsize, action.payload.rating);
 				this.emit("change");
 				return this.minPath.rating;
-			}
+			};
+			case ExploreActionTypes.UPDATE_COMPUTE_SIMILARITY:{
+				this.setComputeSimilarity(action.payload.computing);
+				return this.computeSimilarity;
+			};
 		}
 	}
 
