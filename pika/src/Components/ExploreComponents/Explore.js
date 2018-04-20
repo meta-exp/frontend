@@ -6,7 +6,7 @@ class Explore extends Component {
 	render() {
 		return (
 			<div>
-				<h1>Explore</h1>
+				<h1 style={{marginBottom: 20 + 'px'}}>Explore</h1>
         		<MetaPathDisplay />
 			</div>
 		);

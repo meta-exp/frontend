@@ -23,7 +23,7 @@ class MetaPathDisplay extends Component {
             batchSize: 5,
             nextBatchAvailable: true,
             timesClicked: 0,
-            rangeInterface: true,
+            rangeInterface: false,
             maxPath: null,
             minPath: null,
             stepsize: null
@@ -88,33 +88,20 @@ class MetaPathDisplay extends Component {
     }
 
     combinedRatingInterface() {
-
         let minSlider = <div></div>;
         let maxSlider = <div></div>;
-        let referencePathDisplay= <div></div>;
 
-        if('rating' in this.state.minPath && 'metapath' in this.state.minPath){
-            minSlider = <input type="range" multiple min="0" step={this.state.stepsize} max="1" className="minSlider"
-                   value={this.state.minPath.rating}
-                   onChange={(event) => this.handleMinPathRatingChange(event)}/>;
-            maxSlider = <input type="range" multiple min="0" step={this.state.stepsize} max="1" className="maxSlider"
-            value={this.state.maxPath.rating}
-            onChange={(event) => this.handleMaxPathRatingChange(event)}/>;
-            referencePathDisplay = <Card>
-                <Card.Content>
-                    <Card.Header>Reference Meta-Paths</Card.Header>
-                    The reference paths summarize the previously rated paths by showing the paths with the maximum and minimum ratings.
-                    These can be integrated into the rating of the current batch to 'correct' the ratings from the previous batches.
-                    Maximal Meta-Path: <MetaPath path={this.state.maxPath.metapath}/>
-                    Minimal Meta-Path: <MetaPath path={this.state.minPath.metapath}/>
-                </Card.Content>
-            </Card>;
+        if('rating' in this.state.minPath && 'metapath' in this.state.minPath && !this.state.rangeInterface){
+                minSlider = <input type="range" multiple min="0" step={this.state.stepsize} max="1" className="minSlider"
+                       value={this.state.minPath.rating}
+                       onChange={(event) => this.handleMinPathRatingChange(event)}/>;
+                maxSlider = <input type="range" multiple min="0" step={this.state.stepsize} max="1" className="maxSlider"
+                value={this.state.maxPath.rating}
+                onChange={(event) => this.handleMaxPathRatingChange(event)}/>;
         }
-
 
         return (
             <div>
-                {referencePathDisplay}
                 {this.state.metapaths.map((path, index) =>
                     <input type="range" multiple min="0" step="0.01" max="1" className={"slider" + index}
                            value={path.rating}
@@ -141,7 +128,8 @@ class MetaPathDisplay extends Component {
                             <Table.Cell><MetaPath path={path.metapath}/></Table.Cell>
                         </Table.Row>)}
                 </Table.Body>
-            </Table></div>);
+            </Table></div>
+        );
     }
 
     individualRatingInterface() {
@@ -186,13 +174,13 @@ class MetaPathDisplay extends Component {
         }
 
         let ratingButton =
-            (<Button icon primary={true} onClick={(e) => this.nextRatingIteration.bind(this)}>
+            (<Button icon primary={true} onClick={this.nextRatingIteration.bind(this)}>
                 <Icon name='arrow right' />
                 <span style={{marginLeft: 10 + 'px'}}>Confirm Rating & Get Next</span>
             </Button>);
         if (!this.state.nextBatchAvailable) {
             ratingButton = 
-                (<Button icon primary={true} onClick={(e) => this.addClickCount.bind(this)}>
+                (<Button icon primary={true} onClick={this.addClickCount.bind(this)}>
                     <Icon name='save' />
                     <span style={{marginLeft: 10 + 'px'}}>Confirm Rating & Finish</span>
                 </Button>);
@@ -201,30 +189,62 @@ class MetaPathDisplay extends Component {
             }
         }
 
+        let minSlider = <div></div>;
+        let maxSlider = <div></div>;
+        let referencePathDisplay= <div></div>;
+
+        if('rating' in this.state.minPath && 'metapath' in this.state.minPath){
+            referencePathDisplay = 
+            <Card fluid>
+                <Card.Content>
+                    <Card.Header>Reference Meta-Paths</Card.Header>
+                    The reference paths summarize the previously rated paths by showing the paths with the maximum and minimum ratings.
+                    These can be integrated into the rating of the current batch to 'correct' the ratings from the previous batches.
+                    Maximal Meta-Path: <MetaPath path={this.state.maxPath.metapath}/>
+                    Minimal Meta-Path: <MetaPath path={this.state.minPath.metapath}/>
+                </Card.Content>
+            </Card>;
+        }
+
         return (
             <div>
-                <Card>
-                    <Card.Content>
-                    <Card.Header>Algorithm Settings</Card.Header>
-                    <label>Rating Method </label>
-                    Relative <Checkbox toggle defaultChecked={this.state.rangeInterface}
-                                       onClick={(e) => this.handleInterfaceChange(e)}/> Individual
-                    <br/>
-                    <label htmlFor="batchSize">Batchsize</label> 2 <input type="range" name="batchSize" min={2} max={6} value={this.state.batchSize}
-                                                                          onChange={this.handleBatchSizeChange.bind(this)}/> 6
-                    </Card.Content>
-                </Card>
-                <h3 align='left' className="font-weight-bold"> Found Meta Paths </h3>
-                {ratingInterface}
-                <div className="row" style={{marginTop: 20 + 'px'}}>
-                    <div className="col">
-                        {ratingButton}
+                <div className="row">
+                    <div className="col-3">
+                        <Card fluid>
+                            <Card.Content>
+                                <Card.Header>Algorithm Settings</Card.Header>
+                                <label>Rating Method</label>
+                                Relative
+                                <Checkbox toggle defaultChecked={this.state.rangeInterface}
+                                            onClick={(e) => this.handleInterfaceChange(e)}/>
+                                Individual
+                                <br/>
+                                <label htmlFor="batchSize">Batchsize</label>
+                                2 <input type="range" name="batchSize" min={2} 
+                                        max={6} value={this.state.batchSize}
+                                        onChange={this.handleBatchSizeChange.bind(this)}/> 6
+                            </Card.Content>
+                        </Card>
                     </div>
+                    <div className="col-9">
+                        {referencePathDisplay}
+                    </div>
+                </div>
+                <div className="row" className="row" style={{marginTop: 20 + 'px'}}>
                     <div className="col">
-                        <Button floated='right' icon primary={true} onClick={(e) => this.stopRating(e)}>
-                            <Icon name='stop' />
-                            <span style={{marginLeft: 10 + 'px'}}>Stop Rating</span>
-                        </Button>
+                        <h3 align='left' className="font-weight-bold"> Found Meta Paths </h3>
+                        {ratingInterface}
+                        <div className="row" style={{marginTop: 20 + 'px'}}>
+                            <div className="col">
+                                {ratingButton}
+                            </div>
+                            <div className="col">
+                                <Button floated='right' icon primary={true} onClick={(e) => this.stopRating(e)}>
+                                    <Icon name='stop' />
+                                    <span style={{marginLeft: 10 + 'px'}}>Stop Rating</span>
+                                </Button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
