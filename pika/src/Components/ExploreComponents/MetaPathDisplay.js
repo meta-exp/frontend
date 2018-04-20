@@ -85,27 +85,40 @@ class MetaPathDisplay extends Component {
         ExploreActions.toggleInterface();
     }
 
+    getMinSlider(){
+        return(
+            <input type="range" multiple min="0" step={this.state.stepsize} max="1" className="minSlider"
+                   value={this.state.minPath.rating} onChange={(event) => this.handleMinPathRatingChange(event)} />
+        );
+    }
+
+    getMaxSlider(){
+        return(
+            <input type="range" multiple min="0" step={this.state.stepsize} max="1" className="maxSlider"
+                    value={this.state.maxPath.rating} onChange={(event) => this.handleMaxPathRatingChange(event)} />
+        );
+    }
+
     combinedRatingInterface() {
         let minSlider = <div></div>;
         let maxSlider = <div></div>;
 
         if('rating' in this.state.minPath && 'metapath' in this.state.minPath && this.state.relativeRatingInterface){
-                minSlider = <input type="range" multiple min="0" step={this.state.stepsize} max="1" className="minSlider"
-                       value={this.state.minPath.rating}
-                       onChange={(event) => this.handleMinPathRatingChange(event)}/>;
-                maxSlider = <input type="range" multiple min="0" step={this.state.stepsize} max="1" className="maxSlider"
-                value={this.state.maxPath.rating}
-                onChange={(event) => this.handleMaxPathRatingChange(event)}/>;
+                minSlider = this.getMinSlider();
+                maxSlider = this.getMaxSlider();
         }
+
+        let metapathSliders = this.state.metapaths.map((path, index) => {
+            return(
+                <input type="range" multiple min="0" step="0.01" max="1"
+                       className={"slider" + index} value={path.rating} key={index}
+                       onChange={(event) => this.handleRatingChange(event, path.id)}/>
+            );
+        });
 
         return (
             <div>
-                {this.state.metapaths.map((path, index) =>
-                    <input type="range" multiple min="0" step="0.01" max="1" className={"slider" + index}
-                           value={path.rating}
-                           key={index}
-                           onChange={(event) => this.handleRatingChange(event, path.id)}/>)
-                }
+                {metapathSliders}
                 {minSlider}
                 {maxSlider}
                 <CombinedRatingMetaPathTable metapaths={this.state.metapaths} />
