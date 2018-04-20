@@ -8,7 +8,7 @@ class ExploreStore extends EventEmitter {
 		super();
 		this.metapaths = [];
 		this.batchSize = 5;
-        this.interfaceState = false;
+        this.interfaceState = true;
         this.minPath = {};
         this.maxPath = {};
         this.stepsize = 0.01;

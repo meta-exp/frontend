@@ -25,7 +25,7 @@ class MetaPathDisplay extends Component {
             batchSize: 5,
             nextBatchAvailable: true,
             timesClicked: 0,
-            rangeInterface: false,
+            relativeRatingInterface: true,
             maxPath: null,
             minPath: null,
             stepsize: null
@@ -51,7 +51,7 @@ class MetaPathDisplay extends Component {
             loading: false,
             maxPath: ExploreStore.getMaxPath(),
             minPath: ExploreStore.getMinPath(),
-            rangeInterface: ExploreStore.getInterfaceState(),
+            relativeRatingInterface: ExploreStore.getInterfaceState(),
             stepsize: ExploreStore.getStepsize()
         });
 
@@ -93,7 +93,7 @@ class MetaPathDisplay extends Component {
         let minSlider = <div></div>;
         let maxSlider = <div></div>;
 
-        if('rating' in this.state.minPath && 'metapath' in this.state.minPath && !this.state.rangeInterface){
+        if('rating' in this.state.minPath && 'metapath' in this.state.minPath && this.state.relativeRatingInterface){
                 minSlider = <input type="range" multiple min="0" step={this.state.stepsize} max="1" className="minSlider"
                        value={this.state.minPath.rating}
                        onChange={(event) => this.handleMinPathRatingChange(event)}/>;
@@ -169,7 +169,7 @@ class MetaPathDisplay extends Component {
         }
 
         let ratingInterface;
-        if (this.state.rangeInterface) {
+        if (!this.state.relativeRatingInterface) {
             ratingInterface = this.individualRatingInterface()
         } else {
             ratingInterface = this.combinedRatingInterface()
@@ -204,7 +204,7 @@ class MetaPathDisplay extends Component {
             <div>
                 <div className="row">
                     <div className="col-3">
-                        <AlgorithmSettingsCard batchSize={this.state.batchSize} rangeInterface={this.state.rangeInterface} onClick={(e) => this.handleInterfaceChange(e)} onChange={this.handleBatchSizeChange.bind(this)} />
+                        <AlgorithmSettingsCard batchSize={this.state.batchSize} relativeRatingInterface={this.state.relativeRatingInterface} onClick={(e) => this.handleInterfaceChange(e)} onChange={this.handleBatchSizeChange.bind(this)} />
                     </div>
                     <div className="col-9">
                         {referencePathDisplay}
