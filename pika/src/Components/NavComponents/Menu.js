@@ -40,7 +40,7 @@ export default class TopMenuBar extends Component {
 		];
 
 		this.state = {
-			activeItem: 'Setup',
+			activeItem: 'Search',
 			loggedIn: false
 		};
 	}
