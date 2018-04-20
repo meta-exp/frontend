@@ -20,7 +20,6 @@ class MetaPathDisplay extends Component {
         this.state = {
             loading: true,
             metapaths: [],
-            ratedPaths: [],
             batchSize: 5,
             nextBatchAvailable: true,
             timesClicked: 0,
@@ -46,7 +45,6 @@ class MetaPathDisplay extends Component {
     getNewState() {
         this.setState({
             metapaths: ExploreStore.getMetaPaths(),
-            ratedPaths: ExploreStore.getRatedMetaPaths(),
             batchSize: ExploreStore.getBatchSize(),
             loading: false,
             maxPath: ExploreStore.getMaxPath(),
@@ -88,9 +86,6 @@ class MetaPathDisplay extends Component {
     handleInterfaceChange(e) {
         ExploreActions.toggleInterface();
     }
-    /*
-        Methods for rendering the html
-    */
 
     combinedRatingInterface() {
 
@@ -230,22 +225,6 @@ class MetaPathDisplay extends Component {
                     <Icon name='stop' />
                     <span style={{marginLeft: 10 + 'px'}}>Stop Rating</span>
                 </Button>
-                <h3 align='left' className="font-weight-bold"> Rated MetaPaths </h3>
-                <Table celled>
-                    <Table.Header>
-                        <Table.Row>
-                            <Table.HeaderCell>ID</Table.HeaderCell>
-                            <Table.HeaderCell>Rating</Table.HeaderCell>
-                        </Table.Row>
-                    </Table.Header>
-                    <Table.Body>
-                        {this.state.ratedPaths.map((path, index) =>
-                            <Table.Row key={index}>
-                                <Table.Cell><MetaPathID id={path.id}/></Table.Cell>
-                                <Table.Cell>{path.rating}</Table.Cell>
-                            </Table.Row>)}
-                    </Table.Body>
-                </Table>
             </div>
         )
             ;

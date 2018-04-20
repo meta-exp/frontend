@@ -7,7 +7,6 @@ class ExploreStore extends EventEmitter {
 	constructor(){
 		super();
 		this.metapaths = [];
-		this.ratedMetapaths = [];
 		this.batchSize=5;
         this.interfaceState=true;
         this.minPath={};
@@ -21,10 +20,6 @@ class ExploreStore extends EventEmitter {
 
 	getMetaPaths(){
 		return this.metapaths;
-	}
-
-	getRatedMetaPaths(){
-		return this.ratedMetapaths;
 	}
 
 	getBatchSize(){
@@ -44,7 +39,6 @@ class ExploreStore extends EventEmitter {
 	}
 
 	receiveMetaPaths(metapaths, next_batch_available, minPath, maxPath){
-		this.ratedMetapaths = this.ratedMetapaths.concat(this.metapaths);
 		this.metapaths = metapaths;
         if(minPath !== undefined){
             this.minPath = minPath;

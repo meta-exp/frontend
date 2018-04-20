@@ -12,31 +12,31 @@ const ExploreActions = {
   },
 
 
-    toggleInterface(){
+  toggleInterface(){
+  ExploreDispatcher.dispatch({
+      type: ExploreActionTypes.TOGGLE_INTERFACE
+  })
+  },
+  changeRating(id, rating){
+  ExploreDispatcher.dispatch({
+      type: ExploreActionTypes.CHANGE_RATING,
+      payload: {id: id,
+                rating: rating}
+  })
+  },
+  changeMinPathRating(rating){
     ExploreDispatcher.dispatch({
-        type: ExploreActionTypes.TOGGLE_INTERFACE
+        type: ExploreActionTypes.CHANGE_MINPATH_RATING,
+        payload: {rating: rating}
     })
     },
-    changeRating(id, rating){
-    ExploreDispatcher.dispatch({
-        type: ExploreActionTypes.CHANGE_RATING,
-        payload: {id: id,
-                  rating: rating}
-    })
-    },
-    changeMinPathRating(rating){
+
+  changeMaxPathRating(rating){
       ExploreDispatcher.dispatch({
-          type: ExploreActionTypes.CHANGE_MINPATH_RATING,
+          type: ExploreActionTypes.CHANGE_MAXPATH_RATING,
           payload: {rating: rating}
       })
-      },
-
-    changeMaxPathRating(rating){
-        ExploreDispatcher.dispatch({
-            type: ExploreActionTypes.CHANGE_MAXPATH_RATING,
-            payload: {rating: rating}
-        })
-    },
+  },
 
   receiveMetaPaths(metapaths,nextBatchAvailable,minPath,maxPath){
     ExploreDispatcher.dispatch({
@@ -48,12 +48,12 @@ const ExploreActions = {
     });
   },
 
-    changeBatchSize(batchSize){
-    ExploreDispatcher.dispatch({
-        type: ExploreActionTypes.CHANGE_BATCH_SIZE,
-        payload: {batchSize: batchSize}
-    })
-    },
+  changeBatchSize(batchSize){
+  ExploreDispatcher.dispatch({
+      type: ExploreActionTypes.CHANGE_BATCH_SIZE,
+      payload: {batchSize: batchSize}
+  })
+  },
 
   sendRatedMetaPaths(ratedMetaPaths, minPath, maxPath){
     ExploreDispatcher.dispatch({
