@@ -174,12 +174,10 @@ class MetaPathDisplay extends Component {
     }
 
     render() {
-        // Show only text when loading
         if (this.state.loading) {
             return (<div>Fetching new meta-paths...</div>);
         }
 
-        // determine which type of interface should be shown
         let ratingInterface;
         if (this.state.rangeInterface) {
             ratingInterface = this.individualRatingInterface()
@@ -187,21 +185,19 @@ class MetaPathDisplay extends Component {
             ratingInterface = this.combinedRatingInterface()
         }
 
-        // set the button for getting next
         let ratingButton =
-            (<button className="btn btn-primary mx-auto"
-                                   id="show-more-meta-paths-btn"
-                                   onClick={this.nextRatingIteration.bind(this)}>
-                <span> Confirm Current Rating & Get Next </span>
-            </button>);
+            (<Button icon primary={true} onClick={(e) => this.nextRatingIteration.bind(this)}>
+                <Icon name='arrow right' />
+                <span style={{marginLeft: 10 + 'px'}}>Confirm Rating & Get Next</span>
+            </Button>);
         if (!this.state.nextBatchAvailable) {
-            ratingButton = <button className="btn btn-primary mx-auto"
-                                   id="show-more-meta-paths-btn"
-                                   onClick={this.addClickCount.bind(this)}>
-                <span> Confirm Current Rating </span>
-            </button>;
+            ratingButton = 
+                (<Button icon primary={true} onClick={(e) => this.addClickCount.bind(this)}>
+                    <Icon name='save' />
+                    <span style={{marginLeft: 10 + 'px'}}>Confirm Rating & Finish</span>
+                </Button>);
             if (this.state.timesClicked > 0) {
-                ratingButton = <div/>;
+                ratingButton = <div></div>;
             }
         }
 
@@ -220,11 +216,17 @@ class MetaPathDisplay extends Component {
                 </Card>
                 <h3 align='left' className="font-weight-bold"> Found Meta Paths </h3>
                 {ratingInterface}
-                {ratingButton}
-                <Button floated='right' icon primary={true} onClick={(e) => this.stopRating(e)}>
-                    <Icon name='stop' />
-                    <span style={{marginLeft: 10 + 'px'}}>Stop Rating</span>
-                </Button>
+                <div className="row" style={{marginTop: 20 + 'px'}}>
+                    <div className="col">
+                        {ratingButton}
+                    </div>
+                    <div className="col">
+                        <Button floated='right' icon primary={true} onClick={(e) => this.stopRating(e)}>
+                            <Icon name='stop' />
+                            <span style={{marginLeft: 10 + 'px'}}>Stop Rating</span>
+                        </Button>
+                    </div>
+                </div>
             </div>
         )
             ;
