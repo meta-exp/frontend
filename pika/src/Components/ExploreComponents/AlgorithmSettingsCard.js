@@ -5,7 +5,7 @@ import { Card, Checkbox, Form } from 'semantic-ui-react';
 class AlgorithmSettingsCard extends Component {
 
     constructor(props) {
-        super();
+        super(props);
     }
 
     render(){

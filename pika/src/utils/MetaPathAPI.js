@@ -249,7 +249,7 @@ const Actions = {
         alert('Could not start similarity computation!');
       }
       else{
-        alert('Finished similarity computation! Reults visible on next page!');
+        alert('Finished similarity computation! Results visible on next page!');
         ExploreActions.updateComputeSimilarity(false);
       }
     }).catch((error) => {

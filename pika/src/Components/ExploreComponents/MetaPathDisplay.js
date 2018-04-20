@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import MetaPath from './MetaPath';
-import MetaPathID from './MetaPathID';
 import MetaPathRater from './MetaPathRater';
 import {Table, Checkbox, Card} from 'semantic-ui-react';
 import ExploreStore from '../../stores/ExploreStore';
@@ -10,6 +9,7 @@ import { Button, Icon, Dimmer, Loader } from 'semantic-ui-react';
 import MetaPathAPI from '../../utils/MetaPathAPI';
 import ReferencePathCard from './ReferencePathCard';
 import AlgorithmSettingsCard from './AlgorithmSettingsCard';
+import IndividualRatingInterface from './IndividualRatingInterface';
 
 class MetaPathDisplay extends Component {
 
@@ -125,7 +125,6 @@ class MetaPathDisplay extends Component {
                     <Table.Body>
                         {this.state.metapaths.map((path, index) =>
                             <Table.Row key={index} className={"slider"+index}>
-
                                 <Table.Cell>
                                     <button className={"btn btn-circle text-light slider" + index}>[{path.id}]</button>
                                 </Table.Cell>
@@ -138,25 +137,9 @@ class MetaPathDisplay extends Component {
     }
 
     individualRatingInterface() {
-        return (<div>
-            <Table celled>
-                <Table.Header>
-                    <Table.Row>
-                        <Table.HeaderCell>ID</Table.HeaderCell>
-                        <Table.HeaderCell>Meta Path</Table.HeaderCell>
-                        <Table.HeaderCell>Rating</Table.HeaderCell>
-                    </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                    {this.state.metapaths.map((path, index) =>
-                        <Table.Row key={index}>
-                            <Table.Cell><MetaPathID id={path.id}/></Table.Cell>
-                            <Table.Cell><MetaPath path={path.metapath}/></Table.Cell>
-                            <Table.Cell><MetaPathRater id={path.id} defaultRating={path.rating} rating={path.rating}
-                                                       onChange={this.handleRatingChange.bind(this)}/></Table.Cell>
-                        </Table.Row>)}
-                </Table.Body>
-            </Table></div>);
+        return(
+            <IndividualRatingInterface metapaths={this.state.metapaths} onChange={(e, id) => this.handleRatingChange.bind(this)} />
+        );
     }
 
     stopRating(e){
@@ -178,9 +161,9 @@ class MetaPathDisplay extends Component {
 
         let ratingInterface;
         if (!this.state.relativeRatingInterface) {
-            ratingInterface = this.individualRatingInterface()
+            ratingInterface = this.individualRatingInterface();
         } else {
-            ratingInterface = this.combinedRatingInterface()
+            ratingInterface = this.combinedRatingInterface();
         }
 
         let ratingButton =

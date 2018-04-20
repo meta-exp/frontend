@@ -6,7 +6,7 @@ import { Card } from 'semantic-ui-react';
 class ReferencePathCard extends Component {
 
     constructor(props) {
-        super();
+        super(props);
     }
 
     render(){
