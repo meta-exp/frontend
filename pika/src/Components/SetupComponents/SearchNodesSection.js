@@ -11,7 +11,7 @@ import "../../../node_modules/codemirror/addon/lint/lint.css";
 import "../../../node_modules/codemirror/addon/hint/show-hint.css"; 
 import "../../../node_modules/cypher-codemirror/dist/cypher-codemirror-syntax.css"; 
 
-import { Button, Icon } from 'semantic-ui-react';
+import { Button, Icon, Dimmer, Loader } from 'semantic-ui-react';
 
 import SetupStore from '../../stores/SetupStore';
 import SetupActions from '../../actions/SetupActions';
@@ -87,7 +87,9 @@ class SearchNodesSection extends Component {
 					}} 
 				/> 
 				) : (
-					<div>Load Cypher Editor ...</div>
+					<Dimmer active inverted>
+						<Loader inverted>Load Cypher Editor</Loader>
+					</Dimmer>
 				)}
 			</div> 
 	    ); 
