@@ -8,6 +8,8 @@ import ExploreActions from '../../actions/ExploreActions';
 import Explore from "./Explore";
 import { Button, Icon } from 'semantic-ui-react';
 import MetaPathAPI from '../../utils/MetaPathAPI';
+import ReferencePathCard from './ReferencePathCard';
+import AlgorithmSettingsCard from './AlgorithmSettingsCard';
 
 class MetaPathDisplay extends Component {
 
@@ -194,37 +196,15 @@ class MetaPathDisplay extends Component {
         let referencePathDisplay= <div></div>;
 
         if('rating' in this.state.minPath && 'metapath' in this.state.minPath){
-            referencePathDisplay = 
-            <Card fluid>
-                <Card.Content>
-                    <Card.Header>Reference Meta-Paths</Card.Header>
-                    The reference paths summarize the previously rated paths by showing the paths with the maximum and minimum ratings.
-                    These can be integrated into the rating of the current batch to 'correct' the ratings from the previous batches.
-                    Maximal Meta-Path: <MetaPath path={this.state.maxPath.metapath}/>
-                    Minimal Meta-Path: <MetaPath path={this.state.minPath.metapath}/>
-                </Card.Content>
-            </Card>;
+            referencePathDisplay = <ReferencePathCard maxPath={this.state.maxPath} minPath={this.state.minPath} />
+            
         }
 
         return (
             <div>
                 <div className="row">
                     <div className="col-3">
-                        <Card fluid>
-                            <Card.Content>
-                                <Card.Header>Algorithm Settings</Card.Header>
-                                <label>Rating Method</label>
-                                Relative
-                                <Checkbox toggle defaultChecked={this.state.rangeInterface}
-                                            onClick={(e) => this.handleInterfaceChange(e)}/>
-                                Individual
-                                <br/>
-                                <label htmlFor="batchSize">Batchsize</label>
-                                2 <input type="range" name="batchSize" min={2} 
-                                        max={6} value={this.state.batchSize}
-                                        onChange={this.handleBatchSizeChange.bind(this)}/> 6
-                            </Card.Content>
-                        </Card>
+                        <AlgorithmSettingsCard batchSize={this.state.batchSize} rangeInterface={this.state.rangeInterface} onClick={(e) => this.handleInterfaceChange(e)} onChange={this.handleBatchSizeChange.bind(this)} />
                     </div>
                     <div className="col-9">
                         {referencePathDisplay}
