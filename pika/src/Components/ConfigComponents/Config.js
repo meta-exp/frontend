@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import SelectorList from './SelectorList';
+import ConfigSectionGuide from './ConfigSectionGuide';
 import { Checkbox, Button, Icon } from 'semantic-ui-react';
 
 import ConfigStore from '../../stores/ConfigStore';
@@ -42,8 +43,17 @@ class Config extends Component {
     return (
       <div>
         <h1>Config</h1>
-        <div className='row' style={{marginTop:30+'px'}}>
+        <div style={{marginTop: 20 + 'px'}}>
+          <ConfigSectionGuide />
+        </div>
+        <div className='row' style={{marginTop:20+'px'}}>
           <div className="col">
+            <h3>
+              <Icon name='hand pointer' />
+              <span style={{marginLeft: 10 + 'px'}}>
+                Selection of Node and Edge Types
+              </span>
+            </h3>
             <SelectorList
               is_node_type_list={true}
               item_names='Node type'
@@ -54,6 +64,10 @@ class Config extends Component {
               is_node_type_list={false}
               item_names='Edge type'
               items={this.state.edge_types} />
+            <div style={{float: 'right'}}>
+              <Icon name='share' />
+              <b>Go on</b>
+            </div>
           </div>
         </div>
       </div>
