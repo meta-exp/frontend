@@ -13,6 +13,16 @@ class SetupStore extends EventEmitter {
 		this.nodeSetB = [];
 		this.nodeSetQueryA = 'RETURN 1';
 		this.nodeSetQueryB = 'RETURN 1';
+		this.computingMetaPaths = false;
+	}
+
+	isComputingMetaPaths(){
+		return this.computingMetaPaths;
+	}
+
+	setComputingMetaPaths(computing){
+		this.computingMetaPaths = computing;
+		this.emit("change");
 	}
 
 	getNodeSetQueryA(){
@@ -150,6 +160,10 @@ class SetupStore extends EventEmitter {
 			case SetupActionTypes.UPDATE_INITIAL_CYPHER_QUERY: {
 				this.setInitialCypherQuery(action.payload.nodeTypes);
 				return this.initialCypherQuery;
+			};
+			case SetupActionTypes.UPDATE_COMPUTING_META_PATHS: {
+				this.setComputingMetaPaths(action.payload.computing);
+				return this.computingMetaPaths;
 			};
 			default: {
 				return this.state;

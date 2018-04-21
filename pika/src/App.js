@@ -24,7 +24,7 @@ class App extends Component {
 
 		this.state = {
 			logged_in: false,
-			activePage: 'Setup'
+			activePage: 'Search'
 		};
 	}
 
@@ -53,7 +53,7 @@ class App extends Component {
 			body = <Login />;
 		}
 		else{
-			if(this.state.activePage === 'Setup'){
+			if(this.state.activePage === 'Search'){
 				body = <Setup />;
 			}
 			else if(this.state.activePage === 'Config'){

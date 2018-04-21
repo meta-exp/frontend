@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+
+import ExploreSectionGuide from './ExploreSectionGuide';
 import MetaPathDisplay from './MetaPathDisplay';
 
 class Explore extends Component {
@@ -6,8 +8,9 @@ class Explore extends Component {
 	render() {
 		return (
 			<div>
-				<h1 style={{marginBottom: 20 + 'px'}}>Explore</h1>
-        		<MetaPathDisplay />
+				<h1>Explore</h1>
+				<ExploreSectionGuide />
+        <MetaPathDisplay />
 			</div>
 		);
 	}

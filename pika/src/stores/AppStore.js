@@ -7,8 +7,8 @@ class AppStore extends EventEmitter {
 	constructor(){
 		super();
 
-		this.activePage = 'Setup';
-		this.pages = ['Setup', 'Config', 'Explore', 'Results'];
+		this.activePage = 'Search';
+		this.pages = ['Search', 'Config', 'Explore', 'Results'];
 		this.prevActive = false;
 		this.nextActive = true;
 	}

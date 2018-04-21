@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { Neo4jGraphRenderer } from 'neo4j-graph-renderer';
-import { Button, Icon } from 'semantic-ui-react';
+import { Button, Icon, Dimmer, Loader } from 'semantic-ui-react';
 
 import AccountStore from '../../stores/AccountStore';
 import SetupStore from '../../stores/SetupStore';
@@ -18,13 +18,15 @@ class NodeSetsSection extends Component {
 		this.saveNodeSets = this.saveNodeSets.bind(this);
 		this.removeNodeFromNodeSetA = this.removeNodeFromNodeSetA.bind(this);
 		this.removeNodeFromNodeSetB = this.removeNodeFromNodeSetB.bind(this);
+		this.isComputingMetaPaths = this.isComputingMetaPaths.bind(this);
 
 		this.state = {
 			dataset: {},
 			nodeSetQueryA: 'RETURN 1',
 			nodeSetQueryB: 'RETURN 1',
 			nodeSetA: [],
-			nodeSetB: []
+			nodeSetB: [],
+			computingMetaPaths: false
 		};
 	}
 
@@ -33,6 +35,7 @@ class NodeSetsSection extends Component {
 		this.getNodeSetQuerys();
 		SetupStore.on("change", this.getNodeSetQuerys);
 		SetupStore.on("change", this.getNodeSets);
+		SetupStore.on("change", this.isComputingMetaPaths);
 		AccountStore.on("change", this.getDataset);
 	}
 
@@ -40,6 +43,10 @@ class NodeSetsSection extends Component {
 		SetupStore.removeListener("change", this.getNodeSetQuerys);
 		SetupStore.removeListener("change", this.getNodeSets);
 		AccountStore.removeListener("change", this.getDataset);
+	}
+
+	isComputingMetaPaths(){
+		this.setState({ computingMetaPaths: SetupStore.isComputingMetaPaths() });
 	}
 
 	getDataset(){
@@ -63,7 +70,16 @@ class NodeSetsSection extends Component {
 	saveNodeSets(e){
 		e.preventDefault();
 		e.stopPropagation();
-		SetupActions.sendNodeSets(SetupStore.extractIdList(this.state.nodeSetA), SetupStore.extractIdList(this.state.nodeSetB), SetupStore.extractTypeOfNodeSet(this.state.nodeSetA), SetupStore.extractTypeOfNodeSet(this.state.nodeSetB));
+
+		if(this.state.nodeSetA.length == 0 || this.state.nodeSetB.length == 0){
+			alert("Error: Both Node Sets cannot be empty. Please select some Entities.");
+		}
+		else{
+			SetupActions.updateComputingMetaPaths(true);
+			SetupActions.sendNodeSets(SetupStore.extractIdList(this.state.nodeSetA), SetupStore.extractIdList(this.state.nodeSetB),
+									  SetupStore.extractTypeOfNodeSet(this.state.nodeSetA), SetupStore.extractTypeOfNodeSet(this.state.nodeSetB));
+		}
+		
 	}
 
 	removeNodeFromNodeSetA(node){
@@ -75,12 +91,28 @@ class NodeSetsSection extends Component {
 	}
 
 	render() {
+		if(this.state.computingMetaPaths){
+			return(
+				<Dimmer active inverted>
+					<Loader inverted>
+						Saved Node Sets. Computing Meta-paths between Node Sets.<br />
+						That could take a few moments ...
+					</Loader>
+				</Dimmer>
+			);
+		}
+		
 		return (
 			<div>
 				<div className="row" style={{marginTop: 20 + 'px'}}>
 					<div className="col">
 						<div>
-							<h3>Node Set A</h3>
+							<h3>
+								<Icon name='share' />
+								<span style={{marginLeft: 10 + 'px'}}>
+									Node Set A
+								</span>
+							</h3>
 							<Neo4jGraphRenderer divId="2" onClick={(event, node) => this.removeNodeFromNodeSetA(node)} url={this.state.dataset.url} user={this.state.dataset.username} password={this.state.dataset.password} query={this.state.nodeSetQueryA} />
 						</div>
 					</div>
