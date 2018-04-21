@@ -16,13 +16,21 @@ class MetaPathRater extends Component {
 
 	render() {
 		return (
-			<div><input type='range'
+			<div className="row">
+				<div className="col">
+					<input type='range'
 						min={this.min}
 						max={this.max}
 						ref={"metapath_rating_" + this.props.id}
 						step={this.step}
 						value={this.props.rating}
-						onChange={event => this.props.onChange(event,this.props.id)}/>{this.props.rating} </div>
+						onChange={(event) => this.props.onChange(event,this.props.id)} 
+					/>
+				</div>
+				<div className="col">
+					{this.props.rating}
+				</div>
+			</div>
 		);
 	}
 

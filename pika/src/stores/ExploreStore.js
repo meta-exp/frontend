@@ -7,12 +7,26 @@ class ExploreStore extends EventEmitter {
 	constructor(){
 		super();
 		this.metapaths = [];
-		this.ratedMetapaths = [];
-		this.batchSize=5;
-        this.interfaceState=true;
-        this.minPath={};
-        this.maxPath={};
-        this.stepsize=0.01;
+		this.batchSize = 5;
+        this.interfaceState = true;
+        this.minPath = {};
+        this.maxPath = {};
+        this.stepsize = 0.01;
+        this.computeSimilarity = false;
+        this.nextBatchAvailable = true;
+	}
+
+	getNextBatchAvailable(){
+		return this.nextBatchAvailable;
+	}
+	
+	isComputingSimilarity(){
+		return this.computeSimilarity;
+	}
+
+	setComputeSimilarity(computing){
+		this.computeSimilarity = computing;
+		this.emit("change");
 	}
 
 	getStepsize(){
@@ -21,10 +35,6 @@ class ExploreStore extends EventEmitter {
 
 	getMetaPaths(){
 		return this.metapaths;
-	}
-
-	getRatedMetaPaths(){
-		return this.ratedMetapaths;
 	}
 
 	getBatchSize(){
@@ -43,9 +53,9 @@ class ExploreStore extends EventEmitter {
 		return this.maxPath;
 	}
 
-	receiveMetaPaths(metapaths, next_batch_available, minPath, maxPath){
-		this.ratedMetapaths = this.ratedMetapaths.concat(this.metapaths);
+	receiveMetaPaths(metapaths, nextBatchAvailable, minPath, maxPath){
 		this.metapaths = metapaths;
+		this.nextBatchAvailable = nextBatchAvailable;
         if(minPath !== undefined){
             this.minPath = minPath;
             this.maxPath = maxPath;
@@ -64,7 +74,6 @@ class ExploreStore extends EventEmitter {
 		switch(action.type){
 			case ExploreActionTypes.RECEIVE_METAPATHS: {
 				this.receiveMetaPaths(action.payload.metapaths, action.payload.nextBatchAvailable,action.payload.minPath,action.payload.maxPath);
-
 				return this.metapaths;
 			}
 			case ExploreActionTypes.CHANGE_BATCH_SIZE: {
@@ -91,7 +100,11 @@ class ExploreStore extends EventEmitter {
 				this.minPath.rating = Math.min(this.maxPath.rating - this.stepsize, action.payload.rating);
 				this.emit("change");
 				return this.minPath.rating;
-			}
+			};
+			case ExploreActionTypes.UPDATE_COMPUTE_SIMILARITY:{
+				this.setComputeSimilarity(action.payload.computing);
+				return this.computeSimilarity;
+			};
 		}
 	}
 

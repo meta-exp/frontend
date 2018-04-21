@@ -251,7 +251,8 @@ const Actions = {
         alert('Could not start similarity computation!');
       }
       else{
-        alert('Started similarity computation! This could take a few minutes!');
+        alert('Finished similarity computation! Results visible on next page!');
+        ExploreActions.updateComputeSimilarity(false);
       }
     }).catch((error) => {
       console.error(error);

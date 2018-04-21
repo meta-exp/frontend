@@ -15,7 +15,7 @@ class MetaPath extends Component {
   }
 
 	render() {
-		return React.createElement('div',[],this.createText(this.props.path));
+		return React.createElement('span',[],this.createText(this.props.path));
 	}
 
 }

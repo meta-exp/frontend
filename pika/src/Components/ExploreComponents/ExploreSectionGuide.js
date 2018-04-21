@@ -32,7 +32,9 @@ class ExploreSectionGuide extends Component{
 							<Step.Description>
 								Rate each meta-path in comparison to the other meta-paths in a batch.<br />
 								Additionally, if you chose a relative rating method, rate them in <br />
-								comparison to the overall minimum and maximum. Then 'confirm your rating'.
+								comparison to the overall minimum and maximum. To add a meta-path to <br />
+								the rating scala, click on its ID-Button, then drag it to the desired <br />
+								scala position. Do this for each meta-path and 'confirm your rating'.
 							</Step.Description>
 						</Step.Content>
 					</Step>
