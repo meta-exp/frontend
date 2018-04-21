@@ -68,6 +68,20 @@ class MetaPathDisplay extends Component {
 
     handleRatingChange(event, id) {
         ExploreActions.changeRating(id, event.target.value);
+
+        let el = event.target;
+        let width = el.offsetWidth;
+        let offset = -1.3;
+        let newPlace = 0;
+
+        let newPoint = (el.value - el.getAttribute("min")) / (el.getAttribute("max") - el.getAttribute("min"));
+        
+        if (newPoint < 0) { newPlace = 0; }
+        else if (newPoint > 1) { newPlace = width; }
+        else { newPlace = width * newPoint + offset; offset -= newPoint; }
+        
+        el.nextSibling.style.left = newPlace + "px";
+        el.nextSibling.style.marginLeft = offset + "%";
     }
 
     handleMaxPathRatingChange(event) {
@@ -88,20 +102,22 @@ class MetaPathDisplay extends Component {
 
     getMinSlider(){
         return(
-            <input type="range" multiple min="0" step={this.state.stepsize} max="1" className="minSlider"
+            <input id="slider-wrapper" type="range" multiple min="0" step={this.state.stepsize} max="1" className="minSlider"
                    value={this.state.minPath.rating} onChange={(event) => this.handleMinPathRatingChange(event)} />
         );
     }
 
     getMaxSlider(){
         return(
-            <input type="range" multiple min="0" step={this.state.stepsize} max="1" className="maxSlider"
+            <input id="slider-wrapper" type="range" multiple min="0" step={this.state.stepsize} max="1" className="maxSlider"
                     value={this.state.maxPath.rating} onChange={(event) => this.handleMaxPathRatingChange(event)} />
         );
     }
 
     addMetaPathToScala(e, path){
-        this.setState({ metapathsAddedToScala: this.state.metapathsAddedToScala.concat(path) });
+        if(!this.state.metapathsAddedToScala.includes(path)){
+            this.setState({ metapathsAddedToScala: this.state.metapathsAddedToScala.concat(path) });
+        }
     }
 
     combinedRatingInterface() {
@@ -115,17 +131,21 @@ class MetaPathDisplay extends Component {
 
         let metapathSliders = this.state.metapathsAddedToScala.map((path, index) => {
             return(
-                <input type="range" multiple min="0" step="0.01" max="1"
-                       className={"slider" + index} value={path.rating} key={index}
-                       onChange={(event) => this.handleRatingChange(event, path.id)}/>
+                <div id="slider-wrapper" key={index + "_0"}>
+                    <input type="range" multiple min="0" step="0.01" max="1" value={path.rating} key={index + "_1"}
+                           onChange={(event) => this.handleRatingChange(event, path.id)} />
+                    <output key={index + "_2"}>[{path.id}]</output>
+                </div>
             );
         });
 
         return (
             <div>
-                {metapathSliders}
-                {minSlider}
-                {maxSlider}
+                <div id="sliders">
+                    {metapathSliders}
+                    {minSlider}
+                    {maxSlider}
+                </div>
                 <CombinedRatingMetaPathTable onClick={(e, path) => this.addMetaPathToScala(e, path)} metapaths={this.state.metapaths} />
             </div>
         );
@@ -176,6 +196,11 @@ class MetaPathDisplay extends Component {
     }
 
     nextRatingIteration() {
+        if(this.state.metapathsAddedToScala.length < this.state.batchSize){
+            alert("Please add all meta-paths in batch to the scala and rate them!");
+            return false;
+        }
+
         this.setState({
             loading: true,
             metapathsAddedToScala: []
@@ -225,7 +250,7 @@ class MetaPathDisplay extends Component {
                         <Loader inverted content='Started computing similarity indicators. This could take a few minutes...' />
                     </Dimmer>
                     <div className="col">
-                        <h3 style={{marginBottom: 20 + 'px'}}>
+                        <h3 style={{marginBottom: 50 + 'px'}}>
                             <Icon name='options' />
                             <span style={{marginLeft: 10 + 'px'}}>
                                 Found Meta-Paths
