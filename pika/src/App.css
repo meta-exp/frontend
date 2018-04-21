@@ -72,7 +72,7 @@ input[type="range"][multiple]:focus {
 	margin-top: -2em; 
 } 
 
-input[type="range"][multiple] + input[type="range"][multiple]::-moz-range-track{ 
+.not-first-range::-moz-range-track{ 
 	opacity: 0; 
 }
 
@@ -81,9 +81,17 @@ input[type="range"][multiple].minSlider::-moz-range-thumb{
 	width: 30px;
 }
 
+input[type="range"][multiple].minSlider::-moz-range-track{ 
+	opacity: 0; 
+}
+
 input[type="range"][multiple].maxSlider::-moz-range-thumb{
 	background: #0ea432;
 	width: 30px;
+}
+
+input[type="range"][multiple].maxSlider::-moz-range-track{ 
+	opacity: 0; 
 }
 
 output { 

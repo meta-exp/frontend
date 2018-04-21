@@ -130,10 +130,15 @@ class MetaPathDisplay extends Component {
         }
 
         let metapathSliders = this.state.metapathsAddedToScala.map((path, index) => {
+            let class_name = "";
+            if(index > 0){
+                class_name = "not-first-range";
+            }
+
             return(
                 <div id="slider-wrapper" key={index + "_0"}>
                     <input type="range" multiple min="0" step="0.01" max="1" value={path.rating} key={index + "_1"}
-                           onChange={(event) => this.handleRatingChange(event, path.id)} />
+                           onChange={(event) => this.handleRatingChange(event, path.id)} className={class_name} />
                     <output key={index + "_2"}>[{path.id}]</output>
                 </div>
             );
