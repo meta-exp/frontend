@@ -21,6 +21,7 @@ class MetaPathDisplay extends Component {
         this.stopRating = this.stopRating.bind(this);
         this.nextRatingIteration = this.nextRatingIteration.bind(this);
         this.setRatingCompleted = this.setRatingCompleted.bind(this);
+        this.addMetaPathToScala = this.addMetaPathToScala.bind(this);
 
         this.state = {
             loading: true,
@@ -32,7 +33,8 @@ class MetaPathDisplay extends Component {
             maxPath: null,
             minPath: null,
             stepsize: null,
-            computeSimilarity: false
+            computeSimilarity: false,
+            metapathsAddedToScala: []
         };
     }
 
@@ -98,6 +100,10 @@ class MetaPathDisplay extends Component {
         );
     }
 
+    addMetaPathToScala(e, path){
+        this.setState({ metapathsAddedToScala: this.state.metapathsAddedToScala.concat(path) });
+    }
+
     combinedRatingInterface() {
         let minSlider = <div></div>;
         let maxSlider = <div></div>;
@@ -107,7 +113,7 @@ class MetaPathDisplay extends Component {
                 maxSlider = this.getMaxSlider();
         }
 
-        let metapathSliders = this.state.metapaths.map((path, index) => {
+        let metapathSliders = this.state.metapathsAddedToScala.map((path, index) => {
             return(
                 <input type="range" multiple min="0" step="0.01" max="1"
                        className={"slider" + index} value={path.rating} key={index}
@@ -120,7 +126,7 @@ class MetaPathDisplay extends Component {
                 {metapathSliders}
                 {minSlider}
                 {maxSlider}
-                <CombinedRatingMetaPathTable metapaths={this.state.metapaths} />
+                <CombinedRatingMetaPathTable onClick={(e, path) => this.addMetaPathToScala(e, path)} metapaths={this.state.metapaths} />
             </div>
         );
     }
@@ -170,7 +176,10 @@ class MetaPathDisplay extends Component {
     }
 
     nextRatingIteration() {
-        this.setState({loading: true});
+        this.setState({
+            loading: true,
+            metapathsAddedToScala: []
+        });
         ExploreActions.sendRatedMetaPaths(this.state.metapaths, this.state.minPath, this.state.maxPath);
     }
     

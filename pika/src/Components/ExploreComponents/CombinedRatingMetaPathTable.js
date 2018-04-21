@@ -15,7 +15,7 @@ class CombinedRatingMetaPathTable extends Component{
             return(
                 <Table.Row key={index} className={"slider"+index}>
                     <Table.Cell>
-                        <Button className={'slider' + index} icon primary={true}>
+                        <Button className={'slider' + index} onClick={(e) => this.props.onClick(e, path)} icon primary={true}>
                             [{path.id}]
                         </Button>
                     </Table.Cell>
