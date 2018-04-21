@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import { Card, Checkbox, Form } from 'semantic-ui-react';
+import { Card, Checkbox, Form, Icon } from 'semantic-ui-react';
 
 class AlgorithmSettingsCard extends Component {
 
@@ -17,7 +17,12 @@ class AlgorithmSettingsCard extends Component {
         return(
             <Card fluid>
                 <Card.Content>
-                    <Card.Header>Algorithm Settings</Card.Header>
+                    <Card.Header>
+                        <Icon name='settings' />
+                        <span style={{marginLeft: 10 + 'px'}}>
+                            Algorithm Settings
+                        </span>
+                    </Card.Header>
                     <Form style={{marginTop: 10 + 'px'}}>
                         <Form.Field>
                             <label>Relative Rating</label>

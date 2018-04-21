@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
 import MetaPath from './MetaPath';
 import MetaPathRater from './MetaPathRater';
-import {Table, Checkbox, Card} from 'semantic-ui-react';
+import {Table, Checkbox, Card, Button, Icon, Dimmer, Loader } from 'semantic-ui-react';
 import ExploreStore from '../../stores/ExploreStore';
 import ExploreActions from '../../actions/ExploreActions';
 import Explore from "./Explore";
-import { Button, Icon, Dimmer, Loader } from 'semantic-ui-react';
 import MetaPathAPI from '../../utils/MetaPathAPI';
 import ReferencePathCard from './ReferencePathCard';
 import AlgorithmSettingsCard from './AlgorithmSettingsCard';
@@ -217,11 +216,19 @@ class MetaPathDisplay extends Component {
                         <Loader inverted content='Started computing similarity indicators. This could take a few minutes...' />
                     </Dimmer>
                     <div className="col">
-                        <h3 style={{marginBottom: 20 + 'px'}}>Found Meta-Paths</h3>
+                        <h3 style={{marginBottom: 20 + 'px'}}>
+                            <Icon name='options' />
+                            <span style={{marginLeft: 10 + 'px'}}>
+                                Found Meta-Paths
+                            </span>
+                        </h3>
                         {ratingInterface}
                         <div className="row" style={{marginTop: 20 + 'px'}}>
                             <div className="col">
-                                {ratingButton}
+                                <span style={{marginRight: 10 + 'px'}}>
+                                    {ratingButton}
+                                </span>
+                                <Icon name='repeat' />
                             </div>
                             <div className="col">
                                 <Button floated='right' icon primary={true} onClick={(e) => this.stopRating(e)}>

@@ -10,7 +10,7 @@ class Explore extends Component {
 			<div>
 				<h1>Explore</h1>
 				<ExploreSectionGuide />
-        <MetaPathDisplay />
+        		<MetaPathDisplay />
 			</div>
 		);
 	}
