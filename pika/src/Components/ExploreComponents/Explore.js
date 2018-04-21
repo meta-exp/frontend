@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+
+import ExploreSectionGuide from './ExploreSectionGuide';
 import MetaPathDisplay from './MetaPathDisplay';
 
 class Explore extends Component {
@@ -7,6 +9,7 @@ class Explore extends Component {
 		return (
 			<div>
 				<h1>Explore</h1>
+				<ExploreSectionGuide />
         		<MetaPathDisplay />
 			</div>
 		);
