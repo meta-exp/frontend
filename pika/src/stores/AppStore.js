@@ -8,7 +8,7 @@ class AppStore extends EventEmitter {
 		super();
 
 		this.activePage = 'Search';
-		this.pages = ['Search', 'Config', 'Explore', 'Results'];
+		this.pages = ['Search', 'Explore', 'Results'];
 		this.prevActive = false;
 		this.nextActive = true;
 	}

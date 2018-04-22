@@ -236,7 +236,7 @@ const Actions = {
       }
       else{
         SetupActions.updateComputingMetaPaths(false);
-        alert('Saved Node Sets and computed meta-paths between them.\nOn the next page, you can include or exclude node and edge types \nin order to shrink relevant meta-paths.');
+        alert('Saved Node Sets and computed meta-paths between them. On the next page, you can rate meta-paths with regard to your research question.');
       }
     }).catch((error) => {
         console.error(error);
