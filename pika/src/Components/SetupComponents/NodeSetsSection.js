@@ -19,6 +19,8 @@ class NodeSetsSection extends Component {
 		this.removeNodeFromNodeSetA = this.removeNodeFromNodeSetA.bind(this);
 		this.removeNodeFromNodeSetB = this.removeNodeFromNodeSetB.bind(this);
 		this.isComputingMetaPaths = this.isComputingMetaPaths.bind(this);
+		this.clearNodeSetA = this.clearNodeSetA.bind(this);
+		this.clearNodeSetB = this.clearNodeSetB.bind(this);
 
 		this.state = {
 			dataset: {},
@@ -90,6 +92,14 @@ class NodeSetsSection extends Component {
 		SetupActions.removeNodeFromNodeSetB(node);
 	}
 
+	clearNodeSetA(e){
+		SetupActions.clearNodeSetA();
+	}
+
+	clearNodeSetB(e){
+		SetupActions.clearNodeSetB();
+	}
+
 	render() {
 		if(this.state.computingMetaPaths){
 			return(
@@ -112,6 +122,10 @@ class NodeSetsSection extends Component {
 								<span style={{marginLeft: 10 + 'px'}}>
 									Node Set A
 								</span>
+								<Button onClick={(e) => this.clearNodeSetA(e)} style={{marginLeft: 20 + 'px'}} icon primary>
+									<Icon name='remove' />
+									<span style={{marginLeft: 10 + 'px'}}>Clear Node Set A</span>
+								</Button>
 							</h3>
 							<Neo4jGraphRenderer divId="2" onClick={(event, node) => this.removeNodeFromNodeSetA(node)} url={this.state.dataset.url} user={this.state.dataset.username} password={this.state.dataset.password} query={this.state.nodeSetQueryA} />
 						</div>
@@ -119,10 +133,14 @@ class NodeSetsSection extends Component {
 					<div className="col">
 						<div>
 							<h3>Node Set B
-							<Button floated='right'  onClick={(e) => this.saveNodeSets(e)} style={{marginLeft: 20 + 'px'}} icon primary>
-								<Icon name='save' />
-								<span style={{marginLeft: 10 + 'px'}}>Save Node Sets</span>
-							</Button>
+								<Button onClick={(e) => this.clearNodeSetB(e)} style={{marginLeft: 20 + 'px'}} icon primary>
+									<Icon name='remove' />
+									<span style={{marginLeft: 10 + 'px'}}>Clear Node Set B</span>
+								</Button>
+								<Button floated='right'  onClick={(e) => this.saveNodeSets(e)} style={{marginLeft: 20 + 'px'}} icon primary>
+									<Icon name='save' />
+									<span style={{marginLeft: 10 + 'px'}}>Save Node Sets</span>
+								</Button>
 							</h3>
 							<Neo4jGraphRenderer divId="3" onClick={(event, node) => this.removeNodeFromNodeSetB(node)} url={this.state.dataset.url} user={this.state.dataset.username} password={this.state.dataset.password} query={this.state.nodeSetQueryB} />
 						</div>

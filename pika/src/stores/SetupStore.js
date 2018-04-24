@@ -135,6 +135,18 @@ class SetupStore extends EventEmitter {
 		this.emit("change");
 	}
 
+	clearNodeSetA(){
+		this.nodeSetA = [];
+		this.nodeSetQueryA = 'RETURN 1';
+		this.emit("change");
+	}
+
+	clearNodeSetB(){
+		this.nodeSetB = [];
+		this.nodeSetQueryB = 'RETURN 1';
+		this.emit("change");
+	}
+
 	handleActions(action){
 		switch(action.type){
 			case SetupActionTypes.EXECUTE_CYPHER_QUERY: {
@@ -164,6 +176,14 @@ class SetupStore extends EventEmitter {
 			case SetupActionTypes.UPDATE_COMPUTING_META_PATHS: {
 				this.setComputingMetaPaths(action.payload.computing);
 				return this.computingMetaPaths;
+			};
+			case SetupActionTypes.CLEAR_NODE_SET_A: {
+				this.clearNodeSetA();
+				return this.nodeSetA;
+			};
+			case SetupActionTypes.CLEAR_NODE_SET_B: {
+				this.clearNodeSetB();
+				return this.nodeSetB;
 			};
 			default: {
 				return this.state;

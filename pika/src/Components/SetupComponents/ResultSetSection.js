@@ -61,6 +61,8 @@ class ResultSetSection extends Component {
 			this.resetNodeCandidates();
 			this.handleResetAllNodesClick();
 		}
+
+		alert('Added nodes to node set A');
 	}
 
 	addToNodeSetB(e){
@@ -71,6 +73,8 @@ class ResultSetSection extends Component {
 			this.resetNodeCandidates();
 			this.handleResetAllNodesClick();
 		}
+
+		alert('Added nodes to node set B');
 	}
 
 	nodeIsOfSameType(node){

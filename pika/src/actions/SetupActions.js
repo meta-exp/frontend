@@ -57,6 +57,18 @@ const SetupActions = {
 			type: SetupActionTypes.UPDATE_COMPUTING_META_PATHS,
 			payload: {computing: computing}
 		});
+	},
+
+	clearNodeSetA(){
+		SetupDispatcher.dispatch({
+			type: SetupActionTypes.CLEAR_NODE_SET_A
+		});
+	},
+
+	clearNodeSetB(){
+		SetupDispatcher.dispatch({
+			type: SetupActionTypes.CLEAR_NODE_SET_B
+		});
 	}
 
 }
