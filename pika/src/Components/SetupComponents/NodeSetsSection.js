@@ -44,6 +44,7 @@ class NodeSetsSection extends Component {
 	componentWillUnmount(){
 		SetupStore.removeListener("change", this.getNodeSetQuerys);
 		SetupStore.removeListener("change", this.getNodeSets);
+		SetupStore.removeListener("change", this.isComputingMetaPaths);
 		AccountStore.removeListener("change", this.getDataset);
 	}
 
