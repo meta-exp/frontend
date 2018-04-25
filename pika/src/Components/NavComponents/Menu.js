@@ -26,10 +26,6 @@ export default class TopMenuBar extends Component {
 				href: 'home.html'
 			},
 			{
-				title: 'Config',
-				href: 'config.html'
-			},
-			{
 				title: 'Explore',
 				href: 'feedback.html',
 			},

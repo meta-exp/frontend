@@ -56,9 +56,6 @@ class App extends Component {
 			if(this.state.activePage === 'Search'){
 				body = <Setup />;
 			}
-			else if(this.state.activePage === 'Config'){
-				body = <Config />;
-			}
 			else if(this.state.activePage === 'Explore'){
 				body = <Explore
 							userName={this.state.userName}
